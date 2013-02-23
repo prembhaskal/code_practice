@@ -40,7 +40,7 @@ public class KargerMinCut {
 	}
 
 	private int findKragerMinCut(Graph graph, List<Integer> vertexList) {
-		int minCount = 0;
+		int minCount;
 		Random randomSeed = new Random();
 
 		Random randomGen = new Random(randomSeed.nextInt(100009));
@@ -98,21 +98,6 @@ public class KargerMinCut {
 		minCount = graph.adjacencyList[vertex].size();
 
 		return minCount;
-	}
-
-	// replace existence of the removeVertex with the chooseVertex over the whole graph.
-	private void replace(Graph graph, int removeVertex, int chooseVertex) {
-
-		List<Integer> neighboursOfRemove = graph.adjacencyList[removeVertex];
-
-		for (int neighbour : neighboursOfRemove) {
-			List<Integer> neighbours = graph.adjacencyList[neighbour];
-			for (int i=0;i<neighbours.size();i++) {
-				if (neighbours.get(i).intValue() == removeVertex) {
-					neighbours.set(i, chooseVertex);
-				}
-			}
-		}
 	}
 
 	private void readFile(Scanner in, int vertices) {
@@ -178,7 +163,7 @@ class Graph implements Cloneable {
 		for (int neighbour : neighboursOfRemove) {
 			List<Integer> neighbours = adjacencyList[neighbour];
 			for (int i=0;i<neighbours.size();i++) {
-				if (neighbours.get(i).intValue() == removeVertex) {
+				if (neighbours.get(i)==removeVertex) {
 					neighbours.set(i, chooseVertex);
 				}
 			}
