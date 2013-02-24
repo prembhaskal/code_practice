@@ -35,8 +35,7 @@ public class TestOpenClosedParenthesisTest {
     * 
     */ 
     @Test
-    public void testIsMatched() throws Exception { 
-    //TODO: Test goes here... 
+    public void testIsMatched() throws Exception {
     } 
     
         /** 
