@@ -16,7 +16,7 @@ public class KargerMinCut {
 		readFile(in, vertices);
 
 		int trial = vertices * vertices;
-		int max = 100;
+		int max = 20;
 
 		trial = Math.min(trial,max);
 
