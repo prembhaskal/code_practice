@@ -38,10 +38,12 @@ public class StrongConnectedCompTest {
     */ 
     @Test
     public void testSolve() throws Exception { 
-        Scanner in = new Scanner(getClass().getResourceAsStream("files/graph_1.txt"));
+//        Scanner in = new Scanner(getClass().getResourceAsStream("files/graph_1.txt"));
+		Scanner in = new Scanner(getClass().getResourceAsStream("files/SCC.txt"));
 		PrintWriter out = new PrintWriter(System.out);
 
-		testClass.solve(in, out, 9);
+//		testClass.solve(in, out, 9);
+		testClass.solve(in, out, 875714);
 
 		in.close();
 		out.flush();

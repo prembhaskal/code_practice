@@ -1,4 +1,5 @@
 .idea
 # ignore the generated class files.
 *.class
+SCC.txt
 out/production/
