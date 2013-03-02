@@ -64,7 +64,6 @@ public class StrongConnectedComp {
 
 		boolean[] newExplored = new boolean[length];
 
-		int sCCNodes = 1;
 		for (int i = length-1; i > 0; i--) {
 			int node = helperArray[i];
 			if (newExplored[node]==false) {
