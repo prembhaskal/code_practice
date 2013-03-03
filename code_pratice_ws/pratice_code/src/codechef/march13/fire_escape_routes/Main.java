@@ -29,6 +29,7 @@ class TaskA {
 	boolean[] isExplored;
 
 	int[] fireExits;
+
 	int friendGroupSize;
 
 	int MOD = 1000000007;
@@ -83,11 +84,9 @@ class TaskA {
 		friendGroupIndex = 0;
 		for (int i=1;i<=people;i++) {
 			friendGroupSize = 0; // init for each group
-			if (friendGroupIndex > people)
-				break;
 			if (isExplored[i]==false) {
 				if (hasFriend[i]==true) {
-					findConnectedFriends(i);
+					findConnectedFriendsStack(i);
 					fireExits[friendGroupIndex++] = friendGroupSize;
 				} else {
 					fireExits[friendGroupIndex++] = 1;
@@ -103,25 +102,38 @@ class TaskA {
 		long ways = 1;
 
 		for (int i=0;i<friendGroupIndex;i++) {
-			if (i >= people)
-				break;
 			ways = ( ways * fireExits[i])%MOD;
 		}
 
 		return (int) ways;
 	}
 
-	private void findConnectedFriends(int node) {
-		// don't send anyone with no friends.
+	private void findConnectedFriendsStack(int node) {
 		isExplored[node] = true;
+		friendGroupSize++;
 
+		Stack<Integer> stack = new Stack<Integer>();
 		for (int friend : graph.adjacencyList[node]) {
-			if (isExplored[friend]==false) {
-				findConnectedFriends(friend);
+			stack.push(friend);
+		}
+
+		while (!stack.isEmpty()) {
+			int vertex = stack.pop();
+			if (isExplored[vertex]== false) {
+				isExplored[vertex] = true;
+				friendGroupSize++;
+			}
+
+
+			for (int newVertex : graph.adjacencyList[vertex]) {
+				if (isExplored[newVertex]==false) {
+					isExplored[newVertex] = true;
+					stack.push(newVertex);
+					friendGroupSize++;
+				}
 			}
 		}
 
-		friendGroupSize++;
 	}
 
 
