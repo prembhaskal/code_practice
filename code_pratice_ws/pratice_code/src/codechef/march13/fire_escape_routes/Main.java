@@ -10,13 +10,7 @@ public class Main {
 
 		TaskA solution = new TaskA();
 
-		try {
-			solution.solve(in,writer);
-		} catch (IndexOutOfBoundsException e) {
-			//do nothing.
-		} catch (NullPointerException e) {
-			// do nothing
-		}
+		solution.solve(in,writer);
 
 		writer.close();
 		in.close();
@@ -89,6 +83,8 @@ class TaskA {
 		friendGroupIndex = 0;
 		for (int i=1;i<=people;i++) {
 			friendGroupSize = 0; // init for each group
+			if (friendGroupIndex > people)
+				break;
 			if (isExplored[i]==false) {
 				if (hasFriend[i]==true) {
 					findConnectedFriends(i);
@@ -107,6 +103,8 @@ class TaskA {
 		long ways = 1;
 
 		for (int i=0;i<friendGroupIndex;i++) {
+			if (i >= people)
+				break;
 			ways = ( ways * fireExits[i])%MOD;
 		}
 
@@ -117,8 +115,6 @@ class TaskA {
 		// don't send anyone with no friends.
 		isExplored[node] = true;
 
-		if (graph.adjacencyList[node]==null)
-			return;
 		for (int friend : graph.adjacencyList[node]) {
 			if (isExplored[friend]==false) {
 				findConnectedFriends(friend);
