@@ -14,7 +14,7 @@ public class TestClass {
 
 	public static void main(String[] s) {
 		TestClass testClass = new TestClass();
-//		testClass.generateData();
+		testClass.generateData();
 	}
 
 	private void generateData() {
@@ -24,14 +24,10 @@ public class TestClass {
 			out = new PrintWriter(file);
 
 			String line;
-			for (int i=1;i<=1000;i++) {
+			for (int i=1;i<=100000;i++) {
 				line = "";
-				line += i + "\t";
-				line += i + "\t";
-				line += "string_no_" + i + "\t";
-				line += "2013-02-20 20:11:00" + "\t";
-				line += i + ".01";
-
+				line += i + ",";
+				line += "name_" + i;
 				out.println(line);
 			}
 
