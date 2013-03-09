@@ -11,10 +11,22 @@ public class HeapAsArray {
 	private int[] nums;
 	private int size;
 
+	private int[] nodeVsIdx;
+
 	public HeapAsArray(int[] a) {
 		this.nums = a;
 		size = a.length;
 		heapify();
+	}
+
+	public HeapAsArray(int[] a, int maxValue) {
+		this(a);
+		nodeVsIdx = new int[maxValue+1];// 1 size more to store the largest value
+		Arrays.fill(nodeVsIdx,-1);// initialize with -1
+
+		for (int i=0;i<nums.length;i++) {
+			updateIndex(i,nums[i]); //we assume no duplicate values are present
+		}
 	}
 
 	public int getSize() {
@@ -25,7 +37,9 @@ public class HeapAsArray {
 		if (size < 1)
 			return -1; // this normally should not happen, programming calling should take care of it.
 		int min = nums[0];
-		nums[0] = nums[size-1]; // put last element at top
+		//nums[0] = nums[size-1]; don't swap directly, use swap function instead to track nodes Vs Index
+		swap(0, size-1); // put last element at top
+
 		size--; // reduce size;
 		bubbleDown(0);// bubble down to the last element;
 
@@ -35,6 +49,7 @@ public class HeapAsArray {
 	public void insert(int element) {
 		ensureCapacity();
 		nums[size] = element; // put element in last position
+		updateIndex(size, element);
 		size++; // increase size, since we got a new element
 		bubbleUp(size-1);// bubble up the element to maintain balanced heap
 	}
@@ -54,6 +69,13 @@ public class HeapAsArray {
 	public int[] getAllElements() {
 		int[] a = Arrays.copyOf(nums, size);
 		return a;
+	}
+
+	public int getIndexOf(int element) {
+		if (element < nodeVsIdx.length)
+			return nodeVsIdx[element];
+
+		return -1;
 	}
 
 	private void ensureCapacity() {
@@ -108,7 +130,18 @@ public class HeapAsArray {
 		int temp = nums[i];
 		nums[i] = nums[j];
 		nums[j] = temp;
+
+		// update the value-index mapping
+		updateIndex(i,nums[i]);
+		updateIndex(j,nums[j]);
 	}
+
+	private void updateIndex(int index, int value) {
+		if (nodeVsIdx!=null) {
+			nodeVsIdx[value] = index;
+		}
+	}
+
 	// 0 based index
 	// -1 if no index is found
 	private int getLeftChildIndex(int nodeIndex) {

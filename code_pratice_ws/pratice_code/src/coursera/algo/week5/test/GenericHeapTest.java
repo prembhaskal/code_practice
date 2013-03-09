@@ -1,5 +1,6 @@
 package coursera.algo.week5.test; 
 
+import algorithm.UtilitiesClass;
 import java.util.Scanner;
 import java.io.PrintWriter;
 import org.junit.Test; 
@@ -41,6 +42,49 @@ public class GenericHeapTest {
 			HeapEntry min = testClass.extractMin();
 			System.out.println("min key " + min.key + " min value " + min.value);
 		}
+	}
+
+	@Test
+	public void testInsertDeleteIndex() {
+		HeapEntry[] heapEntries = getHeapEntries();
+
+		testClass = new GenericHeap(heapEntries, 200);
+
+		HeapEntry[] entries = testClass.getAllElements();
+		printHeapEntries(entries);
+		printIndexOfElement(40);
+
+		HeapEntry entry;
+		entry = new HeapEntry(11,110);
+		testClass.insert(entry);
+		entry = new HeapEntry(12,120);
+		testClass.insert(entry);
+
+		printHeapEntries(testClass.getAllElements());
+		printIndexOfElement(20);
+		testClass.extractMin();
+		printHeapEntries(testClass.getAllElements());
+		printIndexOfElement(20);
+
+		testClass.delete(3);
+		printHeapEntries(testClass.getAllElements());
+		printIndexOfElement(90);
+
+	}
+
+	private void printIndexOfElement(int element) {
+		System.out.println("index of element " + element + " is " + testClass.getIndexOf(element));
+	}
+
+
+	private void printHeapEntries(HeapEntry[] a) {
+		int[] nums = new int[a.length];
+
+		for (int i=0;i<nums.length;i++) {
+			nums[i] = a[i].value;
+		}
+
+		UtilitiesClass.printArray(nums);
 	}
 
 

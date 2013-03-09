@@ -15,7 +15,7 @@ public class UtilitiesClass {
 
 	public static void printArray(int[] nums) {
 		for(int i : nums) {
-			System.out.print(i);
+			System.out.print(i + " ");
 		}
 		System.out.println();
 	}

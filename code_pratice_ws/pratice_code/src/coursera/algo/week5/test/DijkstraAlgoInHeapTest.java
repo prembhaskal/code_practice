@@ -9,15 +9,15 @@ import static org.junit.Assert.*;
 import coursera.algo.week5.*;  
 
 /** 
-* DijkstraAlgoNoHeap Tester. 
+* DijkstraAlgoInHeap Tester. 
 * 
 * @author <Premkumar Bhaskal> 
-* @since <pre>Mar 6, 2013</pre> 
+* @since <pre>Mar 9, 2013</pre> 
 * @version 1.0 
 */ 
-public class DijkstraAlgoNoHeapTest { 
+public class DijkstraAlgoInHeapTest { 
     
-    DijkstraAlgoNoHeap testClass = new DijkstraAlgoNoHeap();
+    DijkstraAlgoInHeap testClass = new DijkstraAlgoInHeap();
     long starttime;
     
     @Before
@@ -40,7 +40,6 @@ public class DijkstraAlgoNoHeapTest {
     public void testSolve() throws Exception { 
 //        Scanner in = new Scanner(getClass().getResourceAsStream("files/test_graph2.txt"));
 		Scanner in = new Scanner(getClass().getResourceAsStream("files/dijkstraData.txt"));
-
 		PrintWriter out = new PrintWriter(System.out);
 
 //		testClass.solve(in, out, 10);
@@ -48,6 +47,16 @@ public class DijkstraAlgoNoHeapTest {
 
 		in.close();
 		out.flush();
+    } 
+    
+        /** 
+    * 
+    * Method: addNeighbour(int fromNode, Node toNode) 
+    * 
+    */ 
+    @Test
+    public void testAddNeighbour() throws Exception { 
+        
     } 
     
         

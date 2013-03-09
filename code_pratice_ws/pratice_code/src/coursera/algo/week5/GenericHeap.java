@@ -7,6 +7,9 @@ public class  GenericHeap<T extends HeapEntry> {
 	T[] nums;
 	int size;
 
+	// array is used assuming we will have all elements from 1 to n,
+	// if data is not continuous a map should be used instead.
+	private int[] nodeVsIdx;
 
 	public GenericHeap(T[] a) {
 		this.nums = a;
@@ -14,6 +17,15 @@ public class  GenericHeap<T extends HeapEntry> {
 		heapify();
 	}
 
+	public GenericHeap(T[] a, int maxValue) {
+		this(a);
+		nodeVsIdx = new int[maxValue+1];// 1 size more to store the largest value
+		Arrays.fill(nodeVsIdx,-1);// initialize with -1
+
+		for (int i=0;i<nums.length;i++) {
+			updateIndex(i,nums[i].value); //we assume no duplicate values are present
+		}
+	}
 
 	public int getSize() {
 		return size;
@@ -33,6 +45,7 @@ public class  GenericHeap<T extends HeapEntry> {
 	public void insert(T element) {
 		ensureCapacity();
 		nums[size] = element; // put element in last position
+		updateIndex(size, element.value);
 		size++; // increase size, since we got a new element
 		bubbleUp(size-1);// bubble up the element to maintain balanced heap
 	}
@@ -52,6 +65,13 @@ public class  GenericHeap<T extends HeapEntry> {
 	public T[] getAllElements() {
 		T[] a = Arrays.copyOf(nums, size);
 		return a;
+	}
+
+	public int getIndexOf(int element) {
+		if (element < nodeVsIdx.length)
+			return nodeVsIdx[element];
+
+		return -1;
 	}
 
 	private void ensureCapacity() {
@@ -107,7 +127,18 @@ public class  GenericHeap<T extends HeapEntry> {
 		T temp = nums[i];
 		nums[i] = nums[j];
 		nums[j] = temp;
+
+		// update the value-index mapping
+		updateIndex(i,nums[i].value);
+		updateIndex(j,nums[j].value);
 	}
+
+	private void updateIndex(int index, int value) {
+		if (nodeVsIdx!=null) {
+			nodeVsIdx[value] = index;
+		}
+	}
+
 	// 0 based index
 	// -1 if no index is found
 	private int getLeftChildIndex(int nodeIndex) {

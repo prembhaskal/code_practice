@@ -52,13 +52,44 @@ public class HeapAsArrayTest {
 
 		UtilitiesClass.printArray(testClass.getAllElements());
 
+		testClass.insert(8);
+		System.out.println("size is " + testClass.getSize());
+
+		testClass.insert(9);
+		testClass.insert(11);
+
+		UtilitiesClass.printArray(testClass.getAllElements());
+		System.out.println("size is " + testClass.getSize());
+
 		testClass.delete(3);
 		UtilitiesClass.printArray(testClass.getAllElements());
+		System.out.println("size is " + testClass.getSize());
 
 		testClass.delete(2);
 		UtilitiesClass.printArray(testClass.getAllElements());
+		System.out.println("size is " + testClass.getSize());
 	}
 
+	@Test
+	public void testValueIndexMapping() {
+		int[] nums = new int[]{4,3,5,6,7,2};
+		testClass = new HeapAsArray(nums, 10);
+
+		UtilitiesClass.printArray(testClass.getAllElements());
+		System.out.println("index of element 4 is " + testClass.getIndexOf(4));
+
+		testClass.extractMin();
+		UtilitiesClass.printArray(testClass.getAllElements());
+
+		System.out.println("index of element 4 is " + testClass.getIndexOf(4));
+		System.out.println("index of element 1 is " + testClass.getIndexOf(1));
+
+		testClass.insert(8);
+		testClass.insert(1);
+		UtilitiesClass.printArray(testClass.getAllElements());
+		System.out.println("index of element 1 is " + testClass.getIndexOf(1));
+		System.out.println("index of element 8 is " + testClass.getIndexOf(8));
+	}
 	@Test
 	public void testHeapPerformance() {
 		int[] array = getRandomArray(1000000);
