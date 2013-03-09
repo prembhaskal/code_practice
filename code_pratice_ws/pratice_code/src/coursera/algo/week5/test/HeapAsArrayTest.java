@@ -1,5 +1,6 @@
 package coursera.algo.week5.test; 
 
+import algorithm.UtilitiesClass;
 import java.util.Random;
 import java.util.Scanner;
 import java.io.PrintWriter;
@@ -42,6 +43,20 @@ public class HeapAsArrayTest {
 		for (int i=0;i<nums.length;i++) {
 			System.out.println((i+1) + " min element is " + testClass.extractMin());
 		}
+	}
+
+	@Test
+	public void testDeleteFunction() {
+		int[] nums = new int[]{4,3,5,6,7,2};
+		testClass = new HeapAsArray(nums);
+
+		UtilitiesClass.printArray(testClass.getAllElements());
+
+		testClass.delete(3);
+		UtilitiesClass.printArray(testClass.getAllElements());
+
+		testClass.delete(2);
+		UtilitiesClass.printArray(testClass.getAllElements());
 	}
 
 	@Test

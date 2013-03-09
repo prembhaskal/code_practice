@@ -37,6 +37,23 @@ public class  GenericHeap<T extends HeapEntry> {
 		bubbleUp(size-1);// bubble up the element to maintain balanced heap
 	}
 
+	public void delete(int nodeIndex) {
+		swap(nodeIndex, size-1);// swap element to delete with last element in heap
+		size--; // since we removed one element
+
+		int parentIdx = getParent(nodeIndex);
+		if (parentIdx >=0 && nums[nodeIndex].key <= nums[parentIdx].key) {
+			bubbleUp(nodeIndex); // bubble up if element is smaller than parent
+		} else {
+			bubbleDown(nodeIndex);// else bubble down
+		}
+	}
+
+	public T[] getAllElements() {
+		T[] a = Arrays.copyOf(nums, size);
+		return a;
+	}
+
 	private void ensureCapacity() {
 		if (nums.length > size)
 			return;
