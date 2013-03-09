@@ -27,7 +27,7 @@ public class DijkstraAlgoNoHeap {
 
 		computeShortestPath();
 
-		printShortestPaths(out);
+//		printShortestPaths(out);
 
 		printCourseraResult(out);
 
