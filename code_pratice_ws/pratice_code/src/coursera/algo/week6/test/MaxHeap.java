@@ -1,11 +1,12 @@
-package coursera.algo.week5;
+package coursera.algo.week6.test;
 
 import java.util.Arrays;
 
 /**
- * Heap stores data using 0 based index.
+ * Heap storing the max value. i.e. the parent is bigger than both of its child.
  */
-public class HeapAsArray {
+public class MaxHeap {
+
 	// arrays of numbers since vertices of graph are stored as numbers, else we should make array of whatever
 	// object we want to store in the heap.
 	private int[] nums;
@@ -13,16 +14,16 @@ public class HeapAsArray {
 
 	private int[] nodeVsIdx;
 
-	public HeapAsArray(int[] a) {
+	public MaxHeap(int[] a) {
 		this.nums = a;
 		size = a.length;
 		heapify();
 	}
 
-	public HeapAsArray(int[] a, int maxValue) {
+	public MaxHeap(int[] a, int maxValue) {
 		this(a);
 		nodeVsIdx = new int[maxValue+1];// 1 size more to store the largest value
-		Arrays.fill(nodeVsIdx,-1);// initialize with -1
+		Arrays.fill(nodeVsIdx, -1);// initialize with -1
 
 		for (int i=0;i<nums.length;i++) {
 			updateIndex(i,nums[i]); //we assume no duplicate values are present
@@ -33,13 +34,16 @@ public class HeapAsArray {
 		return size;
 	}
 
-	public int peekMin() {
-		if (size > 0)
+	public int peekMax() {
+		if (size > 0) {
 			return nums[0];
+		}
+
 		return -1;
 	}
 
-	public int extractMin() {
+
+	public int extractMax() {
 		if (size < 1)
 			return -1; // this normally should not happen, programming calling should take care of it.
 		int min = nums[0];
@@ -107,7 +111,7 @@ public class HeapAsArray {
 			return;
 
 		int parentIdx = getParent(nodeIndex);
-		if (nums[parentIdx] > nums[nodeIndex]) {
+		if (nums[parentIdx] < nums[nodeIndex]) {
 			swap(parentIdx, nodeIndex);
 			bubbleUp(parentIdx);
 		}
@@ -119,12 +123,12 @@ public class HeapAsArray {
 		int leftIndex = getLeftChildIndex(nodeIndex);
 		int rightIndex = getRightChildIndex(nodeIndex);
 
-		if (leftIndex > 0 && (nums[nodeIndex] > nums[leftIndex])) {
+		if (leftIndex > 0 && (nums[nodeIndex] < nums[leftIndex])) {
 			swap(leftIndex, nodeIndex);
 			bubbleDown(leftIndex);
 		}
 		// after swapping with left, do check for right element.
-		if (rightIndex>0 && (nums[nodeIndex] > nums[rightIndex])) {
+		if (rightIndex>0 && (nums[nodeIndex] < nums[rightIndex])) {
 			swap(rightIndex, nodeIndex);
 			bubbleDown(rightIndex);
 		}
@@ -177,4 +181,5 @@ public class HeapAsArray {
 
 		return -1;
 	}
+
 }
