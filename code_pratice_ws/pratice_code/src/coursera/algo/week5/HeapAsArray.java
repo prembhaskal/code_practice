@@ -41,7 +41,7 @@ public class HeapAsArray {
 
 	public int extractMin() {
 		if (size < 1)
-			return -1; // this normally should not happen, programming calling should take care of it.
+			return -1; // this normally should not happen, program calling should take care of it.
 		int min = nums[0];
 		//nums[0] = nums[size-1]; don't swap directly, use swap function instead to track nodes Vs Index
 		swap(0, size-1); // put last element at top
