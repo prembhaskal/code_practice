@@ -3,12 +3,15 @@ package projecteuler.set3;
 public class P24MillionthPermutation {
 
 	private int count = 0;
+	private boolean stop = false;
 	public void findPermutation(String str) {
 //		System.out.println(getFactorial(10));
 		findPermutation(str.toCharArray(), str.length());
 	}
 
 	private void findPermutation(char[] chars, int length) {
+		if (stop)
+			return;
 		if (length==2) {
 			count++;
 			printPermutation(new String(chars), count);
@@ -34,8 +37,10 @@ public class P24MillionthPermutation {
 
 	private void printPermutation(String str, int count) {
 //					System.out.println(str + "--" + count);
-		if (count == 1000000)
+		if (count == 1000000) {
 			System.out.println(str);
+			stop = true;
+		}
 	}
 
 	private void rotateByOne(char[] chars, int startPoint, int endPoint) {
