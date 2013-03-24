@@ -4,26 +4,27 @@ public class p710001ThPrime {
 
 
 	// 10001st prime number is 104743
+
+	// by limiting the test to primes greater than square root of previously found primes,
+	// even 1millionth prime could be found in less than 10 seconds on moderate pc.
 	public long getPrime(int primeNumber) {
 		long [] primes = new long[primeNumber];
 		primes[0] = 2;
-//		primes[1] = 3;
-//		primes[2] = 5;
-//		primes[3] = 7;
+		primes[1] = 3;
 
-		int num = 3;
+		int num = 5;
 
-		int primesFoundTill = 0;
+		// counter to store new prime number
+		int primesFoundTill = 1;
 		while (true) {
 			// divide by previously found primes.
 			boolean isPrime = true;
-			long sqrt = (long) Math.sqrt(num);
 
-			for (int primeIndex = 0;primeIndex < primeNumber;primeIndex++) {
+			for (int primeIndex = 1;primeIndex < primeNumber;primeIndex++) {
 				long prime = primes[primeIndex];
 				if (prime!=0) {
 
-					if (prime > sqrt) // we need to check only till sqrt of previously found primes
+					if (prime > num/prime) // we need to check only primes smaller than sqaure-root of number being tested.
 						break;
 
 					// if divisible it is a composite.
