@@ -1,8 +1,5 @@
 package projecteuler.set1;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class P10SumOfPrimes {
 
 	private int[] primes = new int[200000];
