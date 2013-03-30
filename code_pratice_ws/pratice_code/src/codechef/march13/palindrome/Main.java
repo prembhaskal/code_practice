@@ -30,7 +30,7 @@ class TaskA {
 		int tests = Integer.parseInt(in.next());
 
 		for (int i=0;i<tests;i++) {
-			long n = Integer.parseInt(in.next());
+			int n = Integer.parseInt(in.next());
 
 			out.println(findPermutation(n));
 		}
@@ -40,18 +40,18 @@ class TaskA {
 	// totat premutation = 2*26 * (26^(ceil[n/2] -1 )/25; when n is even.
 	// for each even and odd combination, the result will be same, hence the 2
 	// so if n is odd, reduce by 1 i.e 26^[ceil[n/2]]
-	private long findPermutation(long n) {
-		long k = (n+1)/2;
+	private long findPermutation(int n) {
+		int k = (n+1)/2;
 
 		long raise26ToK = pow(26, k);
 
-		long modInv25 = pow(25, MOD-2);
+		int modInv25 = pow(25, MOD-2);
 
 		long permute = (52 * (raise26ToK - 1))%MOD;
 		permute = (permute * modInv25)%MOD;
 
 		if (n%2==1) {
-			permute -= raise26ToK;
+			permute = (permute + MOD - raise26ToK)%MOD;
 		}
 
 		return permute;
@@ -59,7 +59,7 @@ class TaskA {
 
 
 
-	private long pow(long num, long pow) {
+	private int pow(long num, long pow) {
 		long result = 1;
 
 		while (pow > 0) {
@@ -72,7 +72,7 @@ class TaskA {
 			pow /= 2;
 		}
 
-		return result;
+		return (int) result;
 	}
 
 }
