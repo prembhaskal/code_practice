@@ -1,22 +1,10 @@
 package projecteuler.set2;
 
 import algorithm.UtilitiesClass;
-import java.math.BigInteger;
 
 public class P20FactDigitSum {
 
 	public void findFactDigitSum(int num) {
-
-//		BigInteger fact = BigInteger.ONE;
-//
-//		while (num > 0) {
-//			fact = fact.multiply(BigInteger.valueOf(num));
-//
-//			num--;
-//		}
-
-//		System.out.println("factorial is " + fact);
-
 		int fact = 1;
 		int[] factArray = numberToArray(fact);
 
