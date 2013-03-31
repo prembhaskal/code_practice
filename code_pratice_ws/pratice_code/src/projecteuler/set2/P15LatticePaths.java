@@ -38,4 +38,8 @@ public class P15LatticePaths {
 	  we have to choose from.
 	 */
 
+	// TODO try writing a recursive program.
+
+	// TODO try using combination also.
+
 }

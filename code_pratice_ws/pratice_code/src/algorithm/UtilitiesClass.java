@@ -20,6 +20,13 @@ public class UtilitiesClass {
 		System.out.println();
 	}
 
+	public static void printArrayNoSpaces(int[] nums) {
+		for(int i : nums) {
+			System.out.print(i + "");
+		}
+		System.out.println();
+	}
+
 	public static void fillArray(int[] nums) {
 		int start = nums.length;
 		for (int i=0;i<nums.length;i++) {
