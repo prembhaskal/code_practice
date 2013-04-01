@@ -39,7 +39,7 @@ public class P20FactDigitSumTest {
     */ 
     @Test
     public void testFindFactDigitSum() throws Exception { 
-        testClass.findFactDigitSum(100);
+        testClass.findFactDigitSum(1000);
     }
 
 	@Test
@@ -49,7 +49,6 @@ public class P20FactDigitSumTest {
 		int[] b = new int[]{1,7,8};
 
 		int[] aProdB = testClass.multiplyTwoArrays(a,b);
-
 		UtilitiesClass.printArrayNoSpaces(aProdB);
 
 		int number = 18970;

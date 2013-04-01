@@ -62,4 +62,5 @@ public class P20FactDigitSum {
 
 		return result;
 	}
+
 }
