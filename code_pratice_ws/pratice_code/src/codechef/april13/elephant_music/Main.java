@@ -37,27 +37,40 @@ class TaskA {
 
 	}
 
+	// listen the song of min-length from each band first, then listen to all songs. ;)
 	private long getMaxSweetness(int songs, int[] band, int[] length) {
-		Map<Integer, Integer> bandVsTotalLength = new HashMap<Integer, Integer>();
+		Map<Integer, Integer> bandVsMinLength = new HashMap<Integer, Integer>();
 
 		for (int i=0;i<band.length;i++) {
-			Integer bandLength = bandVsTotalLength.get(band[i]);
-			if (bandLength==null) {
-				bandLength = 0;
+			Integer bandMinLength = bandVsMinLength.get(band[i]);
+			if (bandMinLength==null) {
+				bandVsMinLength.put(band[i], length[i]);
+			} else {
+				bandMinLength = Math.min(bandMinLength, length[i]);
+				bandVsMinLength.put(band[i], bandMinLength);
 			}
-			bandLength = bandLength + length[i];
-			bandVsTotalLength.put(band[i], bandLength);
 		}
 
-		List<Integer> bandLengths = new ArrayList<Integer>(bandVsTotalLength.values());
+		long totalLength = 0;
+		for (int i=0;i<band.length;i++) {
+			totalLength += length[i];
+		}
 
-		Collections.sort(bandLengths);
-
+		long minLength = 0;
 		long sweetNess = 0;
 
-		for (int i=0;i<bandLengths.size();i++) {
-			sweetNess = sweetNess + ((long)bandLengths.get(i) * (i+1));
+		List<Integer> minLengths = new ArrayList<Integer>(bandVsMinLength.values());
+		Collections.sort(minLengths);
+
+		for (int i=0;i<minLengths.size();i++) {
+			long len = minLengths.get(i);
+			sweetNess = sweetNess + (len * (i+1));
+			minLength += len;
 		}
+
+		long remLength = totalLength - minLength;
+
+		sweetNess = sweetNess + (minLengths.size() * remLength);
 
 		return sweetNess;
 	}
