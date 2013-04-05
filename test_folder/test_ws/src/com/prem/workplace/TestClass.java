@@ -18,16 +18,18 @@ public class TestClass {
 	}
 
 	private void generateData() {
-		File file = new File("testData.txt");
+		File file = new File("D://testData.txt");
 		PrintWriter out = null;
 		try {
 			out = new PrintWriter(file);
 
 			String line;
-			for (int i=1;i<=100000;i++) {
+			for (int i=1;i<=10000;i++) {
 				line = "";
-				line += i + ",";
-				line += "name_" + i;
+				line += i + "," + i + ",";
+				line += "name_" + i + ",";
+				line += "03/22/2013 00:00:00,";
+				line += "3.14";
 				out.println(line);
 			}
 
