@@ -34,8 +34,10 @@ class TaskA {
 
 			// n-1 since last pass should be to MESSI.
 			int passes = getNoOfPasses(n-1, k);
-
 			out.println(passes);
+
+//			passes = getUsingBruteForce(n,k);
+//			out.println(passes);
 		}
 
 	}
@@ -43,24 +45,30 @@ class TaskA {
 	private int getNoOfPasses(long n, int k) {
 		long passes;
 
-		if (k==1)
-			return 1;
+		// we cannot have odd passes, try it out on a paper.
+		if (k==1) {
+			if (n%2==0)
+				return 0;
+			else
+				return 1;
+		}
+
 
 		if (n==1)
 			return k;
 
 		// if n is even, the values are k.(k^n-1)/(k+1)
 		if ((n&1)==0) {
-			int modInv = inverses[k+1];
+			long modInv = inverses[k+1];
 			passes = power(k,n);
-			passes = (passes - 1)%MOD;
+			passes = (passes + MOD - 1)%MOD; // added + MOD as precautionary though it passes without it.
 			passes = (passes * k) % MOD;
 			passes = (passes * modInv)%MOD;
 			return (int) passes;
 		}
 		// if n is odd, the values are k.(k^n+1)/(k+1)
 		else {
-			int modInv = inverses[k+1];
+			long modInv = inverses[k+1];
 			passes = power(k,n);
 			passes = (passes + 1)%MOD;
 			passes = (passes * k) % MOD;
@@ -96,6 +104,45 @@ class TaskA {
 
 	private int modInverse(long n) {
 		return power(n, MOD-2);
+	}
+
+
+	int N;
+	int K;
+	int WAYS;
+	//
+	public int getUsingBruteForce(int n, int k) {
+		K = k+1;
+		N = n;
+		WAYS = 0;
+
+		if (k==1)
+			return 1;
+
+		recurseBrute(K,1);
+
+		return WAYS;
+	}
+
+	private void recurseBrute(int previous, int n) {
+		if (n==N-1) {
+			for (int i=1;i<K;i++) {
+				if (i!=previous) {
+					WAYS++;
+				}
+			}
+		} else {
+
+			for (int i=1;i<=K;i++) {
+				if (i!=previous) {
+					recurseBrute(i,n+1);
+				}
+			}
+		}
+
+
+
+
 	}
 
 
