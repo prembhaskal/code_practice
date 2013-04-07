@@ -38,7 +38,7 @@ public class P31CoinSumsTest {
     */ 
     @Test
     public void testGetWays() throws Exception { 
-        int ways = testClass.getWays(6);
+        long ways = testClass.getWays(200);
 
 		System.out.println("no of ways = " + ways);
 	}
