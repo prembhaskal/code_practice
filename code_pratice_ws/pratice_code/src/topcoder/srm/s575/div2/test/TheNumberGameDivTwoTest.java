@@ -38,9 +38,11 @@ public class TheNumberGameDivTwoTest {
     */ 
     @Test
     public void testFind() throws Exception {
-		System.out.println(testClass.find(6));
-		System.out.println(testClass.find(1000));
-		System.out.println(testClass.find(52));
+//		System.out.println(testClass.find(52));
+//		System.out.println(testClass.find(1000));
+
+		for (int i=1;i<101;i++)
+			System.out.println("" + i + " -->" + testClass.find(i));
 	}
     
         /** 
