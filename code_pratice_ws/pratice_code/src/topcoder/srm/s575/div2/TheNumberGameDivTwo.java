@@ -1,70 +1,94 @@
 package topcoder.srm.s575.div2;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class TheNumberGameDivTwo {
 
+	int[] canWin = new int[1001];
 
-	// TODO this logic is wrong, correct it after reading editorial.
-	public String find(int n) {
-		boolean chance = true;
-		int newNum = n;
+	public String find(int num) {
+		boolean chance;
+		Arrays.fill(canWin, -1);
 
-		while (true) {
-			int divisor = getBiggestDivisor(newNum);
-
-			newNum = newNum - divisor;
-
-			if (divisor==0) {
-				break;
-			}
-
-			chance = !chance;
-		}
+//		chance = isWinning(num);
+		chance = isWinningUsingPattern(num);
 
 		if (chance) {
-			return "Brus";
-		} else {
 			return "John";
+		} else {
+			return "Brus";
 		}
 	}
 
-	private int getBiggestDivisor(int num) {
-		int divisor = 0;
+	// solution refer to http://community.topcoder.com/tc?module=Static&d1=tutorials&d2=algorithmGames
+	// for more details.
+	// get all next possible moves
+	// see if losing is possible from at least one of the next move.
+	// its like if there exists a next move from where we will definitely lose, we move to it.
+	// i.e move to a losing position, so that opponent loses.
+	// remembering previous results.
+	public boolean isWinning(int num) {
+		if (canWin[num] >= 0)
+			return canWin[num]==0?false:true;
 
-		for (int i=2;i<=num/i;i++) {
-			if (num%i==0) {
-				divisor = Math.max(divisor,i);
-				int otherDiv = num/i;
-				divisor = Math.max(divisor, otherDiv);
+		List<Integer> divisors = getDivisorsList(num);
+
+		List<Integer> nextMoves = new ArrayList<Integer>();
+		for (Integer divisor : divisors) {
+			nextMoves.add(num-divisor);
+		}
+
+		boolean canNextNumLose = false;
+		for (Integer nextNum : nextMoves) {
+			if (!isWinning(nextNum)) {
+				canNextNumLose = true;
+				break;
 			}
 		}
 
-		return divisor;
+		canWin[num] = canNextNumLose?1:0;
+		return canNextNumLose;
 	}
 
 
-	public int getBigOddDivisorForEvenNumber(int num) {
-		if (num==2)
-			return 0;
+	// return divisors other than 1 and the number itself.
+	public List<Integer> getDivisorsList(int num) {
+		List<Integer> divisors = new ArrayList<Integer>();
 
-		boolean found = false;
-		int foundelement = 0;
 		for (int i=2;i<=num/i;i++) {
-			int exp = 0;
 			if (num%i==0) {
-				int div = num/i;
-
-				if (div%2==1) {
-					found = true;
-					foundelement = div;
-					break;
-				}
-
-				if (i%2==1) {
-					foundelement = Math.max(i,foundelement);
-				}
+				divisors.add(i);
+				int another = num/i;
+				if (another!=i)
+					divisors.add(another);
 			}
 		}
 
-		return foundelement;
+		return divisors;
+	}
+
+	// if num is odd, it is losing position
+	// if number is even, and odd power of 2, it is losing position.
+	// else it is winning position.
+	private boolean isWinningUsingPattern(int num) {
+		if (num%2==1)
+			return false;
+
+		int exp = 0;
+		while (num%2==0) {
+			num /= 2;
+			exp++;
+		}
+
+		if (num > 1) { // even and not power of 2, so wing
+			return true;
+		} else if (exp%2==0) { // even power of 2
+			return true;
+		} else { // odd power of 2
+			return false;
+		}
+
 	}
 }

@@ -38,9 +38,16 @@ public class TheNumberGameDivTwoTest {
     */ 
     @Test
     public void testFind() throws Exception {
-		System.out.println(testClass.find(6));
-		System.out.println(testClass.find(1000));
-		System.out.println(testClass.find(4));
+//		System.out.println(testClass.find(52));
+//		System.out.println(testClass.find(1000));
+
+		for (int i=2;i<1001;i+=1)
+			System.out.println("" + i + " -->" + testClass.find(i));
+
+		// pattern
+		// if num is odd, it is losing position
+		// if number is even, and odd power of 2, it is losing position.
+		// else it is winning position.
 	}
     
         /** 
@@ -49,8 +56,10 @@ public class TheNumberGameDivTwoTest {
     * 
     */ 
     @Test
-    public void testGetBigOddDivisorForEvenNumber() throws Exception {
-		System.out.println(testClass.getBigOddDivisorForEvenNumber(14));
+    public void testIsWinningMethod() throws Exception {
+		boolean canWin;
+		canWin = testClass.isWinning(1000);
+		System.out.println("can John win " + canWin);
 	}
     
         
