@@ -124,7 +124,6 @@ class TaskA {
 				friendGroupSize++;
 			}
 
-
 			for (int newVertex : graph.adjacencyList[vertex]) {
 				if (isExplored[newVertex]==false) {
 					isExplored[newVertex] = true;
@@ -135,8 +134,6 @@ class TaskA {
 		}
 
 	}
-
-
 
 }
 
