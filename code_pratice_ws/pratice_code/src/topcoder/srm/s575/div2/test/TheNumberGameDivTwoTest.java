@@ -41,8 +41,13 @@ public class TheNumberGameDivTwoTest {
 //		System.out.println(testClass.find(52));
 //		System.out.println(testClass.find(1000));
 
-		for (int i=1;i<101;i++)
+		for (int i=2;i<1001;i+=2)
 			System.out.println("" + i + " -->" + testClass.find(i));
+
+		// pattern
+		// if num is odd, it is losing position
+		// if number is even, and odd power of 2, it is losing position.
+		// else it is winning position.
 	}
     
         /** 
