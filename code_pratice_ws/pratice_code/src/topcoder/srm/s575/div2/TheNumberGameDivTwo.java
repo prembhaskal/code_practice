@@ -1,5 +1,8 @@
 package topcoder.srm.s575.div2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TheNumberGameDivTwo {
 
 
@@ -41,30 +44,47 @@ public class TheNumberGameDivTwo {
 		return divisor;
 	}
 
+	// solution refer to http://community.topcoder.com/tc?module=Static&d1=tutorials&d2=algorithmGames
+	// for more details.
+	// get all next possible moves
+	// see if losing is possible from at least one of the next move.
+	// its like if there exists a next move from where we will definitely lose, we move to it.
+	// i.e move to a losing position, so that opponent loses.
+	public boolean isWinning(int num) {
+		List<Integer> divisors = getDivisorsList(num);
 
-	public int getBigOddDivisorForEvenNumber(int num) {
-		if (num==2)
-			return 0;
+		List<Integer> nextMoves = new ArrayList<Integer>();
+		for (Integer divisor : divisors) {
+			nextMoves.add(num-divisor);
+		}
 
-		boolean found = false;
-		int foundelement = 0;
-		for (int i=2;i<=num/i;i++) {
-			int exp = 0;
-			if (num%i==0) {
-				int div = num/i;
-
-				if (div%2==1) {
-					found = true;
-					foundelement = div;
-					break;
-				}
-
-				if (i%2==1) {
-					foundelement = Math.max(i,foundelement);
-				}
+		boolean canNextNumLose = false;
+		for (Integer nextNum : nextMoves) {
+			if (!isWinning(nextNum)) {
+				canNextNumLose = true;
+				break;
 			}
 		}
 
-		return foundelement;
+		return canNextNumLose;
 	}
+
+
+	// return divisors other than 1 and the number itself.
+	public List<Integer> getDivisorsList(int num) {
+		List<Integer> divisors = new ArrayList<Integer>();
+
+		for (int i=2;i<=num/i;i++) {
+			if (num%i==0) {
+				divisors.add(i);
+				int another = num/i;
+				if (another!=i)
+					divisors.add(another);
+			}
+		}
+
+		return divisors;
+	}
+
+
 }
