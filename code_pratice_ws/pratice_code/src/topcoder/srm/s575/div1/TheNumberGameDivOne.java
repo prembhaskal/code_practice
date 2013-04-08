@@ -1,9 +1,5 @@
 package topcoder.srm.s575.div1;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class TheNumberGameDivOne {
 
 	public String find(long num) {

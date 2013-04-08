@@ -41,7 +41,7 @@ public class TheNumberGameDivTwoTest {
 //		System.out.println(testClass.find(52));
 //		System.out.println(testClass.find(1000));
 
-		for (int i=2;i<1001;i+=2)
+		for (int i=2;i<1001;i+=1)
 			System.out.println("" + i + " -->" + testClass.find(i));
 
 		// pattern
