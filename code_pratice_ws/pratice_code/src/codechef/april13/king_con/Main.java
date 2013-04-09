@@ -73,7 +73,7 @@ class TaskA {
 		}
 	}
 
-	//TODO this approach is slow :( change it.
+	//TODO this approach is slow and possibly wrong :( change it.
 	private int getTotalEdgesToShield() {
 		List<Integer> edgesToShield = new ArrayList<Integer>();
 
