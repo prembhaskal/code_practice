@@ -17,6 +17,7 @@ public class TestClass {
 		testClass.generateData();
 	}
 
+	// data generator.
 	private void generateData() {
 		File file = new File("D://testData.txt");
 		PrintWriter out = null;
@@ -24,7 +25,7 @@ public class TestClass {
 			out = new PrintWriter(file);
 
 			String line;
-			for (int i=1;i<=10000;i++) {
+			for (int i=1;i<=1000000;i++) {
 				line = "";
 				line += i + "," + i + ",";
 				line += "name_" + i + ",";
