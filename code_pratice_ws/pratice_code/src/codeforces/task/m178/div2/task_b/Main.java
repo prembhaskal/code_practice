@@ -45,9 +45,10 @@ class TaskB {
 		if (books == 1) {
 			out.println(bookThickness[0]);
 		} else {
-//			int minWidth = getMinWidth();
-			int minWidth = getMinWidthIterative();
-			out.println(minWidth);
+			int minWidth1 = getMinWidth();
+			int minWidth2 = getMinWidthIterative();
+			out.println(minWidth1);
+			out.println(minWidth2);
 		}
 	}
 
@@ -64,36 +65,77 @@ class TaskB {
 		isHorizontal= new boolean[books];
 
 		// first is always kept as vertical.
-		int totalWidth = bookWidth[0];
+		int totalWidth = bookThickness[0];
 		int totalThickness = 0;
 		int widthAvailable = totalWidth;
 
 		for (int i=1;i<books;i++) {
-			int thickness = bookThickness[i];
+			int width = bookWidth[i];
 			// check if we can keep it horizontal
-			if (thickness <= widthAvailable) {
+			if (width <= widthAvailable) {
 				isHorizontal[i] = true;
 				widthAvailable -= bookWidth[i];
 			}
 			else {
 			// check if we can replace any horizontal book and reduce total thickness
+
+				// width had this book been kept vertical.
 				int widthAfterReplaceH = totalWidth + bookThickness[i];
 				boolean replacedH = false;
+				int bookToReplaceH = -1;
 				for (int j=i-1;j>=0;j--) {
 					if (isHorizontal[j]) {
 						int newWidthAvailRH = widthAvailable + (bookWidth[j] + bookThickness[j]) - bookWidth[i]; // replaced book is kept vertical
-						int newTotalWidth = totalWidth + bookWidth[j];
-						// check replacing this book is feasible
+						int newTotalWidth = totalWidth + bookThickness[j];
+						// check replacing this book is feasible (any good)
 						if (newWidthAvailRH >=0  && (newTotalWidth < widthAfterReplaceH)) {
 							replacedH = true;
 							widthAfterReplaceH = newTotalWidth;
+							bookToReplaceH = j;
 						}
 					}
 				}
 
 			// check if we can replace any vertical book and reduce thickness
 
+				// initialize as totalWidth for the comparison.
+				int widthAfterReplaceV = totalWidth + bookThickness[i];
+				boolean replacedV = false;
+				int bookToReplaceV = -1;
+				for (int j=i-1;j>=0;j--) {
+					if (!isHorizontal[j]) {
+						int newWidthAvailRV = widthAvailable - (bookWidth[j] + bookThickness[j]) + bookThickness[i] ;
+						int newTotalWidth = totalWidth + bookThickness[i] - bookThickness[j];
+						// check replacing this book is feasible (any good)
+						if (newWidthAvailRV >=0 && (newTotalWidth < widthAfterReplaceV)) {
+							replacedV = true;
+							widthAfterReplaceV = newTotalWidth;
+							bookToReplaceV = j;
+						}
+					}
+				}
 
+				if (replacedH || replacedV) {
+					// replace horizontal
+					if (widthAfterReplaceH < widthAfterReplaceV) {
+						isHorizontal[i] = true;
+						isHorizontal[bookToReplaceH] = false;
+						widthAvailable = widthAvailable + (bookWidth[bookToReplaceH] + bookThickness[bookToReplaceH]) - bookWidth[i];
+						totalWidth = widthAfterReplaceH;
+					}// replace vertical
+					else {
+						isHorizontal[i] = false;
+						isHorizontal[bookToReplaceV] = true;
+						widthAvailable = widthAvailable - bookWidth[bookToReplaceV];
+						totalWidth = widthAfterReplaceV;
+					}
+				}
+				// else we simply keep the book vertical.
+				else {
+					isHorizontal[i] = false;
+					widthAvailable += bookThickness[i];
+					totalWidth += bookThickness[i];
+				}
 
 
 			}
@@ -101,6 +143,8 @@ class TaskB {
 
 		}
 
+
+		minWidth = totalWidth;
 		return minWidth;
 
 	}
