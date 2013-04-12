@@ -40,7 +40,7 @@ public class DeadPixelsTest {
     @Test
     public void testSolve() throws Exception {
 		Scanner in = new Scanner(getClass().getResourceAsStream("files/dead_pixels.txt"));
-		File output = new File("output/dead_pixels_output.txt");
+		File output = new File("/output/dead_pixels_output.txt");
 		PrintWriter out = new PrintWriter(output);
 
 		testClass.solve(in, out);
