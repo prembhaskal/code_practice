@@ -29,6 +29,7 @@ class TaskA {
 	int costOfShield;
 	Graph graph;
 
+	// TODO try to solve using articulation points problem....see CLRS problem 22.2
 	public void solve(Scanner in, PrintWriter out) {
 		int tests = in.nextInt();
 

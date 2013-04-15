@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Treasure {
 
 
-	// TADA solve it later .... classic recursion
+	// TODO solve it later .... classic recursion
 	public void solve(Scanner in, PrintWriter out) {
 
 	}
