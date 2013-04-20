@@ -62,6 +62,8 @@ public class Numbers {
 		return power;
 	}
 
+	// TODO for integers, (a*b)%n = (a*(b%n))%n;
+	// why does that approach does not work here ?? find out may be by simulation.
 	private double truncateToThreedigits(double num) {
 		int after3digits = (int)num/1000;
 		after3digits *= 1000;
