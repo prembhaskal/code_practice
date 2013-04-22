@@ -38,10 +38,18 @@ public class P31CoinSumsTest {
     */ 
     @Test
     public void testGetWays() throws Exception { 
-        long ways = testClass.getWays(200);
+        long ways = testClass.getWays(200000);
 
 		System.out.println("no of ways = " + ways);
 	}
+
+	@Test
+	public void testGetWaysNaiveWays() {
+		long ways = testClass.getWaysNaiveBruteForce(200);
+
+		System.out.println("no of ways are :" + ways);
+	}
+
     
         
 } 
