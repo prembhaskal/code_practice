@@ -44,7 +44,7 @@ public class P31CoinSums {
 
 	// solution with DP and no recursion
 	// start filling for 0 to above, as it happens in recursion (the least is calculate before bigger numbers are set)
-	// this avoid the stack overflow for bigger nos.
+	// DP avoids the stack overflow for bigger nos.
 	private long getWaysDPIterative(int amount) {
 		if (amount ==0)
 			return 1;
@@ -69,57 +69,52 @@ public class P31CoinSums {
 
 		long ways = 0;
 
-		int sum;
+		long [][] waysForAmount = new long[amount+1][8];
+		for (int i=0;i<8;i++)
+			Arrays.fill(waysForAmount[i],-1);
 
-		for (int twoHs = 0,sum1 = 0; twoHs <= amount/200; twoHs++){
-//			int sum1 = 0;
-			sum1 += twoHs*200;
-			if (amount-sum1<0)
-				break;
-		for (int oneHs = 0,sum2 = sum1; oneHs <= amount/100;oneHs++) {
-//			int sum2 = sum1;
-			sum2 += oneHs*100;
-			if (amount-sum2<0)
-				break;
-		for (int fifties = 0,sum3 = sum2; fifties<= amount/50; fifties++) {
-//			int sum3 = sum2;
-			sum3 += fifties*50;
-			if (amount-sum3<0)
-				break;
-		for (int twens = 0,sum4 = sum3; twens<=amount/20;twens++) {
-//			int sum4 = sum3;
-			sum4 += twens*20;
-			if (amount-sum4<0)
-				break;
-		for (int tens = 0,sum5 = sum4;tens<=amount/10;tens++) {
-//			int sum5 = sum4;
-			sum5 += tens*10;
-			if (amount-sum5<0)
-				break;
-		for (int fives=0,sum6 = sum5;fives<=amount/5;fives++) {
-//			int sum6 = sum5;
-			sum6 += fives*5;
-			if (amount-sum6<0)
-				break;
-			for (int twos=0, sum7 = sum6;twos<=amount/2;twos++) {
-//				int sum7 = sum6;
-				sum7 += twos*2;
-				int rem = amount - sum7;
+		int sum1 = amount;
 
-				if (rem >= 0)
-					ways++;
-			}
+		// at each for loop, we are either using coin ZERO times or multiple times.
+		// which builds the logic for recursion.
+		for (int twoHunds = 0; twoHunds <= sum1/200; twoHunds++){
+
+			int sum2 = sum1 - twoHunds*200;
+			if (sum2<0)break;
+		for (int oneHs = 0; oneHs <= sum2/100;oneHs++) {
+
+			int sum3 = sum2 - oneHs*100;
+			if (sum3<0)break;
+		for (int fifties = 0; fifties<= sum3/50; fifties++) {
+
+			int sum4 = sum3 - fifties*50;
+			if (sum4<0)break;
+		for (int twens = 0; twens<=sum4/20;twens++) {
+
+			int sum5 = sum4 - twens*20;
+			if (sum5<0)break;
+		for (int tens = 0;tens<=sum5/10;tens++) {
+
+			int sum6 = sum5 - tens*10;
+			if (sum6<0)break;
+		for (int fives=0;fives<=sum6/5;fives++) {
+
+			int sum7 = sum6 - fives*5;
+			if (sum7<0)break;
+		for (int twos=0;twos<=sum7/2;twos++) {
+
+			int sum8 = sum7 - twos*2;
+			if (sum8<0)break;
+
+			ways++;
+		}
+
 		}
 		}
 		}
 		}
 		}
 		}
-
-
-
-
-
 
 
 		return ways;
