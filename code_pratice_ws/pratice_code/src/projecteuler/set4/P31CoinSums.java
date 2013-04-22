@@ -23,7 +23,6 @@ public class P31CoinSums {
 	// count(num, at least one coin x) = count(num - s[m], )
 	// this requires that the coin are in sorted order and we start with the biggest coin first.
 	// this need array to be filled with -1 initially
-	// TODO still not sure why does this work. find out.
 	private long getWaysUsingWithAndWithout(int amount, int coinIndex) {
 		if (amount==0) {
 			return 1;

@@ -24,7 +24,7 @@ public class p710001ThPrime {
 				long prime = primes[primeIndex];
 				if (prime!=0) {
 
-					if (prime > num/prime) // we need to check only primes smaller than sqaure-root of number being tested.
+					if (prime > num/prime) // we need to check only primes smaller than square-root of number being tested.
 						break;
 
 					// if divisible it is a composite.
