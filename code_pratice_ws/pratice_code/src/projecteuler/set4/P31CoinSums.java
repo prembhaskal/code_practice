@@ -70,19 +70,33 @@ public class P31CoinSums {
 
 		long ways = 0;
 
-		for (int twoHs = 0; twoHs <= amount/200; twoHs++)
-		for (int oneHs = 0; oneHs <= amount/100;oneHs++)
-		for (int fifties = 0; fifties<= amount/50; fifties++)
-		for (int twens = 0; twens<=amount/20;twens++)
-		for (int tens = 0;tens<=amount/10;tens++)
-		for (int fives=0;fives<=amount/5;fives++)
-		for (int twos=0;twos<=amount/2;twos++) {
-			int sum = twoHs*200 + oneHs*100 + fifties*50 + twens*20 + tens*10 + fives*5 + twos*2;
-			int rem = amount - sum;
+		for (int twoHs = 0; twoHs <= amount/200; twoHs++){
 
-			if (rem >= 0)
-				ways++;
+
+		for (int oneHs = 0; oneHs <= amount/100;oneHs++) {
+		for (int fifties = 0; fifties<= amount/50; fifties++) {
+		for (int twens = 0; twens<=amount/20;twens++) {
+		for (int tens = 0;tens<=amount/10;tens++) {
+		for (int fives=0;fives<=amount/5;fives++) {
+			for (int twos=0;twos<=amount/2;twos++) {
+				int sum = twoHs*200 + oneHs*100 + fifties*50 + twens*20 + tens*10 + fives*5 + twos*2;
+				int rem = amount - sum;
+
+				if (rem >= 0)
+					ways++;
+			}
 		}
+		}
+		}
+		}
+		}
+		}
+
+
+
+
+
+
 
 		return ways;
 	}
