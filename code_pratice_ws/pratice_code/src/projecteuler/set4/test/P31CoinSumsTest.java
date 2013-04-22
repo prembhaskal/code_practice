@@ -19,6 +19,8 @@ public class P31CoinSumsTest {
     
     P31CoinSums testClass = new P31CoinSums();
     long starttime;
+
+	int amount = 569;
     
     @Before
     public void before() throws Exception {
@@ -38,14 +40,14 @@ public class P31CoinSumsTest {
     */ 
     @Test
     public void testGetWays() throws Exception { 
-        long ways = testClass.getWays(200000);
+        long ways = testClass.getWays(amount);
 
 		System.out.println("no of ways = " + ways);
 	}
 
 	@Test
 	public void testGetWaysNaiveWays() {
-		long ways = testClass.getWaysNaiveBruteForce(200);
+		long ways = testClass.getWaysNaiveBruteForce(amount);
 
 		System.out.println("no of ways are :" + ways);
 	}
