@@ -77,6 +77,7 @@ class TaskA {
 
 		int root = (int) Math.sqrt(num);
 
+		// find why the commented logic works??
 //		if (numberOfDivisors%2!=0) {
 //			divisorsProd = power(root, numberOfDivisors);
 //		} else {
@@ -173,38 +174,10 @@ class TaskA {
 			square = i*i;
 			squareAndRootMap.put(square, i);
 		}
-//
-//		for (int i=1;i<=500000;i++) {
-//			String prodDigits = getDivisorProd4Digits(i);
-//			numVsDivisor.put(i,prodDigits);
-//		}
 
 	}
 
 
-	private void generatePrimes() {
-		int num = 3;
-		primeList.add(2);
-
-		while (num <= 500000/num) {
-			boolean isPrime = true;
-			for (int prime : primeList) {
-				if (prime > num/prime) {
-					break;
-				}
-
-				if (num%prime==0) {
-					isPrime = false;
-					break;
-				}
-			}
-
-			if (isPrime)
-				primeList.add(num);
-
-			num += 2;
-		}
-	}
 
 }
 
