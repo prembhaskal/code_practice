@@ -1,25 +1,23 @@
 package codechef.practice.product_divisors;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 
 public class Main {
 	public static void main(String[] s) {
 		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+			InputReader in = new InputReader(reader);
 			PrintWriter writer = new PrintWriter(System.out);
 
 			TaskA solution = new TaskA();
 			solution.solve(in,writer);
 
 			writer.close();
+			reader.close();
 
-			in.close();
 		} catch (IOException e) {
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+			e.printStackTrace();
 		}
 	}
 
@@ -32,11 +30,7 @@ class TaskA {
 
 	boolean isMoreThanMod;
 
-	List<Integer> primeList = new ArrayList<Integer>();
-
 	static Map<Integer, Integer> squareAndRootMap = new HashMap<Integer, Integer>();
-
-	static Map<Integer, String> numVsDivisor = new HashMap<Integer, String>();
 
 	static boolean isInitialized = false;
 
@@ -48,15 +42,15 @@ class TaskA {
 			503,509,521,523,541,547,557,563,569,571,577,587,593,599,
 			601,607,613,617,619,631,641,643,647,653,659,661,673,677,683,691,701,709};
 
-	public void solve(BufferedReader in, PrintWriter out) throws IOException {
+	public void solve(InputReader in, PrintWriter out) throws IOException {
 
 		init();
-		int tests = Integer.parseInt(in.readLine());
+		int tests = in.nextInt();
 
 		int[] nos = new int[tests];
 
 		for (int i=0;i<tests;i++) {
-			nos[i] = Integer.parseInt(in.readLine());
+			nos[i] = in.nextInt();
 		}
 
 		for (int i=0;i<tests;i++) {
@@ -75,9 +69,8 @@ class TaskA {
 
 		int numberOfDivisors = getNumberOfDivisors(num);
 
-		int root = (int) Math.sqrt(num);
-
 		// find why the commented logic works??
+//		int root = (int) Math.sqrt(num);
 //		if (numberOfDivisors%2!=0) {
 //			divisorsProd = power(root, numberOfDivisors);
 //		} else {
@@ -177,7 +170,41 @@ class TaskA {
 
 	}
 
+}
 
+class InputReader {
+	StreamTokenizer tokenizer;
 
+	public InputReader(Reader reader) {
+		tokenizer = new StreamTokenizer(reader);
+	}
+
+	public int nextInt() {
+		read();
+		return (int) tokenizer.nval;
+	}
+
+	public long nextLong() {
+		read();
+		return (long) tokenizer.nval;
+	}
+
+	public String nextString() {
+		read();
+		return tokenizer.sval;
+	}
+
+	public double nextDouble() {
+		read();
+		return tokenizer.nval;
+	}
+
+	private void read() {
+		try {
+			tokenizer.nextToken();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
 
