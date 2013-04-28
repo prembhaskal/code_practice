@@ -1,8 +1,6 @@
 package codechef.template;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Main {
 	public static void main(String[] s) {
@@ -24,7 +22,6 @@ public class Main {
 
 }
 
-// product of divisors..... here is the http://ww2.codechef.com/problems/D1/
 class TaskA {
 
 	public void solve(InputReader in, PrintWriter out) throws IOException {
