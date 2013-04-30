@@ -4,7 +4,6 @@ import common.util.InputReader;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Scanner;
 
 /**
  * User: premkumar.bhaskal
