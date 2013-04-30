@@ -3,6 +3,7 @@ package google_code_jam.cjam_13;
 import common.util.InputReader;
 import java.io.PrintWriter;
 
+//http://code.google.com/codejam/contest/2418487/dashboard#s=p1
 public class ManageYourEnergy {
 
 	int totalEnergy;

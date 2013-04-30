@@ -9,6 +9,7 @@ import java.io.PrintWriter;
  * User: premkumar.bhaskal
  * Date: 4/30/13
  * Time: 4:02 PM
+ * http://code.google.com/codejam/contest/2418487/dashboard#s=p0
  */
 public class Bullseye {
 
