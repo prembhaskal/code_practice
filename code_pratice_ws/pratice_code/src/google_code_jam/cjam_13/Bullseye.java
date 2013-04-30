@@ -17,7 +17,7 @@ public class Bullseye {
 	private long upperLimit;
 
 
-	public void solve(Scanner in, PrintWriter out) throws IOException {
+	public void solve(InputReader in, PrintWriter out) throws IOException {
 		int tests = in.nextInt();
 
 		for (int testNo=1;testNo<=tests;testNo++) {
