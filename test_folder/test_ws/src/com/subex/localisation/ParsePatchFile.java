@@ -105,18 +105,15 @@ public class ParsePatchFile {
 		try {
 			 reader = new BufferedReader(new InputStreamReader(new FileInputStream(parseFile)));
 
-			boolean eof = false;
-
-			while (!eof) {
+			while (true) {
 				String line = reader.readLine();
 				if (line==null) {
-					eof = true;
 					break;
 				}
 
 				// check if start of diff for new js file
 				if (isStartOfDiffForNewFile(line)) {
-					String start = getNewDiffStartLine();
+//					String start = getNewDiffStartLine();
 //					System.out.println(start);
 
 					// create an entry for this file
@@ -124,6 +121,7 @@ public class ParsePatchFile {
 				}
 				else if (isNewLineForTranslation(line)){
 //					System.out.println(newLineForTranslation);
+					// add the lines for translation in the corresponding entry
 					List<String> diffsForFile = fileVsTranslationLines.get(diffJSFile);
 					diffsForFile.add(newLineForTranslation);
 				}
@@ -140,9 +138,7 @@ public class ParsePatchFile {
 
 	private File createFileForTranslation(String fileName) {
 		fileName = fileName.trim();
-		File jsFileForTranslation = new File(outputFolder, fileName);
-
-		return jsFileForTranslation;
+		return new File(outputFolder, fileName);
 	}
 
 	// the matching pattern are for svn patch file created using SVN diff.
@@ -160,7 +156,7 @@ public class ParsePatchFile {
 		newLineForTranslation = null;
 		// line starting with "+" and a "TAB", indicates new|modified line
 		if (line.matches("^[\\+]{1}[\t].*")) {
-			newLineForTranslation = line.replaceFirst("^[\\+]{1}[\t]+","");
+			newLineForTranslation = line.replaceFirst("^[\\+]{1}[\t]+","");// extracting the line for translation
 			return true;
 		}
 
