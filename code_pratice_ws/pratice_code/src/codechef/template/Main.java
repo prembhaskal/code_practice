@@ -1,19 +1,20 @@
 package codechef.template;
 
 import java.io.*;
+import java.util.StringTokenizer;
 
 public class Main {
 	public static void main(String[] s) {
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-			InputReader in = new InputReader(reader);
+			InputStream inputStream = System.in;
+			InputReader in = new InputReader(inputStream);
 			PrintWriter writer = new PrintWriter(System.out);
 
 			TaskA solution = new TaskA();
 			solution.solve(in,writer);
 
 			writer.close();
-			reader.close();
+			inputStream.close();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -38,34 +39,35 @@ class TaskA {
 }
 
 class InputReader {
-	StreamTokenizer tokenizer;
+	public BufferedReader reader;
+	public StringTokenizer tokenizer;
 
-	public InputReader(Reader reader) {
-		tokenizer = new StreamTokenizer(reader);
+	public InputReader(InputStream stream) {
+		reader = new BufferedReader(new InputStreamReader(stream));
+		tokenizer = null;
 	}
 
-	public int nextInt() throws IOException {
-		read();
-		return (int) tokenizer.nval;
+	public String next() {
+		while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+			try {
+				tokenizer = new StringTokenizer(reader.readLine());
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return tokenizer.nextToken();
 	}
 
-	public long nextLong() throws IOException {
-		read();
-		return (long) tokenizer.nval;
+	public int nextInt() {
+		return Integer.parseInt(next());
 	}
 
-	public String nextString() throws IOException {
-		read();
-		return tokenizer.sval;
+	public long nextLong() {
+		return Long.parseLong(next());
 	}
 
-	public double nextDouble() throws IOException {
-		read();
-		return tokenizer.nval;
+	public double nextDouble() {
+		return Double.parseDouble(next());
 	}
 
-	private void read() throws IOException {
-		tokenizer.nextToken();
-	}
 }
-

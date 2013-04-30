@@ -184,21 +184,6 @@ class InputReader {
 		return (int) tokenizer.nval;
 	}
 
-	public long nextLong() {
-		read();
-		return (long) tokenizer.nval;
-	}
-
-	public String nextString() {
-		read();
-		return tokenizer.sval;
-	}
-
-	public double nextDouble() {
-		read();
-		return tokenizer.nval;
-	}
-
 	private void read() {
 		try {
 			tokenizer.nextToken();

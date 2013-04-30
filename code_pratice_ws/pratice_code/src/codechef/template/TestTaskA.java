@@ -1,15 +1,12 @@
 package codechef.template;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class TestTaskA {
 
 	public static void main(String[] s) throws IOException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(TestTaskA.class.getResourceAsStream("test.txt")));
-		InputReader in = new InputReader(reader);
+		InputStream inputStream = TestTaskA.class.getResourceAsStream("test.txt");
+		InputReader in = new InputReader(inputStream);
 
 		PrintWriter out = new PrintWriter(System.out);
 
@@ -20,7 +17,7 @@ public class TestTaskA {
 		long endTime = System.nanoTime();
 		out.println("elapsed time " + (endTime - startTime) / 1000000 + "milli secs");
 
-		reader.close();
+		inputStream.close();
 		out.flush();
 	}
 }
