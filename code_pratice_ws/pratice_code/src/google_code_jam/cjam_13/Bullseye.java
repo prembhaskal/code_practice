@@ -75,13 +75,6 @@ public class Bullseye {
 
 	}
 
-	private boolean isPaintReqdMoreThanTotalPaint(long radius, long num, long totalPaint) {
-		double paintReqd = (double)num * (2*radius + 2*num - 1);
-		if (paintReqd > Long.MAX_VALUE || (long)paintReqd > totalPaint)
-			return true;
-		return false;
-	}
-
 	private void findoutLowerAndUpperLimit(long radius, long totalPaint) {
 		lowerLimit = 1;
 		upperLimit = 1;
@@ -98,10 +91,14 @@ public class Bullseye {
 	}
 
 	private long getPaintRequired(long radius, long num) {
+
+		// we are never exceeding range by the way.
 		double paintReqd = (2*radius + 2*num - 1);
 		paintReqd = paintReqd * (double)num;
 		if (paintReqd > Long.MAX_VALUE)
 			System.out.println("EXCEEDING RANGE :(");
+
+
 		return num * (2*radius + 2*num -1);
 	}
 }
