@@ -1,7 +1,6 @@
 package projecteuler.set3;
 
 import java.util.*;
-import org.omg.CORBA.SetOverrideType;
 
 public class P29DistinctPowers {
 
@@ -9,15 +8,44 @@ public class P29DistinctPowers {
 
 	Set<String> numFactorPower = new HashSet<String>();
 
-	public int getDistinctPowers(int a, int b) {
+	// assuming range starts from 2
+	public int getDistinctPowers(int range) {
+		for (int i=2;i<=range;i++) {
+			createFactorsMapForNumber(i);
+		}
 
+		for (int i=2;i<=range;i++) {
+			for (int j=2;j<=range;j++) {
+				createString(i,j);
+			}
+		}
+
+		int distinctPowers = numFactorPower.size();
+
+		return distinctPowers;
 	}
 
-//	private void create
+	// for each number say 6^2, we store it as 2-2,3-2
+	private void createString(int num, int pow) {
+		String factorPower = "";
+
+		Map<Integer, Integer> factorVsPower = numVsFactorAndPower.get(num);
+
+		List<Integer> factors = new ArrayList<Integer>(factorVsPower.keySet());
+		Collections.sort(factors);
+
+		for (int factor : factors) {
+			int power = factorVsPower.get(factor);
+			factorPower = factorPower + factor + "-" + (power*pow) + ",";
+		}
+
+		numFactorPower.add(factorPower);
+	}
 
 	private void createFactorsMapForNumber(int num) {
 
 		Map<Integer, Integer> factorVsPower = new HashMap<Integer, Integer>();
+		numVsFactorAndPower.put(num,factorVsPower);
 		
 		for (int i=2;i<=num/i;i++) {
 			if (num%i==0) {
@@ -36,6 +64,5 @@ public class P29DistinctPowers {
 			factorVsPower.put(num, 1);
 		}
 
-		numVsFactorAndPower.put(num,factorVsPower);
 	}
 }
