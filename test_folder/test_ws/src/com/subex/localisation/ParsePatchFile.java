@@ -19,11 +19,23 @@ public class ParsePatchFile {
 	private String newLineForTranslation;
 	Map<String, List<String>> fileVsTranslationLines = new HashMap<String, List<String>>();
 
-	private String parseFilePath = "D:\\project\\RA\\mywork\\WebClient-Localization\\QFE_595_localisation\\js_files_diff.patch";
+//	private String parseFilePath = "D:\\project\\RA\\mywork\\WebClient-Localization\\QFE_595_localisation\\js_files_diff.patch";
+	private String parseFilePath = "D:\\project\\RA\\mywork\\WebClient-Localization\\QFE_595_localisation\\properties_diff.patch";
+
 	private String outputFolder = "D:\\project\\RA\\mywork\\WebClient-Localization\\QFE_595_localisation\\files_for_translation";
 	private String newJsFilesList = "D:\\project\\RA\\mywork\\WebClient-Localization\\QFE_595_localisation\\new_files_in_595.txt";
 
 	private String qfe595FilesPath = "D:\\project\\RA\\mywork\\WebClient-Localization\\localisation\\JS_files_595\\";
+
+	private final String matchAdditionalLines = "^[\\+]{1}[\t].*";
+	private final String replaceAdditionalLines = "^[\\+]{1}[\t]+";
+
+	// for properties patch, we should remove the lines with '+++' in the beginning, since there is no tab in the match string,
+	// and so the match string will match both single and triple '+',
+	// TODO write a common match string, 'SINGLE_PLUS' + 'WORD|TAB|MULTIPLE_TAB' + 'WORD(S)';
+	private final String matchAdditionalPropLines = "^[\\+]{1}.*";
+	private final String replaceAdditionalPropLines = "^[\\+]{1}";
+
 
 	public static void main(String[] args) {
 		try {
@@ -155,8 +167,8 @@ public class ParsePatchFile {
 	private boolean isNewLineForTranslation(String line) {
 		newLineForTranslation = null;
 		// line starting with "+" and a "TAB", indicates new|modified line
-		if (line.matches("^[\\+]{1}[\t].*")) {
-			newLineForTranslation = line.replaceFirst("^[\\+]{1}[\t]+","");// extracting the line for translation
+		if (line.matches(matchAdditionalPropLines)) {
+			newLineForTranslation = line.replaceFirst(replaceAdditionalPropLines,"");// extracting the line for translation
 			return true;
 		}
 
