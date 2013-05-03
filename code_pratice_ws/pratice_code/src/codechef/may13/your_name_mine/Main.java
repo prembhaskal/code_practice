@@ -60,20 +60,17 @@ class TaskA {
 		char[] biggerArr = bigger.toCharArray();
 
 		int i = 0;
-		for (int j=0;j<biggerArr.length; j++) {
+		for (int j=0;j<biggerArr.length && i<smallerArr.length; j++) {
 
 			char bigCh = biggerArr[j];
 			char smallCh = smallerArr[i];
 
 			if (bigCh==smallCh) {
 				i++;
-				if (i==smallerArr.length) {
-					break;
-				}
 			}
 		}
 
-		if (i==smallerArr.length)
+		if (i>=smallerArr.length)
 			return true;
 		else
 			return false;
