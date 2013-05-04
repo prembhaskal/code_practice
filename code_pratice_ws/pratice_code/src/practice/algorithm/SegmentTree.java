@@ -2,13 +2,15 @@ package practice.algorithm;
 
 import java.util.Arrays;
 
-public class SegmentMaxTree {
+//http://community.topcoder.com/tc?module=Static&d1=tutorials&d2=lowestCommonAncestor#Segment_Trees
+//http://www.geeksforgeeks.org/segment-tree-set-1-sum-of-given-range/
+public class SegmentTree {
 
 	int[] M;
 
 	int[] array;
 
-	public SegmentMaxTree(int[] array) {
+	public SegmentTree(int[] array) {
 		this.array = array;
 		initTree();
 	}
@@ -32,7 +34,7 @@ public class SegmentMaxTree {
 			initialize(2*node + 1, low, mid);
 			initialize(2*node + 2, mid+1, high);
 
-			if (array[M[2*node+1]] >= array[M[2*node+2]]) {
+			if (array[M[2*node+1]] <= array[M[2*node+2]]) {
 				M[node] = M[2*node+1];
 			} else {
 				M[node] = M[2*node+2];
@@ -45,7 +47,7 @@ public class SegmentMaxTree {
 		return query(0, 0, array.length-1, low, high);
 	}
 
-	// query to find maximum in range[i,j]
+	// query to find minimum in range[i,j]
 	private int query(int node, int low, int high, int i, int j) {
 		if (i > high || j < low)
 			return -1;
@@ -61,10 +63,9 @@ public class SegmentMaxTree {
 			return p2;
 		if (p2==-1)
 			return p1;
-		if (array[p1]>=array[p2])
+		if (array[p1]<=array[p2])
 			return p1;
 
 		return p2;
 	}
-
 }
