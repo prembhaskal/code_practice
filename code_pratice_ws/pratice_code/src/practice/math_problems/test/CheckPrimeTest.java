@@ -78,7 +78,8 @@ public class CheckPrimeTest {
 	private List<Long> getPrimes(int certainty, int totalNum) {
 		List<Long> primes = new ArrayList<Long>();
 
-		long startNum = 12399999999999999L;
+//		long startNum = 12399999999999999L;
+		long startNum = 10000L;
 
 		while (totalNum > 0) {
 
