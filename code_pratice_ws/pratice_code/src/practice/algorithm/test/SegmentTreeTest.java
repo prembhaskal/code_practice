@@ -1,4 +1,4 @@
-package projecteuler.set1.test; 
+package practice.algorithm.test; 
 
 import java.util.Scanner;
 import java.io.PrintWriter;
@@ -6,18 +6,17 @@ import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
 import static org.junit.Assert.*;
-import projecteuler.set1.*;  
+import practice.algorithm.*;  
 
 /** 
-* p710001ThPrime Tester. 
+* SegmentTree Tester. 
 * 
 * @author <Premkumar Bhaskal> 
-* @since <pre>Mar 25, 2013</pre> 
+* @since <pre>May 5, 2013</pre> 
 * @version 1.0 
 */ 
-public class p710001ThPrimeTest { 
-    
-    p710001ThPrime testClass = new p710001ThPrime();
+public class SegmentTreeTest { 
+
     long starttime;
     
     @Before
@@ -33,17 +32,21 @@ public class p710001ThPrimeTest {
     
         /** 
     * 
-    * Method: getPrime(int primeNumber) 
+    * Method: query(int low, int high) 
     * 
     */ 
     @Test
-    public void testGetPrime() throws Exception {
-//		System.out.println("6th prime is " + testClass.getPrime(6));
+    public void testQuery() throws Exception { 
+        int[] array = new int[]{3,2,4,0,9};
 
-//		System.out.println("10001st prime is " + testClass.getPrime(10001));
+		SegmentTree minTree= new SegmentTree(array);
 
-		System.out.println("1000000th prime is " + testClass.getPrime(10000000));
-//		System.out.println("1000000th prime is " + testClass.getPrime(1000000));
+		System.out.println(minTree.query(0,0));
+		System.out.println(minTree.query(0,1));
+		System.out.println(minTree.query(0,2));
+		System.out.println(minTree.query(0,3));
+		System.out.println(minTree.query(0,4));
+
 	}
     
         
