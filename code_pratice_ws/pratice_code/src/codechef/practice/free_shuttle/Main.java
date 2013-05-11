@@ -28,6 +28,7 @@ public class Main {
  * both with/without euler totient function or whatever crap it is.
  *
  * The editorial has a strange way of getting euler's totient. find out what is it.
+ * see below. quite interesting actually.
  */
 class TaskA {
 
@@ -38,9 +39,9 @@ class TaskA {
 		for (int i=0;i<tests;i++) {
 			int N = in.nextInt();
 
-			int result = getNosWithGCD1(N);
+//			int result = getNosWithGCD1(N);
 
-//			getEulersTotient(N);
+			int result = getEulersTotient(N);
 
 			out.println(result);
 		}
@@ -62,7 +63,7 @@ class TaskA {
 	}
 
 	// or get number k, where k<N so that gcd(k,N)=1
-	private int getEulersTotient(int N) {
+	private int getEulersTotientSlowWay(int N) {
 		int count = 1; // shuttle no. 1 will always reach
 
 		for (int num = 2; num < N; num++) {
@@ -92,6 +93,35 @@ class TaskA {
 		}
 
 		return count;
+	}
+
+
+	/**
+	 * euler's totient phi(N) is multiplicative ... phi(mn) = phi(m) phi(n)  if gcd(m,n)=1
+	 *
+	 * and phi(prime^k) = prime^k - prime^(k-1)
+	 *
+	 * so phi(N) = phi(p1^k1  * p2^k1 * ...)
+	 *           = n (p1-1)/p1 * (p2-1)/p2 * ....
+	 * This solution is much faster....
+	 */
+	private int getEulersTotient(int N) {
+		int phi = N;
+
+		for (int i=2;i<=N/i;i++) {
+			if (N%i==0) {
+				phi = (phi/i) * (i-1);
+
+				while (N%i==0)
+					N /= i;
+			}
+		}
+
+		if (N > 1) {
+			phi = (phi/N) * ( N-1);
+		}
+
+		return phi;
 	}
 
 	public int getGCD(int a, int b) {
