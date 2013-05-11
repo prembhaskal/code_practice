@@ -34,6 +34,8 @@ class TaskA {
 
 	public void solve(InputReader in, PrintWriter out) throws IOException {
 
+		generateTotients(1000000);
+
 		int tests = in.nextInt();
 
 		for (int i=0;i<tests;i++) {
@@ -41,7 +43,9 @@ class TaskA {
 
 //			int result = getNosWithGCD1(N);
 
-			int result = getEulersTotient(N);
+//			int result = getEulersTotient(N);
+
+			int result = phi[N];
 
 			out.println(result);
 		}
@@ -122,6 +126,29 @@ class TaskA {
 		}
 
 		return phi;
+	}
+
+	int [] phi;
+
+	// a fast way of generating totient for a series of numbers.
+	// this is useful when generating totients for a series of numbers.
+	private void generateTotients(int range) {
+
+		phi = new int[range+1];
+
+		for (int i=1;i<=range;i++)
+			phi[i] = i;
+
+		// this needs how multiple of number is encountered
+
+		for (int i=2;i<=range;i++) {
+			if (phi[i]==i) {// only number whose phi was not calculated, see how this works with a pencil/paper
+				for (int j=i;j<=range;j+=i) {
+//					phi[j] = (phi[j]/i) * (i-1);
+					phi[j] -= (phi[j]/i);
+				}
+			}
+		}
 	}
 
 	public int getGCD(int a, int b) {
