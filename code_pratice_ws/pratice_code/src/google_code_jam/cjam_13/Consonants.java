@@ -18,8 +18,9 @@ public class Consonants {
 			String name = in.next();
 			int N = in.nextInt();
 
-			long result = getValue(N, name);
+//			long result = getValue(N, name);
 //			long result = getNValueFromOther(N, name);
+			long result = getValueForLong(N, name);
 
 			out.println("Case #" + testNo + ": " + result);
 		}
@@ -32,6 +33,38 @@ public class Consonants {
 			vowels.add(ch);
 	}
 
+	// this solution works for the bigger input
+	private long getValueForLong(int n, String name) {
+		long count = 0;
+		int max = n;
+		int len = name.length();
+		int nosOnLeft = 0;
+		int nosOnRight = len;
+
+		for (int i=0;i<name.length();i++) {
+			char ch = name.charAt(i);
+			if (!vowels.contains(ch)) {
+				n--;
+			} else {
+				n = max;
+			}
+
+			nosOnLeft++;
+			nosOnRight--;
+
+			if (n==0) {
+				count += getSubStrings(nosOnLeft-max, nosOnRight);
+				nosOnLeft = max - 1; //reset nos on left
+				n++;
+			}
+		}
+
+		return count;
+	}
+
+	private long getSubStrings(long left, long right) {
+		return (left+1) * ( right + 1);
+	}
 
 	// solve using brute force for small strings
 	private int getValue(int n, String name) {
@@ -84,7 +117,7 @@ public class Consonants {
 	}
 
 
-	// solution of another contestant.
+	// below correct solution of another contestant.
 	private long getNValueFromOther(int n, String input) {
 		long count = 0;
 		int windowStart=0;
