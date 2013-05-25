@@ -17,7 +17,7 @@ public class PanDigitalProducts {
 
 			boolean isPanDigital = isPanDigitalProduct(i);
 			if (isPanDigital) {
-				System.out.println(i);
+//				System.out.println(i);
 				sum += i;
 			}
 		}
