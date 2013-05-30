@@ -144,9 +144,8 @@ public class TestFiles {
 
 			long count = 0;
 			long size = source.size();
-			while ((count += destination.transferFrom(source, count, size
-					- count)) < size)
-				;
+			while ((count += destination.transferFrom(source, count, size - count)) < size);
+
 		} finally {
 			if (source != null) {
 				source.close();

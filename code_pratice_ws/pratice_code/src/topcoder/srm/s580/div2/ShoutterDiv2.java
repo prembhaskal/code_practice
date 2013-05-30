@@ -25,7 +25,7 @@ public class ShoutterDiv2 {
 				present++;
 			}
 
-			// remove rabbits after accounting for pairs. (following question's condition)
+			// remove rabbits after accounting for pairs. (following question's condition to form pairs at exact moment also)
 			while (tidx<t.length && t[tidx] == i) {
 				present--;
 				tidx++;

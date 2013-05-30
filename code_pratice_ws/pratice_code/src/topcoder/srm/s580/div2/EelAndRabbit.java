@@ -1,7 +1,5 @@
 package topcoder.srm.s580.div2;
 
-import java.util.Arrays;
-
 public class EelAndRabbit {
 
 
