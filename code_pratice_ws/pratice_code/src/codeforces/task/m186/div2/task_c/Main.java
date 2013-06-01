@@ -27,17 +27,19 @@ public class Main {
 class Task {
 
 	public void solve(InputReader in, PrintWriter out) throws IOException {
-		int size = in.nextInt();
+//		int size = in.nextInt();
+//
+//		int[] num  = new int[size];
+//
+//		for (int i = 0; i < size; i++) {
+//			num[i] = in.nextInt();
+//		}
+//
+//		long maxBeauty = getMaxBeauty(num, size);
+//
+//		out.println(maxBeauty);
 
-		int[] num  = new int[size];
-
-		for (int i = 0; i < size; i++) {
-			num[i] = in.nextInt();
-		}
-
-		long maxBeauty = getMaxBeauty(num, size);
-
-		out.println(maxBeauty);
+		testTimeLimit();
 
 	}
 
@@ -83,17 +85,17 @@ class Task {
 		return power;
 	}
 
-	private int getMaxCountUsed(int size) {
-		size = size/4;
+	// added a test method to test the speed of our algo sans the reading part... this completes in 30millisecs.
+	private void testTimeLimit() {
+		int[] lotOfnums = new int[1048576];
 
-		int maxCount = 0;
-
-		while (size > 0) {
-			maxCount += size;
-			size /= 4;
+		for (int i = 0; i < lotOfnums.length; i++) {
+			lotOfnums[i] = 1234567890;
 		}
 
-		return maxCount;
+		long beauty = getMaxBeauty(lotOfnums, lotOfnums.length);
+
+		System.out.println("beauty is " + beauty);
 	}
 
 
