@@ -35,24 +35,52 @@ class Task {
 			num[i] = in.nextInt();
 		}
 
+		long maxBeauty = getMaxBeauty(num, size);
+
+		out.println(maxBeauty);
+
 	}
 
+	// this damn method is exceeding time limit :( :(
 	private long getMaxBeauty(int[] num, int size) {
 		if (size==1) {
 			return num[0];
 		}
 
-		long totalSum = 0;
-
-		for (int i = 0; i < size; i++) {
-			totalSum += num[i];
-		}
-
 		Arrays.sort(num);
 
-		int maxCount = getMaxCountUsed(size);
+		int sizeForItr = 1;
+		int mulFactor = getPower(size) + 1;
+		int numUsed = 0;
+		long beauty = 0;
 
+		for (int i=mulFactor, j=0 ; i>0 ; i--) {
+			int sizeForThis = sizeForItr - numUsed;
 
+			long sumForLoop = 0;
+
+			for (int k =0; k < sizeForThis; k++, j++) {
+				sumForLoop += num[size-1-j];
+				numUsed++;
+			}
+
+			beauty = beauty + (mulFactor * sumForLoop);
+
+			mulFactor--;
+			sizeForItr *=4;
+		}
+
+		return beauty;
+	}
+
+	private int getPower(int size) {
+		int power = 0;
+		while (size > 1) {
+			size /= 4;
+			power++;
+		}
+
+		return power;
 	}
 
 	private int getMaxCountUsed(int size) {
