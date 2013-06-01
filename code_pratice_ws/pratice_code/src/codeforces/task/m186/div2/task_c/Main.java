@@ -27,23 +27,25 @@ public class Main {
 class Task {
 
 	public void solve(InputReader in, PrintWriter out) throws IOException {
-//		int size = in.nextInt();
-//
-//		int[] num  = new int[size];
-//
-//		for (int i = 0; i < size; i++) {
-//			num[i] = in.nextInt();
-//		}
-//
-//		long maxBeauty = getMaxBeauty(num, size);
-//
-//		out.println(maxBeauty);
+		int size = in.nextInt();
 
-		testTimeLimit();
+		int[] num  = new int[size];
 
+		for (int i = 0; i < size; i++) {
+			num[i] = in.nextInt();
+		}
+
+		long maxBeauty = getMaxBeauty(num, size);
+		out.println(maxBeauty);
+
+//		long maxBeautyFromEgor = getMaxBeautyByEgor(num, size);
+//		out.println(maxBeautyFromEgor);
+
+//		testTimeLimit();
 	}
 
 	// this damn method is exceeding time limit :( :(
+	// :) :) Got accepted when used Java7 as compiler.
 	private long getMaxBeauty(int[] num, int size) {
 		if (size==1) {
 			return num[0];
@@ -75,6 +77,31 @@ class Task {
 		return beauty;
 	}
 
+	// COPIED CODE from egor to test the cause of time limit error in java 6
+	// this gets accepted only in JAVA 7.
+	private long getMaxBeautyByEgor(int[] numbers, int count) {
+
+		Arrays.sort(numbers);
+		reverseArray(numbers);
+
+		long[] sum = new long[count + 1];
+		for (int i = 0; i < count; i++)
+			sum[i + 1] = sum[i] + numbers[i];
+		long answer = 0;
+		for (int size = 1; size <= count; size *= 4)
+			answer += sum[size];
+
+		return answer;
+	}
+
+	private void reverseArray(int[] num) {
+		for (int i = 0, j=num.length-1; i < num.length / 2; i++,j--) {
+			int temp = num[i];
+			num[i] = num[j];
+			num[j] = temp;
+		}
+	}
+
 	private int getPower(int size) {
 		int power = 0;
 		while (size > 1) {
@@ -87,10 +114,10 @@ class Task {
 
 	// added a test method to test the speed of our algo sans the reading part... this completes in 30millisecs.
 	private void testTimeLimit() {
-		int[] lotOfnums = new int[1048576];
+		int[] lotOfnums = new int[262144];
 
 		for (int i = 0; i < lotOfnums.length; i++) {
-			lotOfnums[i] = 1234567890;
+			lotOfnums[i] = 262144-i;
 		}
 
 		long beauty = getMaxBeauty(lotOfnums, lotOfnums.length);
