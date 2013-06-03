@@ -21,7 +21,7 @@ public class UndoHistory {
 			for (int i = 0; i < lineArr.length; i++) {
 				str = str + lineArr[i];
 
-				
+
 			}
 		}
 
