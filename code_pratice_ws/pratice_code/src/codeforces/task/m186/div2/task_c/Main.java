@@ -1,8 +1,7 @@
 package codeforces.task.m186.div2.task_c;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
 	public static void main(String[] s) {
@@ -45,13 +44,19 @@ class Task {
 	}
 
 	// this damn method is exceeding time limit :( :(
+	// Reason was due to pathological data for sorting Arrays.sort(int[]) uses quick sort hence the issue.
+	// solution: shuffle before the sort, it gets accepted in java6 also.
 	// :) :) Got accepted when used Java7 as compiler.
 	private long getMaxBeauty(int[] num, int size) {
 		if (size==1) {
 			return num[0];
 		}
 
-		Arrays.sort(num);
+		List<Integer> numList = arrayToList(num);
+
+		Collections.sort(numList);
+
+		num = listToArray(numList);
 
 		int sizeForItr = 1;
 		int mulFactor = getPower(size) + 1;
@@ -75,6 +80,23 @@ class Task {
 		}
 
 		return beauty;
+	}
+
+	private List<Integer> arrayToList(int[] num) {
+		List<Integer> list = new ArrayList<Integer>(num.length);
+		for (int i : num)
+			list.add(i);
+
+		return list;
+	}
+
+	private int[] listToArray(List<Integer> list) {
+		int[] num = new int[list.size()];
+		int i = 0;
+		for (int no : list)
+			num[i++] = no;
+
+		return num;
 	}
 
 	// COPIED CODE from egor to test the cause of time limit error in java 6
