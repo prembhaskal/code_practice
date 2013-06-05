@@ -44,18 +44,32 @@ public class MaxSubArrayProblem {
 		}
 
 		sum = best;
-		for (int i=end+1;i<num.length;i++) {
-			for (int j=start;j<i;j++) {
-				sum = sum - num[j];
+		for (int i=0;i<end;i++) {
+			sum = sum - num[i];
+			if (sum > best) {
+				best = sum;
+				start = i+1;
+			}
+		}
 
-				if (sum > best) {
+
+		for (int i=end+1;i<num.length;i++) {
+			sum = sum + num[i];
+
+			if (sum > best) {
+				best = sum;
+				end = i;
+			}
+
+			int sum1 = sum;
+			for (int j=start;j<i;j++) {
+				sum1 = sum1 - num[j];
+				if (sum1 > best) {
 					start = j+1;
-					best = sum;
+					sum = best = sum1;
 					end = i;
 				}
 			}
-
-			sum = sum + num[i];
 		}
 
 		System.out.println("max value is " + best);

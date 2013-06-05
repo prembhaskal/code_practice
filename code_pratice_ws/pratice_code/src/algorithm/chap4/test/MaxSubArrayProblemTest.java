@@ -38,20 +38,19 @@ public class MaxSubArrayProblemTest {
     @Test
     public void testGetMaxSubArrayBruteForce() throws Exception { 
 
-//		int[] num = getRandomArray(10,10);
-		int[] num = new int[]{0, -3, 8 ,0 ,-9, -9, 8, 6, 3, -5 };
+		int[] num = getRandomArray(10,10);
+//		int[] num = new int[]{0, -3, 8 ,0 ,-9, -9, 8, 6, 3, -5 };
 		System.out.println("************** Array is ***************");
 		UtilitiesClass.printArray(num);
 
 		testClass.getMaxSubArrayBruteForce(num);
-
 		testClass.getMaxSubArrayLinear(num);
 
-//		num = getRandomArray(10000,100);
+		num = getRandomArray(100000,100);
 		System.out.println("************** Array is ***************");
-//		UtilitiesClass.printArray(num);
 
-//		testClass.getMaxSubArrayBruteForce(num);
+		testClass.getMaxSubArrayBruteForce(num);
+//		testClass.getMaxSubArrayLinear(num);
     } 
 
 	// array has both +ve and -ve numbers in the range.
