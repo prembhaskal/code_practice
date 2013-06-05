@@ -38,8 +38,8 @@ public class MaxSubArrayProblemTest {
     @Test
     public void testGetMaxSubArrayBruteForce() throws Exception { 
 
-		int[] num = getRandomArray(10,10);
-//		int[] num = new int[]{0, -3, 8 ,0 ,-9, -9, 8, 6, 3, -5 };
+//		int[] num = getRandomArray(10,10);
+		int[] num = new int[]{3,1,-2,-3,2,0,1,-8,-2,8};
 		System.out.println("************** Array is ***************");
 		UtilitiesClass.printArray(num);
 
@@ -49,7 +49,7 @@ public class MaxSubArrayProblemTest {
 		num = getRandomArray(100000,100);
 		System.out.println("************** Array is ***************");
 
-		testClass.getMaxSubArrayBruteForce(num);
+//		testClass.getMaxSubArrayBruteForce(num);
 //		testClass.getMaxSubArrayLinear(num);
     } 
 
