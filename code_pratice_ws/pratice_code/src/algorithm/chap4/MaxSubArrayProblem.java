@@ -3,7 +3,7 @@ package algorithm.chap4;
 public class MaxSubArrayProblem {
 
 	// input --> array storing the difference from previous num
-	public void getMaxSubArrayBruteForce(int[] num) {
+	public int getMaxSubArrayBruteForce(int[] num) {
 
 		int start = -1;
 		int end = -1;
@@ -24,55 +24,40 @@ public class MaxSubArrayProblem {
 
 		System.out.println("max value is " + best);
 		System.out.println("start is " + start + " and end is " + end);
+
+		return best;
 	}
 
-	public void getMaxSubArrayLinear(int[] num) {
-		int start = -1;
-		int end = -1;
-		int best = Integer.MIN_VALUE;
+	// see kaden's algorithm
+	public int getMaxSubArrayLinear(int[] num) {
+		int start = 0;
+		int end = 0;
 
-		// get first the max sub array for 1 to size.
-		int sum = 0;
-		start = 0;
-		for (int i = 0; i < num.length; i++) {
-			sum += num[i];
+		int start_temp = 0;
 
-			if (sum > best) {
-				best = sum;
+		int max_end_here = num[0];
+		int max_so_far = num[0];
+
+		for (int i = 1; i < num.length; i++) {
+			// reset max end here to present number if it was less than 0
+			// we always try to take positive numbers only
+			if (max_end_here < 0) {
+				max_end_here = num[i];
+				start_temp = i;
+			} else {
+				max_end_here += num[i];
+			}
+
+			if (max_end_here >= max_so_far) {
+				max_so_far = Math.max(max_end_here, max_so_far);
+				start = start_temp; // get the start used for calculating this max value.
 				end = i;
 			}
 		}
 
-		sum = best;
-		for (int i=0;i<end;i++) {
-			sum = sum - num[i];
-			if (sum > best) {
-				best = sum;
-				start = i+1;
-			}
-		}
-
-
-		for (int i=end+1;i<num.length;i++) {
-			sum = sum + num[i];
-
-			if (sum > best) {
-				best = sum;
-				end = i;
-			}
-
-			int sum1 = sum;
-			for (int j=start;j<i;j++) {
-				sum1 = sum1 - num[j];
-				if (sum1 > best) {
-					start = j+1;
-					sum = best = sum1;
-					end = i;
-				}
-			}
-		}
-
-		System.out.println("max value is " + best);
+		System.out.println("max value is " + max_so_far);
 		System.out.println("start is " + start + " and end is " + end);
+
+		return max_so_far;
 	}
 }
