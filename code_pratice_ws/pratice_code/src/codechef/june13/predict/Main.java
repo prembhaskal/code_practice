@@ -1,8 +1,6 @@
-package codechef.may13.name_reduction;
+package codechef.june13.predict;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -27,61 +25,38 @@ public class Main {
 
 class TaskA {
 
+	double total = 10000.00d;
+
 	public void solve(InputReader in, PrintWriter out) throws IOException {
 
 		int tests = in.nextInt();
 
 		for (int i=0;i<tests;i++) {
-			String A = in.next();
-			String B = in.next();
+			double px = in.nextDouble();
+			double exp = getMaxExpectedValue(px);
 
-			int childs = in.nextInt();
-			List<String> childNames = new ArrayList<String>();
-
-			for (int child = 0;child<childs;child++) {
-				String str = in.next();
-				childNames.add(str);
-			}
-
-			boolean possible = isNamePossible(A, B, childNames);
-
-			if (possible)
-				out.println("YES");
-			else
-				out.println("NO");
+			out.println(exp);
 		}
 
 	}
 
-	public boolean isNamePossible(String A, String B, List<String> childNames) {
-		String completeName = A + B;
-
-		int[] freq = new int[26];
-		int base = (int)'a';
-		int value;
-
-		char[] nameArray = completeName.toCharArray();
-		// get all the frequencies
-		for (char ch : nameArray) {
-			value = (int)ch - base;
-			freq[value]++;
+// expected value is (val)(2x-1) - (2x-1)(10000)(x)
+	private double getMaxExpectedValue(double x) {
+		double v1;
+		if (x > 0.5) {
+			v1 = total;
+		} else {
+			v1 = 0;
 		}
 
-		for (String name : childNames) {
-			char[] childNameArr = name.toCharArray();
+		double inter = ( 2 * x - 1.0);
+		double prod1 = v1 * inter;
 
-			for (char ch : childNameArr) {
-				value = ch - base;
+		double prod2 = inter * total * x;
 
-				freq[value]--;
+		double expectedValue = prod1 - prod2 + total;
 
-				if (freq[value]<0) {
-					return false;
-				}
-			}
-		}
-
-		return true;
+		return expectedValue;
 	}
 
 

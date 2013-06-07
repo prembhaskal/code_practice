@@ -1,8 +1,6 @@
-package codechef.may13.name_reduction;
+package codechef.june13.lapin;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -32,56 +30,45 @@ class TaskA {
 		int tests = in.nextInt();
 
 		for (int i=0;i<tests;i++) {
-			String A = in.next();
-			String B = in.next();
-
-			int childs = in.nextInt();
-			List<String> childNames = new ArrayList<String>();
-
-			for (int child = 0;child<childs;child++) {
-				String str = in.next();
-				childNames.add(str);
-			}
-
-			boolean possible = isNamePossible(A, B, childNames);
-
-			if (possible)
-				out.println("YES");
-			else
-				out.println("NO");
+			String result = isLapinDrome(in.next());
+			out.println(result);
 		}
 
 	}
 
-	public boolean isNamePossible(String A, String B, List<String> childNames) {
-		String completeName = A + B;
+	private String isLapinDrome(String str) {
+		char[] strArray = str.toCharArray();
 
-		int[] freq = new int[26];
-		int base = (int)'a';
-		int value;
+		int len = strArray.length;
 
-		char[] nameArray = completeName.toCharArray();
-		// get all the frequencies
-		for (char ch : nameArray) {
-			value = (int)ch - base;
-			freq[value]++;
+		int i=0;
+
+		char[] count = new char[26];
+
+		// read first half
+		for (;i<len/2;i++) {
+			char ch =  strArray[i];
+			int idx = (int)ch - (int)'a';
+			count[idx]++;
 		}
 
-		for (String name : childNames) {
-			char[] childNameArr = name.toCharArray();
-
-			for (char ch : childNameArr) {
-				value = ch - base;
-
-				freq[value]--;
-
-				if (freq[value]<0) {
-					return false;
-				}
-			}
+		if (len%2==1) {
+			i++;
 		}
 
-		return true;
+		// read next half
+		for (;i<len;i++) {
+			char ch = strArray[i];
+			int idx = (int)ch - (int)'a';
+			count[idx]--;
+		}
+
+		for (int cnt : count) {
+			if (cnt != 0)
+				return "NO";
+		}
+
+		return "YES";
 	}
 
 
