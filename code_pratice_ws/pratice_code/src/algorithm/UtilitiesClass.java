@@ -1,5 +1,7 @@
 package algorithm;
 
+import java.util.Random;
+
 public class UtilitiesClass {
 
 	public static long startTime() {
@@ -44,5 +46,25 @@ public class UtilitiesClass {
 		int start = nums.length;
 		for(int i=nums.length/2;i<nums.length;i++)
 			nums[i] = start--;
+	}
+
+
+	// array has both +ve and -ve numbers in the range.
+	public static int[] getRandomArray(int size, int range) {
+		int[] num = new int[size];
+
+		Random random = new Random();
+		Random evenOrOdd = new Random();
+
+		for (int i=0;i<size;i++) {
+			int rnd = random.nextInt(range);
+
+			if (evenOrOdd.nextInt(2)==0)
+				rnd = rnd * -1;
+
+			num[i] = rnd;
+		}
+
+		return num;
 	}
 }

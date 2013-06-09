@@ -46,11 +46,11 @@ public class MaxSubArrayProblemTest {
 		testClass.getMaxSubArrayBruteForce(num);
 		testClass.getMaxSubArrayLinear(num);
 
-		num = getRandomArray(100000,100);
+		num = getRandomArray(10000,100);
 		System.out.println("************** Array is ***************");
 
-		testClass.getMaxSubArrayBruteForce(num);
-//		testClass.getMaxSubArrayLinear(num);
+		testClass.getMaxSubArrayLinear(num);
+//		testClass.getMaxSubArrayBruteForce(num);
     } 
 
 	// array has both +ve and -ve numbers in the range.
