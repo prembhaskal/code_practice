@@ -21,11 +21,17 @@ public class RoboCourier {
 	private void printGraph() {
 		Map<Node, Set<Node>> adjacencyList = graph.adjacencyList;
 
-		int i=0;
-		for (Map.Entry<Node, Set<Node>> nodeSetEntry : adjacencyList.entrySet()) {
-			System.out.println("node number --> " + i++);
-			Node node = nodeSetEntry.getKey();
-			System.out.println("node co-ordinates x -->" + node.x + " -->" + node.y);
+		List<Node> nodeList = graph.nodeList;
+
+		for (Node node : nodeList) {
+			System.out.println("node no. --> " + graph.nodeVsIndex.get(node));
+			System.out.println("co-ordinates are x --> " + node.x + " y --> " + node.y);
+
+			System.out.println("neighbours of the node are ");
+			for (Node neighbour : adjacencyList.get(node)) {
+				System.out.print(graph.nodeVsIndex.get(neighbour) + ", ");
+			}
+			System.out.println("");
 		}
 	}
 
@@ -55,6 +61,7 @@ public class RoboCourier {
 
 						Node toNode = new Node(x,y);
 						graph.addNeighbour(fromNode, toNode);
+						graph.addNeighbour(toNode, fromNode);
 						// present node is now the new fromNode;
 						fromNode = toNode;
 				}
@@ -65,9 +72,15 @@ public class RoboCourier {
 }
 
 class Graph {
+	List<Node> nodeList = new ArrayList<>();
+	Map<Integer, Node> indexVsNode = new HashMap<>();
+	Map<Node, Integer> nodeVsIndex = new HashMap<>();
 	Map<Node, Set<Node>> adjacencyList = new HashMap<>();
 
 	public void addNeighbour(Node fromNode, Node toNode) {
+		int frIdx = addNodeToList(fromNode);
+		int toIdx = addNodeToList(toNode);
+
 		addNodeToGraph(fromNode);
 		addNodeToGraph(toNode);
 
@@ -81,6 +94,18 @@ class Graph {
 		if (nodeList==null) {
 			adjacencyList.put(node, new HashSet<Node>());
 		}
+	}
+
+	private int addNodeToList(Node node) {
+		Integer idx = nodeVsIndex.get(node);
+		if (idx==null) {
+			nodeList.add(node);
+			idx = nodeList.size()-1;
+			nodeVsIndex.put(node, idx);
+			indexVsNode.put(idx, node);
+		}
+
+		return idx;
 	}
 }
 
