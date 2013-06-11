@@ -36,6 +36,8 @@ public class RoboCourier {
 	}
 
 	// logic copied from editorial, but not the direction array. (it is different in editorial)
+
+	// TODO refactor this crap.
 	private void createGraph(String[] path) {
 		graph = new Graph();
 
@@ -60,10 +62,31 @@ public class RoboCourier {
 						y += yDir[dir];
 
 						Node toNode = new Node(x,y);
-						graph.addNeighbour(fromNode, toNode);
-						graph.addNeighbour(toNode, fromNode);
+//						graph.addNeighbour(fromNode, toNode);
+//						graph.addNeighbour(toNode, fromNode);
+
+						graph.addNodeToList(fromNode);
+						graph.addNodeToList(toNode);
+
 						// present node is now the new fromNode;
 						fromNode = toNode;
+				}
+			}
+		}
+
+		// complete the graph.
+
+		for (Node fromNode : graph.nodeList) {
+			for (int i=0;i<6;i++) {
+				int newX = fromNode.x + xDir[i];
+				int newY = fromNode.y + yDir[i];
+
+				Integer idx = graph.nodeVsIndex.get(new Node(newX, newY));
+				if (idx != null) {
+					// retrieve the actual object.
+					Node toNode = graph.indexVsNode.get(idx);
+
+					graph.addNeighbour(fromNode, toNode);
 				}
 			}
 		}
@@ -73,6 +96,8 @@ public class RoboCourier {
 
 class Graph {
 	List<Node> nodeList = new ArrayList<>();
+	Set<Node> nodeSet = new HashSet<>();
+
 	Map<Integer, Node> indexVsNode = new HashMap<>();
 	Map<Node, Integer> nodeVsIndex = new HashMap<>();
 	Map<Node, Set<Node>> adjacencyList = new HashMap<>();
@@ -96,10 +121,11 @@ class Graph {
 		}
 	}
 
-	private int addNodeToList(Node node) {
+	public int addNodeToList(Node node) {
 		Integer idx = nodeVsIndex.get(node);
 		if (idx==null) {
 			nodeList.add(node);
+			nodeSet.add(node);
 			idx = nodeList.size()-1;
 			nodeVsIndex.put(node, idx);
 			indexVsNode.put(idx, node);
