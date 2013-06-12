@@ -1,5 +1,6 @@
 package topcoder.srm.s150.div1;
 
+import java.io.PrintWriter;
 import java.util.*;
 
 public class RoboCourier {
@@ -8,12 +9,14 @@ public class RoboCourier {
 	int[] xDir = new int[]{0, 1, 1, 0,-1,-1};
 	int[] yDir = new int[]{2, 1,-1,-2,-1, 1};
 
-	public int timeToDeliver(String[] path) {
+	public int timeToDeliver(String[] path, PrintWriter out) {
 		int time = 0;
 
 		createGraph(path);
 
-		printGraph();
+//		printGraph();
+
+		printForGraphViz(out);
 
 		return time;
 	}
@@ -35,15 +38,39 @@ public class RoboCourier {
 		}
 	}
 
+	private void printForGraphViz(PrintWriter out) {
+
+		out.println("strict graph E {");
+		// print all the nodes and the positions.
+		for (Node node : graph.nodeList) {
+			int nodeNo = graph.nodeVsIndex.get(node);
+			out.println("\"" + nodeNo + "\"" + " [pos=\"" + (node.x * 50) + "," + (node.y * 50) + "!\"]");
+		}
+
+		// print all the edges
+		for (Node node : graph.nodeList) {
+			int fromIdx = graph.nodeVsIndex.get(node);
+
+			for (Node neighbour : graph.adjacencyList.get(node)) {
+				int toIdx = graph.nodeVsIndex.get(neighbour);
+
+				out.println("\"" + fromIdx + "\"--\"" + toIdx + "\"");
+			}
+		}
+
+		out.println("}");
+	}
+
+
 	// logic copied from editorial, but not the direction array. (it is different in editorial)
 
 	// TODO refactor this crap.
 	private void createGraph(String[] path) {
 		graph = new Graph();
 
+		int x, y, dir;
+		x = y = dir = 0;
 		for (String scoutPath : path) {
-			int x, y, dir;
-			x = y = dir = 0;
 			char[] pathArray = scoutPath.toCharArray();
 
 			Node fromNode = new Node(x,y);
@@ -62,8 +89,8 @@ public class RoboCourier {
 						y += yDir[dir];
 
 						Node toNode = new Node(x,y);
-//						graph.addNeighbour(fromNode, toNode);
-//						graph.addNeighbour(toNode, fromNode);
+						graph.addNeighbour(fromNode, toNode);
+						graph.addNeighbour(toNode, fromNode);
 
 						graph.addNodeToList(fromNode);
 						graph.addNodeToList(toNode);
@@ -76,20 +103,20 @@ public class RoboCourier {
 
 		// complete the graph.
 
-		for (Node fromNode : graph.nodeList) {
-			for (int i=0;i<6;i++) {
-				int newX = fromNode.x + xDir[i];
-				int newY = fromNode.y + yDir[i];
-
-				Integer idx = graph.nodeVsIndex.get(new Node(newX, newY));
-				if (idx != null) {
-					// retrieve the actual object.
-					Node toNode = graph.indexVsNode.get(idx);
-
-					graph.addNeighbour(fromNode, toNode);
-				}
-			}
-		}
+//		for (Node fromNode : graph.nodeList) {
+//			for (int i=0;i<6;i++) {
+//				int newX = fromNode.x + xDir[i];
+//				int newY = fromNode.y + yDir[i];
+//
+//				Integer idx = graph.nodeVsIndex.get(new Node(newX, newY));
+//				if (idx != null) {
+//					// retrieve the actual object.
+//					Node toNode = graph.indexVsNode.get(idx);
+//
+//					graph.addNeighbour(fromNode, toNode);
+//				}
+//			}
+//		}
 	}
 
 }
