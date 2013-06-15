@@ -36,8 +36,9 @@ class TaskA {
 		printNumbersNotInAPBruteForce(num, out);
 	}
 
+	// BRUTE FORCE solution: o(range^3)... the range defines the  number of items found.
 	private void printNumbersNotInAPBruteForce(int[] num, PrintWriter out) {
-		int range = 4000;
+		int range = 2000;
 
 		// if len = 2, print all and return
 		if (num.length==2) {
