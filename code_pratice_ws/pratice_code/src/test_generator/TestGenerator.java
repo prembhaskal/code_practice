@@ -6,14 +6,12 @@ import java.io.PrintWriter;
 public class TestGenerator {
 
 	public void generateTest(InputReader in, PrintWriter out) {
-		int size = 1048576;
-
+		int size = 10000;
 		out.println(size);
 
-		int value = 1234567890;
-
-		for (int i = 0; i < size; i++) {
-			out.println(1000000000);
+		out.print("1");
+		for (int i = 2; i < size+1; i++) {
+			out.print(" " + i);
 		}
 	}
 }
