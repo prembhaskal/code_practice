@@ -51,8 +51,8 @@ class TaskA {
 		if (noOfHashs < 3)
 			return 0;
 
-		// sectionMap has section vs max length in array.
-		int[] sectionMap = new int[noOfHashs+1];
+		// maxSectionBtw has section vs max length in array.
+		int[] maxSectionBtw = new int[noOfHashs+1];
 
 		int secIndex = 0;
 		int[] chCount = new int[26];
@@ -63,7 +63,7 @@ class TaskA {
 		for (int i=0;i<strArray.length;i++) {
 			char ch = strArray[i];
 			if (ch=='#') {// new section starts
-				sectionMap[secIndex] = maxChCount;
+				maxSectionBtw[secIndex] = maxChCount;
 				secIndex++;// next section
 				maxChCount = 0; // reset max for next section.
 				Arrays.fill(chCount, 0);
@@ -74,25 +74,57 @@ class TaskA {
 				maxChCount = Math.max(chCount[idx], maxChCount);
 			}
 		}
-
 		// set for the last section.
-		sectionMap[secIndex] = maxChCount;
+		maxSectionBtw[secIndex] = maxChCount;
+
+		// create the forward section.
+		// find max occurrence of any character till here FORWARD
+		Arrays.fill(chCount, 0);
+		int[] maxSectionFwd = new int[noOfHashs];
+		secIndex = 0;
+		maxChCount = 0;
+		for (int i = 0; i < strArray.length; i++) {
+			char ch = strArray[i];
+			if (ch=='#') {
+				maxSectionFwd[secIndex] = maxChCount;
+				secIndex++;
+			} else {
+				int idx = (int)ch - (int)'a';
+				chCount[idx]++;
+				// get the max out of the chCount.
+				maxChCount = Math.max(chCount[idx], maxChCount);
+			}
+		}
+
+		// create the reverse section.
+		// find max occurrence of any character till here REVERSE
+		Arrays.fill(chCount,0);
+		int[] maxSectionRev = new int[noOfHashs];
+		secIndex = noOfHashs - 1;
+		maxChCount = 0;
+		for (int i=strArray.length-1;i>=0;i--) {
+			char ch = strArray[i];
+			if (ch=='#') {
+				maxSectionRev[secIndex] = maxChCount;
+				secIndex--;
+			} else {
+				int idx = (int)ch - (int)'a';
+				chCount[idx]++;
+				maxChCount = Math.max(chCount[idx], maxChCount);
+			}
+		}
 
 		// TODO this is wrong as per question.
-		// TODO we should choose 3 Hashes '#' instead.
+		// TODO we should choose 3 continuous Hashes '#' instead. (with no Hashes in between).
 		// i.e. a#ab#ax#ay#cc#dd#ee#f should return 13 --> aaaa#cc#dd#ee
 		int maxStrLength = 0;
-		for (int i=0;i<sectionMap.length-3;i++) {
+		for (int i=0;i<noOfHashs-3+1;i++) {
 			int secLength = 0;
-			boolean hasZeroLenSec = false;
-			for (int j = 0; j < 4; j++) {
-				secLength += sectionMap[i+j];
-				if (sectionMap[i+j]==0) { // reset length if any section is empty
-					hasZeroLenSec = true;
-				}
-			}
-
-			if (hasZeroLenSec) {
+			// max[i] = mf[i] + mb[i+1] + mb[i+2] + mr[i+2]
+			boolean hasZeroLengthSec = false;
+			secLength = maxSectionFwd[i] + maxSectionBtw[i+1] + maxSectionBtw[i+2] + maxSectionRev[i+2];
+			if (maxSectionFwd[i]==0 || maxSectionBtw[i+1]==0 || maxSectionBtw[i+2]==0 || maxSectionRev[i+2]==0) {
+				hasZeroLengthSec = true;
 				secLength = 0;
 			}
 

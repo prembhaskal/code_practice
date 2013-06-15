@@ -1,6 +1,7 @@
 5
 a#ab#ax#ay#cc#dd#ee#f
 a#b#c##e###r#t#e##
+a#b#c##
 aaaaa#bb#cc#dddd
 acb#aab#bab#accba
 abc#dda#bb#bb#acbabxb
