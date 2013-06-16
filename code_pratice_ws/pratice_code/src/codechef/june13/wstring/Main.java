@@ -114,17 +114,14 @@ class TaskA {
 			}
 		}
 
-		// TODO this is wrong as per question.
-		// TODO we should choose 3 continuous Hashes '#' instead. (with no Hashes in between).
+		// we should choose 3 continuous Hashes '#' instead. (with no Hashes in between).
 		// i.e. a#ab#ax#ay#cc#dd#ee#f should return 13 --> aaaa#cc#dd#ee
 		int maxStrLength = 0;
 		for (int i=0;i<noOfHashs-3+1;i++) {
 			int secLength = 0;
 			// max[i] = mf[i] + mb[i+1] + mb[i+2] + mr[i+2]
-			boolean hasZeroLengthSec = false;
 			secLength = maxSectionFwd[i] + maxSectionBtw[i+1] + maxSectionBtw[i+2] + maxSectionRev[i+2];
 			if (maxSectionFwd[i]==0 || maxSectionBtw[i+1]==0 || maxSectionBtw[i+2]==0 || maxSectionRev[i+2]==0) {
-				hasZeroLengthSec = true;
 				secLength = 0;
 			}
 
