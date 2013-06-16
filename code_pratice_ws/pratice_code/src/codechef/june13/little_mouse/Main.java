@@ -58,6 +58,9 @@ class TaskA {
 
 		// initialize origin (0,0)
 		boardPath[0][0] = new HashSet<Node>();
+		if (board[0][0]==1) {
+			addToSet(boardPath[0][0], 0, 0);
+		}
 		if (board[0][1]==1) {
 			addToSet(boardPath[0][0], 0, 1);
 		}
@@ -95,21 +98,30 @@ class TaskA {
 					Set<Node> setx = boardPath[i][j-1];
 					Set<Node> sety = boardPath[i-1][j];
 
-					int pathx = boardPath[i][j-1].size();
-					if (board[i-1][j]==1 && !boardPath[i][j-1].contains(nodey))
-						pathx++;
+//					int pathx = setx.size();
+//					if (board[i-1][j]==1 && !setx.contains(nodey))
+//						pathx++;
+//
+//					int pathy = sety.size();
+//					if (board[i][j-1]==1 && !sety.contains(nodex))
+//						pathy++;
+//
+//					// form the new Set Node with the new nodes.
+//					if (pathx < pathy) {
+//						Set<Node> newSet = getNodeSetFromPath(setx, board, nodey, node1, node2);
+//						boardPath[i][j] = newSet;
+//					} else {
+//						Set<Node> newSet = getNodeSetFromPath(sety, board, nodex, node1, node2);
+//						boardPath[i][j] = newSet;
+//					}
 
-					int pathy = boardPath[i-1][j].size();
-					if (board[i][j-1]==1 && !boardPath[i-1][j].contains(nodex))
-						pathy++;
+					Set<Node> newSet1 = getNodeSetFromPath(setx, board, nodey, node1, node2);
+					Set<Node> newSet2 = getNodeSetFromPath(sety, board, nodex, node1, node2);
 
-					// form the new Set Node with the new nodes.
-					if (pathx < pathy) {
-						Set<Node> newSet = getNodeSetFromPath(setx, board, nodey, node1, node2);
-						boardPath[i][j] = newSet;
+					if (newSet1.size() < newSet2.size()) {
+						boardPath[i][j] = newSet1;
 					} else {
-						Set<Node> newSet = getNodeSetFromPath(sety, board, nodex, node1, node2);
-						boardPath[i][j] = newSet;
+						boardPath[i][j] = newSet2;
 					}
 				}
 			}
@@ -126,7 +138,6 @@ class TaskA {
 		}
 
 		// 0,column-1
-
 		{
 			int i=0;
 			int j=column-1;
@@ -140,29 +151,38 @@ class TaskA {
 		for (int j=1,i=row-1;j<column-1;j++) {
 			Node node1 = new Node(i,j+1);
 
-
 			Node nodex = new Node(i,j-1);
 			Node nodey = new Node(i-1,j);
 
 			Set<Node> setx = boardPath[i][j-1];
 			Set<Node> sety = boardPath[i-1][j];
+//
+//			int pathx = boardPath[i][j-1].size();
+//			if (board[i-1][j]==1 && !boardPath[i][j-1].contains(nodey))
+//				pathx++;
+//
+//			int pathy = boardPath[i-1][j].size();
+//			if (board[i][j-1]==1 && !boardPath[i-1][j].contains(nodex))
+//				pathy++;
+//
+//			// form the new Set Node with the new nodes.
+//			if (pathx < pathy) {
+//				Set<Node> newSet = getNodeSetFromPath(setx, board, nodey, node1);
+//				boardPath[i][j] = newSet;
+//			} else {
+//				Set<Node> newSet = getNodeSetFromPath(sety, board, nodex, node1);
+//				boardPath[i][j] = newSet;
+//			}
 
-			int pathx = boardPath[i][j-1].size();
-			if (board[i-1][j]==1 && !boardPath[i][j-1].contains(nodey))
-				pathx++;
+			Set<Node> newSet1 = getNodeSetFromPath(setx, board, nodey, node1);
+			Set<Node> newSet2 = getNodeSetFromPath(sety, board, nodex, node1);
 
-			int pathy = boardPath[i-1][j].size();
-			if (board[i][j-1]==1 && !boardPath[i-1][j].contains(nodex))
-				pathy++;
-
-			// form the new Set Node with the new nodes.
-			if (pathx < pathy) {
-				Set<Node> newSet = getNodeSetFromPath(setx, board, nodey, node1);
-				boardPath[i][j] = newSet;
+			if (newSet1.size() < newSet2.size()) {
+				boardPath[i][j] = newSet1;
 			} else {
-				Set<Node> newSet = getNodeSetFromPath(sety, board, nodex, node1);
-				boardPath[i][j] = newSet;
+				boardPath[i][j] = newSet2;
 			}
+
 		}
 
 		// last column
@@ -174,40 +194,79 @@ class TaskA {
 
 			Set<Node> setx = boardPath[i][j-1];
 			Set<Node> sety = boardPath[i-1][j];
+//
+//			int pathx = boardPath[i][j-1].size();
+//			if (board[i-1][j]==1 && !boardPath[i][j-1].contains(nodey))
+//				pathx++;
+//
+//			int pathy = boardPath[i-1][j].size();
+//			if (board[i][j-1]==1 && !boardPath[i-1][j].contains(nodex))
+//				pathy++;
+//
+//			// form the new Set Node with the new nodes.
+//			if (pathx < pathy) {
+//				Set<Node> newSet = getNodeSetFromPath(setx, board, nodey, node1);
+//				boardPath[i][j] = newSet;
+//			} else {
+//				Set<Node> newSet = getNodeSetFromPath(sety, board, nodex, node1);
+//				boardPath[i][j] = newSet;
+//			}
 
-			int pathx = boardPath[i][j-1].size();
-			if (board[i-1][j]==1 && !boardPath[i][j-1].contains(nodey))
-				pathx++;
 
-			int pathy = boardPath[i-1][j].size();
-			if (board[i][j-1]==1 && !boardPath[i-1][j].contains(nodex))
-				pathy++;
+			Set<Node> newSet1 = getNodeSetFromPath(setx, board, nodey, node1);
+			Set<Node> newSet2 = getNodeSetFromPath(sety, board, nodex, node1);
 
-			// form the new Set Node with the new nodes.
-			if (pathx < pathy) {
-				Set<Node> newSet = getNodeSetFromPath(setx, board, nodey, node1);
-				boardPath[i][j] = newSet;
+			if (newSet1.size() < newSet2.size()) {
+				boardPath[i][j] = newSet1;
 			} else {
-				Set<Node> newSet = getNodeSetFromPath(sety, board, nodex, node1);
-				boardPath[i][j] = newSet;
+				boardPath[i][j] = newSet2;
 			}
+
 		}
 
 		// last column/row --> destination.
-		int i=row-1;
-		int j=column-1;
-		Set<Node> setx = boardPath[i][j-1];
-		Set<Node> sety = boardPath[i-1][j];
+		{
+			int i=row-1;
+			int j=column-1;
 
-		int minScare = Math.min(setx.size(), sety.size());
+			Node nodex = new Node(i,j-1);
+			Node nodey = new Node(i-1,j);
 
-		boolean trial = true;
-		if (trial) {
-			if (setx.size() > sety.size()) {
-				boardPath[i][j] = sety;
+			Set<Node> setx = boardPath[i][j-1];
+			Set<Node> sety = boardPath[i-1][j];
+//
+//			int pathx = setx.size();
+//			if (board[i-1][j]==1 && !setx.contains(nodey))
+//				pathx++;
+//
+//			int pathy = sety.size();
+//			if (board[i][j-1]==1 && !sety.contains(nodex))
+//				pathy++;
+//
+//			// form the new Set Node with the new nodes.
+//			if (pathx < pathy) {
+//				Set<Node> newSet = getNodeSetFromPath(setx, board, nodey);
+//				boardPath[i][j] = newSet;
+//			} else {
+//				Set<Node> newSet = getNodeSetFromPath(sety, board, nodex);
+//				boardPath[i][j] = newSet;
+//			}
+
+			Set<Node> newSet1 = getNodeSetFromPath(setx, board, nodey);
+			Set<Node> newSet2 = getNodeSetFromPath(sety, board, nodex);
+
+			if (newSet1.size() < newSet2.size()) {
+				boardPath[i][j] = newSet1;
 			} else {
-				boardPath[i][j] = setx;
+				boardPath[i][j] = newSet2;
 			}
+
+		}
+
+		int minScare = boardPath[row-1][column-1].size();
+
+		boolean trial = false;
+		if (trial) {
 			printBoardPath(boardPath, row, column);
 		}
 
