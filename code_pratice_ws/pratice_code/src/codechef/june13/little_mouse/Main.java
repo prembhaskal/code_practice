@@ -98,23 +98,6 @@ class TaskA {
 					Set<Node> setx = boardPath[i][j-1];
 					Set<Node> sety = boardPath[i-1][j];
 
-//					int pathx = setx.size();
-//					if (board[i-1][j]==1 && !setx.contains(nodey))
-//						pathx++;
-//
-//					int pathy = sety.size();
-//					if (board[i][j-1]==1 && !sety.contains(nodex))
-//						pathy++;
-//
-//					// form the new Set Node with the new nodes.
-//					if (pathx < pathy) {
-//						Set<Node> newSet = getNodeSetFromPath(setx, board, nodey, node1, node2);
-//						boardPath[i][j] = newSet;
-//					} else {
-//						Set<Node> newSet = getNodeSetFromPath(sety, board, nodex, node1, node2);
-//						boardPath[i][j] = newSet;
-//					}
-
 					Set<Node> newSet1 = getNodeSetFromPath(setx, board, nodey, node1, node2);
 					Set<Node> newSet2 = getNodeSetFromPath(sety, board, nodex, node1, node2);
 
@@ -156,23 +139,6 @@ class TaskA {
 
 			Set<Node> setx = boardPath[i][j-1];
 			Set<Node> sety = boardPath[i-1][j];
-//
-//			int pathx = boardPath[i][j-1].size();
-//			if (board[i-1][j]==1 && !boardPath[i][j-1].contains(nodey))
-//				pathx++;
-//
-//			int pathy = boardPath[i-1][j].size();
-//			if (board[i][j-1]==1 && !boardPath[i-1][j].contains(nodex))
-//				pathy++;
-//
-//			// form the new Set Node with the new nodes.
-//			if (pathx < pathy) {
-//				Set<Node> newSet = getNodeSetFromPath(setx, board, nodey, node1);
-//				boardPath[i][j] = newSet;
-//			} else {
-//				Set<Node> newSet = getNodeSetFromPath(sety, board, nodex, node1);
-//				boardPath[i][j] = newSet;
-//			}
 
 			Set<Node> newSet1 = getNodeSetFromPath(setx, board, nodey, node1);
 			Set<Node> newSet2 = getNodeSetFromPath(sety, board, nodex, node1);
@@ -194,24 +160,6 @@ class TaskA {
 
 			Set<Node> setx = boardPath[i][j-1];
 			Set<Node> sety = boardPath[i-1][j];
-//
-//			int pathx = boardPath[i][j-1].size();
-//			if (board[i-1][j]==1 && !boardPath[i][j-1].contains(nodey))
-//				pathx++;
-//
-//			int pathy = boardPath[i-1][j].size();
-//			if (board[i][j-1]==1 && !boardPath[i-1][j].contains(nodex))
-//				pathy++;
-//
-//			// form the new Set Node with the new nodes.
-//			if (pathx < pathy) {
-//				Set<Node> newSet = getNodeSetFromPath(setx, board, nodey, node1);
-//				boardPath[i][j] = newSet;
-//			} else {
-//				Set<Node> newSet = getNodeSetFromPath(sety, board, nodex, node1);
-//				boardPath[i][j] = newSet;
-//			}
-
 
 			Set<Node> newSet1 = getNodeSetFromPath(setx, board, nodey, node1);
 			Set<Node> newSet2 = getNodeSetFromPath(sety, board, nodex, node1);
@@ -234,23 +182,6 @@ class TaskA {
 
 			Set<Node> setx = boardPath[i][j-1];
 			Set<Node> sety = boardPath[i-1][j];
-//
-//			int pathx = setx.size();
-//			if (board[i-1][j]==1 && !setx.contains(nodey))
-//				pathx++;
-//
-//			int pathy = sety.size();
-//			if (board[i][j-1]==1 && !sety.contains(nodex))
-//				pathy++;
-//
-//			// form the new Set Node with the new nodes.
-//			if (pathx < pathy) {
-//				Set<Node> newSet = getNodeSetFromPath(setx, board, nodey);
-//				boardPath[i][j] = newSet;
-//			} else {
-//				Set<Node> newSet = getNodeSetFromPath(sety, board, nodex);
-//				boardPath[i][j] = newSet;
-//			}
 
 			Set<Node> newSet1 = getNodeSetFromPath(setx, board, nodey);
 			Set<Node> newSet2 = getNodeSetFromPath(sety, board, nodex);
