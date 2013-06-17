@@ -42,7 +42,12 @@ class TaskA {
 				char[] str = in.next().toCharArray();
 
 				for (int c=0;c<column;c++) {
-					board[r][c] = Integer.parseInt(str[c]+"");
+					char ch = str[c];
+					if (ch=='0') {
+						board[r][c] = 0;
+					} else {
+						board[r][c] = 1;
+					}
 				}
 			}
 
@@ -55,6 +60,7 @@ class TaskA {
 
 	private int getMinScarePossible(int[][] board, int row, int column) {
 		Set<Node>[][] boardPath = new Set[row][column];
+		boolean trial = false;
 
 		// initialize origin (0,0)
 		boardPath[0][0] = new HashSet<Node>();
@@ -80,12 +86,17 @@ class TaskA {
 					Node node2 = new Node(i+1,j);
 					Set<Node> setx = boardPath[i][j-1];
 					Set<Node> newSet = getNodeSetFromPath(setx, board, node1, node2);
+					if (board[i][j]==1)
+						addToSet(newSet,i,j);
 					boardPath[i][j] = newSet;
 				} else if (j==0) {
 					Node node1 = new Node(i,j+1);
 					Node node2 = new Node(i+1,j);
 					Set<Node> sety = boardPath[i-1][j];
 					Set<Node> newSet = getNodeSetFromPath(sety, board, node1, node2);
+					if (board[i][j]==1)
+						addToSet(newSet,i,j);
+
 					boardPath[i][j] = newSet;
 				} else {
 					// normal case
@@ -106,6 +117,9 @@ class TaskA {
 					} else {
 						boardPath[i][j] = newSet2;
 					}
+
+					if (board[i][j]==1)
+						addToSet(boardPath[i][j],i,j);
 				}
 			}
 		}
@@ -117,6 +131,9 @@ class TaskA {
 			Node node1 = new Node(i,j+1);
 			Set<Node> sety = boardPath[i-1][j];
 			Set<Node> newSet = getNodeSetFromPath(sety, board, node1);
+			if (board[i][j]==1)
+				addToSet(newSet,i,j);
+
 			boardPath[i][j] = newSet;
 		}
 
@@ -127,6 +144,9 @@ class TaskA {
 			Node node2 = new Node(i+1,j);
 			Set<Node> setx = boardPath[i][j-1];
 			Set<Node> newSet = getNodeSetFromPath(setx, board, node2);
+			if (board[i][j]==1)
+				addToSet(newSet,i,j);
+
 			boardPath[i][j] = newSet;
 		}
 
@@ -148,6 +168,8 @@ class TaskA {
 			} else {
 				boardPath[i][j] = newSet2;
 			}
+			if (board[i][j]==1)
+				addToSet(boardPath[i][j],i,j);
 
 		}
 
@@ -169,6 +191,8 @@ class TaskA {
 			} else {
 				boardPath[i][j] = newSet2;
 			}
+			if (board[i][j]==1)
+				addToSet(boardPath[i][j],i,j);
 
 		}
 
@@ -191,14 +215,22 @@ class TaskA {
 			} else {
 				boardPath[i][j] = newSet2;
 			}
+			if (board[i][j]==1)
+				addToSet(boardPath[i][j],i,j);
 
 		}
 
 		int minScare = boardPath[row-1][column-1].size();
 
-		boolean trial = false;
 		if (trial) {
 			printBoardPath(boardPath, row, column);
+		}
+
+		// nullify board
+		for (int i=0;i<row;i++) {
+			for (int j = 0; j < column; j++) {
+				boardPath[i][j] = null;
+			}
 		}
 
 		return minScare;
@@ -244,7 +276,7 @@ class Node {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (o == null) return false;
 
 		Node node = (Node) o;
 
