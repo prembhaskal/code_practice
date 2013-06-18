@@ -58,6 +58,7 @@ class TaskA {
 
 	}
 
+	// TODO solve this properly once.
 	private int getMinScarePossible(int[][] board, int row, int column) {
 		Set<Node>[][] boardPath = new Set[row][column];
 		boolean trial = false;
