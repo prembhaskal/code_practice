@@ -21,6 +21,31 @@ public class RoboCourier {
 		return time;
 	}
 
+	// Traverse graph
+	/*
+	try to write logic to traverse graph without taking into account the inertia things.
+	like assume moving take 4 unit of time, turning takes 3 of time.
+
+	traverse(node, time, origDir) {
+		if (node.time < time ) RETURN
+
+	node.time = time;
+
+	for (neighbour : node.getNeightBour) {
+		newDir = getDirection(node, neighbour);
+
+		dirDiff = ABS(newDir - origDir);
+
+		newTime = time + dirDiff*3 + 4;
+
+		traverse(neighbour, newtime, newDir);
+	}
+
+	}
+
+	then change it to accommodate the stopping , starting and running in same directions stuff.s
+	 */
+
 	private void printGraph() {
 		Map<Node, Set<Node>> adjacencyList = graph.adjacencyList;
 
