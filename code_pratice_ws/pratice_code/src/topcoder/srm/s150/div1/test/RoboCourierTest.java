@@ -57,6 +57,7 @@ public class RoboCourierTest {
 //		path = new String[]{"FFFFFFFFFRRFFFFFFRRFFFFF", "FLLFFFFFFLLFFFFFFRRFFFF"};
 
 		PrintWriter out = new PrintWriter(new File("D:\\output.txt"));
+//		PrintWriter out = new PrintWriter(System.out);
 		testClass.timeToDeliver(path, out);
 		out.close();
     } 
