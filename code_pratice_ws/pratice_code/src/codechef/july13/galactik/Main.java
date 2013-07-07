@@ -67,6 +67,9 @@ class TaskA {
 		boolean notPossible = false;
 		List<Integer> sccMinVals= new ArrayList<Integer>();
 
+		int minTax = Integer.MAX_VALUE;
+		long total = 0;
+
 		for (int node=1;node<noOfPlanets+1;node++) {
 			if (!isVisited[node]) {
 				int sccTax = traverseGraphAndGetMin(node);
@@ -76,6 +79,9 @@ class TaskA {
 						break;
 				}
 				sccMinVals.add(sccTax);
+
+				minTax = Math.min(minTax, sccTax);
+				total += sccTax;
 			}
 		}
 
@@ -85,7 +91,8 @@ class TaskA {
 		if (notPossible) {
 			return -1;
 		} else {
-			return getTaxToPay(sccMinVals);
+			return (total + (sccMinVals.size()-2)*minTax);
+//			return getTaxToPay(sccMinVals);
 		}
 	}
 
