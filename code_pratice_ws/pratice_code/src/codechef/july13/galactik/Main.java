@@ -26,7 +26,7 @@ public class Main {
 
 }
 
-// TODO solve this thing. below is the logic
+// below is the logic.
 // find planet with min tax in a SCC(if min < 0, then stop everything, return -1)
 // if only one SCC, return 0
 // else suppose we have n SCC, then OPTIMISE == all connect to SCC with min tax.
@@ -72,7 +72,8 @@ class TaskA {
 				int sccTax = traverseGraphAndGetMin(node);
 				if (sccTax < 0) {
 					notPossible = true;
-					// TODO optimize here... can break here if SCC.size() > 0
+					if (sccMinVals.size() > 1) // TODO find why > 0 is giving wrong answer
+						break;
 				}
 				sccMinVals.add(sccTax);
 			}
