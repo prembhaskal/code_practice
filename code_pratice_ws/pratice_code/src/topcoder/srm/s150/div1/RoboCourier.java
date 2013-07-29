@@ -16,9 +16,85 @@ public class RoboCourier {
 
 //		printGraph();
 
+		traverseWholeGraph();
+
 		printForGraphViz(out);
 
 		return time;
+	}
+
+
+	// starting from Node ZERO, what should be the INITIAL direction of the nodes?
+	private void traverseWholeGraph() {
+		// start from node 0
+		Node nodeZero = graph.indexVsNode.get(0);
+		nodeZero.timeToReach = 0;
+
+		for (Node neighbour : graph.adjacencyList.get(nodeZero)) {
+			int direction = getDirection(nodeZero, neighbour);
+			traverseGraph(neighbour, 4, direction);
+		}
+
+	}
+
+	// Traverse graph
+	/*
+	try to write logic to traverse graph without taking into account the inertia things.
+	like assume moving take 4 unit of time, turning takes 3 of time.
+
+	traverse(node, time, origDir) {
+		if (node.time < time ) RETURN
+
+	node.time = time;
+
+	for (neighbour : node.getNeightBour) {
+		newDir = getDirection(node, neighbour);
+
+		dirDiff = ABS(newDir - origDir);
+
+		newTime = time + dirDiff*3 + 4;
+
+		traverse(neighbour, newtime, newDir);
+	}
+
+	}
+
+	then change it to accommodate the stopping , starting and running in same directions stuff.s
+	 */
+
+	private void traverseGraph(Node node, int time, int oldDirection) {
+		if(node.timeToReach < time) {
+			return; // node already has a shorter path to reach.
+		}
+
+		node.timeToReach = time;
+
+		for (Node neighbour : graph.adjacencyList.get(node)) {
+			int newDirection = getDirection(node, neighbour);
+			int directionDiff = getDirectionDiff(oldDirection, newDirection);
+			int newTime = time + 4 + directionDiff*3;
+			traverseGraph(neighbour, newTime, newDirection);
+		}
+	}
+
+	private int getDirectionDiff(int oldDir, int newDir) {
+		int dirDiff1 = Math.abs(newDir - oldDir);
+		int dirDiff2 = 6 - dirDiff1;
+
+		return Math.min(dirDiff1, dirDiff2);
+	}
+
+	private int getDirection(Node node, Node neighbour) {
+		for (int i = 0; i < 6; i++) {
+			int x = node.x + xDir[i];
+			int y = node.y + yDir[i];
+
+			if (neighbour.x==x && neighbour.y==y) {
+				return i;
+			}
+		}
+
+		throw new RuntimeException("the both nodes are not neighbour of each other");
 	}
 
 	private void printGraph() {
@@ -44,7 +120,7 @@ public class RoboCourier {
 		// print all the nodes and the positions.
 		for (Node node : graph.nodeList) {
 			int nodeNo = graph.nodeVsIndex.get(node);
-			out.println("\"" + nodeNo + "\"" + " [pos=\"" + (node.x * 50) + "," + (node.y * 50) + "!\"]");
+			out.println("\"" + nodeNo + "\"" + " [label=\"" + nodeNo + " - time = " + node.timeToReach + " \" pos=\"" + (node.x * 50) + "," + (node.y * 50) + "!\"]");
 		}
 
 		// print all the edges
