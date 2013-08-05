@@ -60,7 +60,7 @@ class TaskA {
 	private int getSegmentProd(int left, int right, int mod) {
 		long segmentProd = 1;
 
-		for (int i = 1; i < 101; i++) {
+		for (int i = 2; i < 101; i++) {
 			int num = i;
 			int power = elementMap[right][num] - elementMap[left][num];
 			int numRaisePower = power(num, power, mod);
@@ -80,7 +80,7 @@ class TaskA {
 				prod = (prod * num)%mod;
 			}
 
-			num = (num * num)%mod;
+			num = (int) (((long)num * num)%mod);
 			pow /= 2;
 		}
 
@@ -119,6 +119,43 @@ class TaskA {
 		}
 
 		System.out.println("done");
+	}
+
+	public void testCorrectness() {
+//		nums = new int[]{6,13,6,6,13,13,6,1,1};
+//		elements = nums.length;
+		int mod = 487587;
+
+		elements = 1000;
+		nums = new int[elements];
+		Random random = new Random();
+		for (int i = 0; i < nums.length; i++) {
+			int num = 97;
+			nums[i] = num;
+		}
+
+		initialize();
+
+		for (int i = 0; i < elements; i++) {
+			for (int j = i; j < elements; j++) {
+				int prod1 = getSegmentProd(i, j, mod);
+				int prod2 = segmentProdBruteForce(i, j, mod);
+
+				if (prod1 != prod2) {
+					System.out.println("PROBLEM");
+				}
+			}
+		}
+	}
+
+	private int segmentProdBruteForce(int left, int right, int mod) {
+		long prod = 1;
+
+		for (int i = left; i <= right ; i++) {
+			prod = (prod * nums[i])%mod;
+		}
+
+		return (int) prod;
 	}
 
 
