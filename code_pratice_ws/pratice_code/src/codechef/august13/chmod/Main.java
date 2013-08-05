@@ -78,7 +78,7 @@ class TaskA {
 		long prod = 1;
 
 		while (pow > 0) {
-			if (pow%2==1) {
+			if ((pow&1)==1) {
 				prod = (prod * num)%mod;
 			}
 
