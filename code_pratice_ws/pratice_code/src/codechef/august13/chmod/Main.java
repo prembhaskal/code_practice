@@ -97,7 +97,7 @@ class TaskA {
 		for (int i = 0; i < elements; i++) {
 			int idx = nums[i];
 			counter[idx]++;
-			for (int j = 1; j < 101; j++) {
+			for (int j = 2; j < 101; j++) {
 				elementMap[i][j] = counter[j];
 			}
 		}
