@@ -72,7 +72,7 @@ class TaskA {
 		return (int) segmentProd;
 	}
 
-	private int power(long num, long pow, int mod) {
+	private int power(int num, int pow, int mod) {
 		long prod = 1;
 
 		while (pow > 0) {
@@ -99,6 +99,26 @@ class TaskA {
 				elementMap[i][j] = counter[j];
 			}
 		}
+	}
+
+	public void testTiming() {
+		elements = 100000;
+		nums = new int[elements];
+		Random random = new Random();
+		for (int i = 0; i < nums.length; i++) {
+			int num = random.nextInt(100) + 1;
+			nums[i] = num;
+		}
+
+		initialize();
+
+		int queries = elements;
+
+		for (int i = 0; i < queries; i++) {
+			int segmentProd = getSegmentProd(2, 9999, 1000000007);
+		}
+
+		System.out.println("done");
 	}
 
 
