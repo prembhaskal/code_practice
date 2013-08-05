@@ -29,7 +29,7 @@ class TaskA {
 
 	int elements;
 	int[] nums;
-	BigInteger[] prodArray;
+	int[][] elementMap;
 
 	public void solve(InputReader in, PrintWriter out) throws IOException {
 
@@ -40,7 +40,27 @@ class TaskA {
 			nums[i] = in.nextInt();
 		}
 
-		int[][] elems = new int[100000][100];
+		initialize();
+
+		int queries = in.nextInt();
+
+		for (int i = 0; i < queries; i++) {
+			int left = in.nextInt();
+			left++;
+			
+		}
+
+	}
+
+	private void initialize() {
+		elementMap = new int[elements][101]; // values range are from 1 to 100.
+		int[] counter = new int[101];
+
+		for (int i = 0; i < elements; i++) {
+			int idx = nums[i] + 1;
+			counter[idx]++;
+			elementMap[i][idx] = counter[idx];
+		}
 	}
 
 
