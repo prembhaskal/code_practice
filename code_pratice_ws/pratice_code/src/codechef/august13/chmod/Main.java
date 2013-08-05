@@ -46,20 +46,58 @@ class TaskA {
 
 		for (int i = 0; i < queries; i++) {
 			int left = in.nextInt();
-			left++;
-			
+			left--;
+			int right = in.nextInt();
+			right--;
+			int mod = in.nextInt();
+
+			int segmentProd = getSegmentProd(left, right, mod);
+			out.println(segmentProd);
 		}
 
 	}
 
+	private int getSegmentProd(int left, int right, int mod) {
+		long segmentProd = 1;
+
+		for (int i = 1; i < 101; i++) {
+			int num = i;
+			int power = elementMap[right][num] - elementMap[left][num];
+			int numRaisePower = power(num, power, mod);
+			segmentProd = (segmentProd*numRaisePower)%mod;
+		}
+
+		segmentProd = (segmentProd * nums[left])%mod;
+
+		return (int) segmentProd;
+	}
+
+	private int power(long num, long pow, int mod) {
+		long prod = 1;
+
+		while (pow > 0) {
+			if (pow%2==1) {
+				prod = (prod * num)%mod;
+			}
+
+			num = (num * num)%mod;
+			pow /= 2;
+		}
+
+		return (int)prod;
+	}
+
+	// for each number (1 to 100), store the power of each of it, and use it for multiplication.
 	private void initialize() {
 		elementMap = new int[elements][101]; // values range are from 1 to 100.
 		int[] counter = new int[101];
 
 		for (int i = 0; i < elements; i++) {
-			int idx = nums[i] + 1;
+			int idx = nums[i];
 			counter[idx]++;
-			elementMap[i][idx] = counter[idx];
+			for (int j = 1; j < 101; j++) {
+				elementMap[i][j] = counter[j];
+			}
 		}
 	}
 
