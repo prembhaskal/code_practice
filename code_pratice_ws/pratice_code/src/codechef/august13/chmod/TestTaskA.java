@@ -15,8 +15,8 @@ public class TestTaskA {
 		long startTime = System.nanoTime();
 
 //		new TaskA().solve(in, out);
-//		new TaskA().testTiming();
-		new TaskA().testCorrectness();
+		new TaskA().testTiming();
+//		new TaskA().testCorrectness();
 
 		long endTime = System.nanoTime();
 		out.println("elapsed time " + (endTime - startTime) / 1000000 + "milli secs");

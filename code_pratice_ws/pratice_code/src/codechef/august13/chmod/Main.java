@@ -65,6 +65,8 @@ class TaskA {
 			int power = elementMap[right][num] - elementMap[left][num];
 			int numRaisePower = power(num, power, mod);
 			segmentProd = (segmentProd*numRaisePower)%mod;
+			if (segmentProd==0)
+				break;
 		}
 
 		segmentProd = (segmentProd * nums[left])%mod;
