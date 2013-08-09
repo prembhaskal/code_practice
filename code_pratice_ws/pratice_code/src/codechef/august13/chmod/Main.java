@@ -30,6 +30,7 @@ class TaskA {
 	int elements;
 	int[] nums;
 	int[][] elementMap;
+	long[][] preCal;
 
 	public void solve(InputReader in, PrintWriter out) throws IOException {
 
@@ -51,7 +52,8 @@ class TaskA {
 			right--;
 			int mod = in.nextInt();
 
-			int segmentProd = getSegmentProd(left, right, mod);
+//			int segmentProd = getSegmentProd(left, right, mod);
+			int segmentProd = getSegmentProdPreCal(left, right, mod);
 			out.println(segmentProd);
 		}
 
@@ -74,6 +76,39 @@ class TaskA {
 		return (int) segmentProd;
 	}
 
+	private int getSegmentProdPreCal(int left, int right, int mod) {
+		long segmentProd = 1;
+
+		for (int i = 2; i < 101; i++) {
+			// first try to find using preCal value
+			int power = elementMap[right][i] - elementMap[left][i];
+
+			if (power == 0)
+				continue;
+
+			int prePower = power/9;
+			int remPower = power%9;
+
+			if (prePower > 0) {
+				int power9 = (int) (preCal[i][9] % mod);
+				int numRaisePower = power(power9, prePower, mod);
+				segmentProd = (segmentProd * numRaisePower) % mod;
+			}
+
+			if (remPower > 0) {
+				int remProd = (int) (preCal[i][remPower] % mod);
+				segmentProd = (segmentProd * remProd) % mod;
+			}
+
+			if (segmentProd == 0)
+				break;
+		}
+
+		segmentProd = (segmentProd * nums[left]) % mod;
+
+		return (int) segmentProd;
+	}
+
 	private int power(int num, int pow, int mod) {
 		long prod = 1;
 
@@ -82,7 +117,12 @@ class TaskA {
 				prod = (prod * num)%mod;
 			}
 
-			num = (int) (((long)num * num)%mod);
+			if (num > 30000) {
+				num = (int)(((long)num * num ) % mod);
+			} else {
+				num = (num * num)%mod;
+			}
+
 			pow /= 2;
 		}
 
@@ -101,6 +141,22 @@ class TaskA {
 				elementMap[i][j] = counter[j];
 			}
 		}
+
+		preCalculateValues();
+	}
+
+	// pre calculate values within long range taking 10^18 here
+	// max power is 9 for any number (max kept based on 100)... we can change this for smaller number
+	private void preCalculateValues() {
+		preCal = new long[101][10];
+
+		for (int i=1;i<101;i++) {
+			long prod = 1;
+			for (int j = 1; j < 10; j++) {
+				prod = prod * i;
+				preCal[i][j] = prod;
+			}
+		}
 	}
 
 	public void testTiming() {
@@ -117,7 +173,7 @@ class TaskA {
 		int queries = elements;
 
 		for (int i = 0; i < queries; i++) {
-			int segmentProd = getSegmentProd(2, 9999, 1000000007);
+			int segmentProd = getSegmentProd(2, 99999, 1000000007);
 		}
 
 		System.out.println("done");
@@ -126,7 +182,8 @@ class TaskA {
 	public void testCorrectness() {
 //		nums = new int[]{6,13,6,6,13,13,6,1,1};
 //		elements = nums.length;
-		int mod = 487587;
+
+		int mod = 100007;// 487587;
 
 		elements = 1000;
 		nums = new int[elements];
@@ -140,7 +197,8 @@ class TaskA {
 
 		for (int i = 0; i < elements; i++) {
 			for (int j = i; j < elements; j++) {
-				int prod1 = getSegmentProd(i, j, mod);
+//				int prod1 = getSegmentProd(i, j, mod);
+				int prod1 = getSegmentProdPreCal(i, j, mod);
 				int prod2 = segmentProdBruteForce(i, j, mod);
 
 				if (prod1 != prod2) {
