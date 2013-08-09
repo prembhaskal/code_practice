@@ -109,7 +109,19 @@ class TaskA {
 		return (int) segmentProd;
 	}
 
-	private int power(int num, int pow, int mod) {
+	private int power(long num, int pow) {
+		long prod = 1;
+		while (pow>0) {
+			if ((pow&1)==1) {
+				prod = (prod * num);
+			}
+			num = (num * num);
+			pow /=2;
+		}
+		return (int)prod;
+	}
+
+	private int power(long num, int pow, int mod) {
 		long prod = 1;
 
 		while (pow > 0) {
@@ -117,11 +129,11 @@ class TaskA {
 				prod = (prod * num)%mod;
 			}
 
-			if (num > 30000) {
-				num = (int)(((long)num * num ) % mod);
-			} else {
-				num = (num * num)%mod;
-			}
+//			if (num > 1000000) {
+				num = (num * num) % mod;
+//			} else {
+//				num = (num * num);
+//			}
 
 			pow /= 2;
 		}
@@ -173,7 +185,9 @@ class TaskA {
 		int queries = elements;
 
 		for (int i = 0; i < queries; i++) {
-			int segmentProd = getSegmentProd(2, 99999, 1000000007);
+//			getSegmentProd(2, 99999, 1000000007);
+			getSegmentProdPreCal(2, 99999, 1000000007);
+//			segmentProdBruteForce(2, 99999, 1000000007);
 		}
 
 		System.out.println("done");
