@@ -48,9 +48,58 @@ class TaskA {
 				probabilities[j] = probabilities[j] * 0.01;
 			}
 
-			double probability = getProbability();
+//			double probability = getProbability();
+			double probability = getProbabilityDP();
 			out.println(probability);
 		}
+
+	}
+
+	private double getProbabilityDP() {
+		// array to store DP for all possible values for each level
+		double[][] prodArray = new double[100][10001];
+
+		total = 0;
+		// get total
+		for (int i = 0; i < levels; i++) {
+			total += flags[i];
+		}
+
+		// first put values for level - 0
+		prodArray[0][0] = 1 - probabilities[0];
+		prodArray[0][flags[0]] = probabilities[0];
+
+		for (int level = 1;level < levels; level++) {
+
+			int flagHere = flags[level];
+			double probHere = probabilities[level];
+
+			for (int num = 0;num <= total; num++) {
+				double prod1 = 0;
+				if (num >= flagHere) {
+					prod1 = prodArray[level-1][num-flagHere];
+					prod1 = prod1 * probHere;
+				}
+
+				double prod2 = prodArray[level-1][num];
+				prod2 = prod2 * (1-probHere);
+
+				prodArray[level][num] = (prod1 + prod2);
+			}
+		}
+
+		// find probabilities from the last level;
+		double totalProb = 0;
+
+		for (int i = total; i >= 0; i--) {
+			if (2*i >= total) {
+				totalProb += prodArray[levels-1][i];
+			} else {
+				break;
+			}
+		}
+
+		return totalProb;
 
 	}
 
@@ -77,10 +126,6 @@ class TaskA {
 			}
 		}
 
-		if (2 * flagsTillNow >= total) {
-			return 1.0;
-		}
-
 		// assume we get proper flags in this level
 		double probGet = getProbabilities(level + 1, flagsTillNow + flags[level], prob * probabilities[level]);
 
@@ -88,7 +133,6 @@ class TaskA {
 
 		return probGet + probNotGet;
 	}
-
 
 }
 

@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 public class TestGenerator {
 
 	public void generateTest(InputReader in, PrintWriter out) {
-		int size = 40;
+		int size = 100;
 		out.println(size);
 
 		out.print("2");
