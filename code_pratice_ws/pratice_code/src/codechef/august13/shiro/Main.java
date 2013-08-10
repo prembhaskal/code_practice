@@ -25,37 +25,68 @@ public class Main {
 
 class TaskA {
 
+	int levels;
+	int[] flags;
+	double[] probabilities;
+	int total;
+
 	public void solve(InputReader in, PrintWriter out) throws IOException {
 
 		int tests = in.nextInt();
 
 		for (int i=0;i<tests;i++) {
-			int levels = in.nextInt();
-			int[] flags = new int[levels];
-			int[] prob = new int[levels];
+			levels = in.nextInt();
+			flags = new int[levels];
+			probabilities = new double[levels];
 
 			for (int j = 0; j < levels; j++) {
 				flags[j] = in.nextInt();
 			}
 
 			for (int j = 0; j < levels; j++) {
-				prob[j] = in.nextInt();
+				probabilities[j] = in.nextInt();
+				probabilities[j] = probabilities[j] * 0.01;
 			}
+
+			double probability = getProbability();
+			out.println(probability);
 		}
 
 	}
 
-	private double getProbability(int levels, int[] flags, int[] prob) {
-		int total = 0;
+	private double getProbability() {
+		total = 0;
 
 		for (int i = 0; i < levels; i++) {
 			total += flags[i];
 		}
 
-		int half = total/2;
+		double probability = getProbabilities(0, 0, 1);
+		return probability;
+	}
 
-		return 0;
+// BRUTE FORCE
+	private double getProbabilities(int level, int flagsTillNow, double prob) {
+		// check in last level
+		if (level == levels) {
+			if (2 * flagsTillNow >= total) {
+//				System.out.println("-->" + prob + "<--");
+				return prob;
+			} else {
+				return 0;
+			}
+		}
 
+		if (2 * flagsTillNow >= total) {
+			return 1.0;
+		}
+
+		// assume we get proper flags in this level
+		double probGet = getProbabilities(level + 1, flagsTillNow + flags[level], prob * probabilities[level]);
+
+		double probNotGet = getProbabilities(level+1, flagsTillNow, prob * (1-probabilities[level]));
+
+		return probGet + probNotGet;
 	}
 
 

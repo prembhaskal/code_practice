@@ -1,7 +1,6 @@
 package codechef.august13.chmod;
 
 import java.io.*;
-import java.math.BigInteger;
 import java.util.Random;
 import java.util.StringTokenizer;
 
@@ -31,6 +30,7 @@ class TaskA {
 	int[] nums;
 	int[][] elementMap;
 	long[][] preCal;
+	int[] maxPowers;
 
 	public void solve(InputReader in, PrintWriter out) throws IOException {
 
@@ -86,11 +86,13 @@ class TaskA {
 			if (power == 0)
 				continue;
 
-			int prePower = power/9;
-			int remPower = power%9;
+			int maxPower = maxPowers[i];
+
+			int prePower = power/maxPower;
+			int remPower = power%maxPower;
 
 			if (prePower > 0) {
-				int power9 = (int) (preCal[i][9] % mod);
+				int power9 = (int) (preCal[i][maxPower] % mod);
 				int numRaisePower = power(power9, prePower, mod);
 				segmentProd = (segmentProd * numRaisePower) % mod;
 			}
@@ -129,12 +131,7 @@ class TaskA {
 				prod = (prod * num)%mod;
 			}
 
-//			if (num > 1000000) {
-				num = (num * num) % mod;
-//			} else {
-//				num = (num * num);
-//			}
-
+			num = (num * num) % mod;
 			pow /= 2;
 		}
 
@@ -160,11 +157,19 @@ class TaskA {
 	// pre calculate values within long range taking 10^18 here
 	// max power is 9 for any number (max kept based on 100)... we can change this for smaller number
 	private void preCalculateValues() {
-		preCal = new long[101][10];
+		maxPowers = new int[101];
 
-		for (int i=1;i<101;i++) {
+		// put max power for each number
+		for (int i = 2; i < 101; i++) {
+			maxPowers[i] = (int)(18/Math.log10(i));
+		}
+
+		preCal = new long[101][64];
+
+		for (int i=2;i<101;i++) {
 			long prod = 1;
-			for (int j = 1; j < 10; j++) {
+			int maxPower = maxPowers[i];
+			for (int j = 1; j <= maxPower; j++) {
 				prod = prod * i;
 				preCal[i][j] = prod;
 			}
