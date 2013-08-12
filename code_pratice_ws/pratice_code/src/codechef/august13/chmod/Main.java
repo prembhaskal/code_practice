@@ -32,6 +32,11 @@ class TaskA {
 	long[][] preCal;
 	int[] maxPowers;
 
+	int[][] primeCountMap;
+	int[] primes = new int[]{2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97};
+
+	int[][] numVsPrimeCount = new int[101][25];
+
 	public void solve(InputReader in, PrintWriter out) throws IOException {
 
 		elements = in.nextInt();
@@ -41,6 +46,7 @@ class TaskA {
 			nums[i] = in.nextInt();
 		}
 
+//		initializeOld();
 		initialize();
 
 		int queries = in.nextInt();
@@ -53,7 +59,8 @@ class TaskA {
 			int mod = in.nextInt();
 
 //			int segmentProd = getSegmentProd(left, right, mod);
-			int segmentProd = getSegmentProdPreCal(left, right, mod);
+//			int segmentProd = getSegmentProdPreCal(left, right, mod);
+			int segmentProd = getSegmentProdUsingPrime(left, right, mod);
 			out.println(segmentProd);
 		}
 
@@ -111,6 +118,23 @@ class TaskA {
 		return (int) segmentProd;
 	}
 
+// finally this thing works.
+	private int getSegmentProdUsingPrime(int left, int right, int mod) {
+		long segmentProd = 1;
+
+		for (int i = 0; i < primes.length; i++) {
+			int prime = primes[i];
+			int power = primeCountMap[right][i] - primeCountMap[left][i];
+
+			int raisePower = power(prime, power, mod);
+
+			segmentProd = (segmentProd * raisePower)%mod;
+		}
+
+		segmentProd = (segmentProd * nums[left]) % mod;
+		return (int)segmentProd;
+	}
+
 	private int power(long num, int pow) {
 		long prod = 1;
 		while (pow>0) {
@@ -138,8 +162,52 @@ class TaskA {
 		return (int)prod;
 	}
 
-	// for each number (1 to 100), store the power of each of it, and use it for multiplication.
+
+	// initialize the primes counts within the range
 	private void initialize() {
+		primeCountMap = new int[elements][25];
+		int[] counter = new int[25];
+
+		initNumVsPrimeCount();
+
+		for (int i = 0; i < elements; i++) {
+			int num = nums[i];
+			int[] primeCounter = getPrimeCounter(num);
+
+			for (int j = 0; j < 25; j++) {
+				counter[j] = counter[j] + primeCounter[j];
+				primeCountMap[i][j] = counter[j];
+			}
+
+		}
+	}
+
+	private void initNumVsPrimeCount() {
+
+		for (int i = 2; i < 101; i++) {
+			int copy = i;
+			int j = 0;
+			while (copy > 1) {
+				int prime = primes[j];
+				int k = 0;
+				while (copy%prime==0) {
+					copy /= prime;
+					k++;
+				}
+
+				numVsPrimeCount[i][j] = k;
+				j++;
+			}
+		}
+
+	}
+
+	private int[] getPrimeCounter(int num) {
+		return numVsPrimeCount[num];
+	}
+
+	// for each number (1 to 100), store the power of each of it, and use it for multiplication.
+	private void initializeOld() {
 		elementMap = new int[elements][101]; // values range are from 1 to 100.
 		int[] counter = new int[101];
 
@@ -185,13 +253,15 @@ class TaskA {
 			nums[i] = num;
 		}
 
+//		initializeOld();
 		initialize();
 
 		int queries = elements;
 
 		for (int i = 0; i < queries; i++) {
 //			getSegmentProd(2, 99999, 1000000007);
-			getSegmentProdPreCal(2, 99999, 1000000007);
+//			getSegmentProdPreCal(2, 99999, 1000000007);
+			getSegmentProdUsingPrime(2, 99999, 1000000007);
 //			segmentProdBruteForce(2, 99999, 1000000007);
 		}
 
@@ -212,12 +282,14 @@ class TaskA {
 			nums[i] = num;
 		}
 
+//		initializeOld();
 		initialize();
 
 		for (int i = 0; i < elements; i++) {
 			for (int j = i; j < elements; j++) {
 //				int prod1 = getSegmentProd(i, j, mod);
-				int prod1 = getSegmentProdPreCal(i, j, mod);
+//				int prod1 = getSegmentProdPreCal(i, j, mod);
+				int prod1 = getSegmentProdUsingPrime(i, j, mod);
 				int prod2 = segmentProdBruteForce(i, j, mod);
 
 				if (prod1 != prod2) {

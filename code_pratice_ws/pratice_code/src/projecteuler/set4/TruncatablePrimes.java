@@ -78,6 +78,7 @@ public class TruncatablePrimes {
 			}
 
 			if (isPrime) {
+				System.out.print(i + ",");
 				primes.add(i);
 			}
 

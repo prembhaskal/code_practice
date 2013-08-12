@@ -14,8 +14,8 @@ public class TestTaskA {
 
 		long startTime = System.nanoTime();
 
-//		new TaskA().solve(in, out);
-		new TaskA().testTiming();
+		new TaskA().solve(in, out);
+//		new TaskA().testTiming();
 //		new TaskA().testCorrectness();
 
 		long endTime = System.nanoTime();
