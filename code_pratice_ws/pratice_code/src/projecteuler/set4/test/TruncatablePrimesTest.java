@@ -39,7 +39,7 @@ public class TruncatablePrimesTest {
     @Test
     public void testFindTruncatablePrimes() throws Exception { 
 //        testClass.isTruncatablePrime(3797);
-		System.out.println("sum of nos is " + testClass.findTruncatablePrimes(1000000));
+		System.out.println("sum of nos is " + testClass.findTruncatablePrimes(100));
     } 
     
         

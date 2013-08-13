@@ -1,4 +1,4 @@
-package codechef.august13.chmod;
+package codechef.august13.shiro;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,8 +15,6 @@ public class TestTaskA {
 		long startTime = System.nanoTime();
 
 		new TaskA().solve(in, out);
-//		new TaskA().testTiming();
-//		new TaskA().testCorrectness();
 
 		long endTime = System.nanoTime();
 		out.println("elapsed time " + (endTime - startTime) / 1000000 + "milli secs");
