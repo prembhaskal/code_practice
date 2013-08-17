@@ -115,12 +115,25 @@ class TaskA {
 		}
 	}
 
-	// TODO implement this method properly, indexes change once we remove elements from array.
-	// TODO implement someway which runs faster than O(n).
-	// TODO below method should run faster.
-	// divide the array in log2(n) intervals, each interval stores the number of elements in it.
-	// Map of removed indexes. use both of these things to find the new index.
-	// on removal update intervals. and add both indexes to above map.
+	// TODO just implement storing the number of elements on left using Segment Tree.
+	/*
+	 *dynamic order indices
+Once a delete operation is performed, you have to adjust the indices of all the numbers which are on the right of any number which was deleted.
+This operation can be performed in O(N) after each delete operation. But, this might be too expensive.
+    We can store the positions at the leaves of a segment tree and
+    Store the number of items in the left subtree of each internal node.
+deletion of a node
+Delete Operation can be handled by updating all the O(log N) segments encountered on the way of the search for the number.
+Now, any delete operation can be handled in O(log N) time, at the tradeoff of increasing the query time of the order index from O(1) to O(log N).
+searching the order index
+Since we only perform stabbing queries, we will encounter O(log N) internal nodes.
+When going to the right child of a root, we must add up the count of nodes in the left subtree of the root, plus one, to count the root.
+A large number of solutions use the following ideas along with data structure to maintain the dynamic order indices
+    Store the list of positions that exist for each number in the array.
+    Search for the next candidate number to be deleted
+The next candidate for deletion may just be the largest AP of positions stored for that number
+	 *
+	 */
 	private int[] getNewIndexesAfterRemovingNumbers(int lowIdx, int highIdx) {
 		int[] idxs = new int[2];
 		idxs[0] = lowIdx;
