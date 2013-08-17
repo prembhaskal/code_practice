@@ -89,7 +89,7 @@ class TaskA {
 
 		// start finding the moves, start from the last number
 		moves = 0;
-		varray = new int[maxRange]; // max range so that we avoid arraylist.
+		varray = new int[maxRange]; // max range so that we avoid using an arraylist.
 		tarray = new int[maxRange];
 
 		for (int i = size-1; i >= 0; i--) {
@@ -117,6 +117,10 @@ class TaskA {
 
 	// TODO implement this method properly, indexes change once we remove elements from array.
 	// TODO implement someway which runs faster than O(n).
+	// TODO below method should run faster.
+	// divide the array in log2(n) intervals, each interval stores the number of elements in it.
+	// Map of removed indexes. use both of these things to find the new index.
+	// on removal update intervals. and add both indexes to above map.
 	private int[] getNewIndexesAfterRemovingNumbers(int lowIdx, int highIdx) {
 		int[] idxs = new int[2];
 		idxs[0] = lowIdx;
