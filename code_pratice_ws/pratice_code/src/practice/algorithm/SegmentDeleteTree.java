@@ -31,7 +31,6 @@ public class SegmentDeleteTree {
 
 	private void formTree() {
 		// form the top-node.
-
 		rootNode = new Node(0, size-1);
 		rootNode.elementsToLeft = (rootNode.high - rootNode.low + 1)/2;
 		rootNode.totalElementsBelow = (rootNode.high - rootNode.low + 1);
@@ -39,21 +38,27 @@ public class SegmentDeleteTree {
 		formSubTree(rootNode);
 	}
 
-	private void formSubTree(Node parentNode) {
-		if (parentNode.low >= parentNode.high) // STOP AT LEAF
-			return;
+	private int formSubTree(Node parentNode) {
+		if (parentNode.low == parentNode.high) // STOP AT LEAF
+			return 1; // count only the leaves.
 
 		int L = parentNode.low;
 		int H = parentNode.high;
 		int mid = L + (H-L)/2;
 
 		Node leftNode = new Node(L, mid);
-		formSubTree(leftNode);
+		int nodesOnLeft = formSubTree(leftNode);
 		Node rightNode = new Node(mid + 1, H);
-		formSubTree(rightNode);
+		int nodesOnRight = formSubTree(rightNode);
+
+		int totalNodes = nodesOnLeft + nodesOnRight;
 
 		parentNode.leftNode = leftNode;
 		parentNode.rightNode = rightNode;
+		parentNode.elementsToLeft = nodesOnLeft;
+		parentNode.totalElementsBelow = totalNodes;
+
+		return totalNodes;
 	}
 
 	public void printSegmentTree(PrintStream out) {
@@ -65,7 +70,8 @@ public class SegmentDeleteTree {
 			return;
 
 		// print root node.
-		System.out.println("-->" + node.low + " -- " + node.high + "<--");
+		out.println("--> '" + node.low + "' -- '" + node.high + "' "
+				+ " onleft-" + node.elementsToLeft + " below-" + node.totalElementsBelow + " <--");
 		printNode(node.leftNode, out);
 		printNode(node.rightNode, out);
 	}
