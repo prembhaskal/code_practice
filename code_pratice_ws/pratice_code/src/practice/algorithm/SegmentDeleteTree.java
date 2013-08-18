@@ -61,6 +61,59 @@ public class SegmentDeleteTree {
 		return totalNodes;
 	}
 
+	public void deleteIndex(int index) {
+		if (index >= size)
+			return;
+
+		deleteIndex(rootNode, index);
+	}
+
+	private void deleteIndex(Node parentNode, int deleteIdx) {
+		if (parentNode.low == parentNode.high && deleteIdx == parentNode.low) {
+			parentNode.isDeleted = true;
+			return; // we stop here.
+		}
+
+
+		Node leftNode = parentNode.leftNode;
+		Node rightNode = parentNode.rightNode;
+
+		if (leftNode.low <= deleteIdx && leftNode.high >= deleteIdx) {
+			parentNode.elementsToLeft--;
+			parentNode.totalElementsBelow--;
+			deleteIndex(leftNode, deleteIdx);
+		} else {
+			parentNode.totalElementsBelow--;
+			deleteIndex(rightNode, deleteIdx);
+		}
+
+	}
+
+	/**
+	 * result is undefined if called for deleted index.
+	 * @param oldIdx
+	 * @return
+	 */
+	public int getActualIndex(int oldIdx) {
+		return getActualIndex(rootNode, oldIdx, 0);
+	}
+
+	private int getActualIndex(Node parentNode, int oldIdx, int elementsAtLeft) {
+		if (parentNode.low == parentNode.high && oldIdx==parentNode.low) {
+			return elementsAtLeft;
+		}
+
+		Node leftNode = parentNode.leftNode;
+		Node rightNode = parentNode.rightNode;
+
+		if (leftNode.low <= oldIdx && leftNode.high >= oldIdx) {
+			return getActualIndex(leftNode, oldIdx, elementsAtLeft);
+		} else { // add elements at left only when we move to right.
+			int elemAtLeft = parentNode.elementsToLeft;
+			return getActualIndex(rightNode, oldIdx, elementsAtLeft + elemAtLeft);
+		}
+	}
+
 	public void printSegmentTree(PrintStream out) {
 		printNode(this.rootNode, out);
 	}
@@ -71,7 +124,8 @@ public class SegmentDeleteTree {
 
 		// print root node.
 		out.println("--> '" + node.low + "' -- '" + node.high + "' "
-				+ " onleft-" + node.elementsToLeft + " below-" + node.totalElementsBelow + " <--");
+				+ " onleft-" + node.elementsToLeft + " below-" + node.totalElementsBelow
+				+ " isDeleted-" + node.isDeleted + " <--");
 		printNode(node.leftNode, out);
 		printNode(node.rightNode, out);
 	}
@@ -86,6 +140,8 @@ class Node {
 
 	int elementsToLeft;
 	int totalElementsBelow;
+
+	boolean isDeleted;
 
 	public Node(int low, int high) {
 		this.low = low;

@@ -33,9 +33,22 @@ public class SegmentDeleteTreeTest {
     
 	@Test
 	public void testCreationOfSegDeleteTree() {
-		int size = 4;
+		int size = 6;
 
 		SegmentDeleteTree deleteTree = new SegmentDeleteTree(size);
+
+		System.out.println(deleteTree.getActualIndex(3));
+
+		deleteTree.deleteIndex(3);
+		deleteTree.deleteIndex(5);
+
+		for (int i = 0; i < size; i++) {
+			if (i==3 || i==5)
+				continue;
+			System.out.print(deleteTree.getActualIndex(i) + " ");
+		}
+		System.out.println("");
+
 		deleteTree.printSegmentTree(System.out);
 	}
 
