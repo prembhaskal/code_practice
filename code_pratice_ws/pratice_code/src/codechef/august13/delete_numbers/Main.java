@@ -154,6 +154,7 @@ The next candidate for deletion may just be the largest AP of positions stored f
 	 */
 	private int[] getActualIndexes(int lowIdx, int highIdx) {
 		int[] idxs = new int[2];
+		// adding +-1 since the tree is 0 index based.
 		idxs[0] = segmentDeleteTree.getActualIndex(lowIdx-1) + 1;
 		idxs[1] = segmentDeleteTree.getActualIndex(highIdx-1) + 1;
 		return idxs;
