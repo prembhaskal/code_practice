@@ -133,7 +133,7 @@ class TaskA {
 		}
 	}
 
-	// TODO just implement storing the number of elements on left using Segment Tree.
+	// implemented storing the number of elements on left using Segment Tree.
 	/*
 	 *dynamic order indices
 Once a delete operation is performed, you have to adjust the indices of all the numbers which are on the right of any number which was deleted.
