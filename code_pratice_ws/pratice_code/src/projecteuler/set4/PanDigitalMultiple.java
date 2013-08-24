@@ -42,6 +42,10 @@ public class PanDigitalMultiple {
 
 	// pandigital number or null if none exits.
 	private Integer getPandigitalMultiple(int num) {
+
+		if (1==1)
+			return getPanDigitalMultipleString(num);
+
 		List<Integer> prodConcat = new ArrayList<>();
 		for (int i = 1; i < 9; i++) {
 			List<Integer> prod = getDigits(num * i);
@@ -94,5 +98,39 @@ public class PanDigitalMultiple {
 
 		Collections.reverse(digits);
 		return digits;
+	}
+
+	private Integer getPanDigitalMultipleString(int num) {
+
+		String str = "";
+
+		for (int i=1;i<10;i++) {
+			str += (num * i);
+
+			if (str.length()==9) {
+				boolean isPan = is9Pandigital(str);
+				if (isPan)
+					return Integer.parseInt(str);
+				else
+					return null;
+			}
+
+			if (str.length() > 9)
+				return null;
+		}
+
+		return null;
+	}
+
+	private boolean is9Pandigital(String str) {
+		char[] chars = str.toCharArray();
+		Set<Character> characters = new HashSet<>();
+		for (int i = 0; i < chars.length; i++) {
+			characters.add(chars[i]);
+		}
+
+		if (characters.size()==9 && !characters.contains('0'))
+			return true;
+		return false;
 	}
 }
