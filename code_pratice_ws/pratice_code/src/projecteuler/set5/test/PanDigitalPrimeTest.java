@@ -49,7 +49,8 @@ public class PanDigitalPrimeTest {
 
 	@Test
 	public void testPermutation() {
-		int num = 123456789;
+		int num = 1234;
+		testClass.print = true;
 		testClass.printPermutation(num);
 	}
     

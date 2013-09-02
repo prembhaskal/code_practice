@@ -42,21 +42,13 @@ public class PanDigitalPrime {
 	private void printPermutation(int[] num, int start, int end) {
 		int digitsToRotate = end - start + 1;
 
-		if (digitsToRotate < 1)
-			return; // this should not happen normally.
-
-		if (digitsToRotate==2) {
-			leftRotate(num, 2);
-
+		if (digitsToRotate == 1)
 			printArray(num);
-			leftRotate(num, 2); // double rotation to come back to original array
-			printArray(num);
-		} else {
-			for (int i=0;i<digitsToRotate;i++) {
-				// first rotate, then print, so that original array is back after the loop
-				leftRotate(num, digitsToRotate);
-				printPermutation(num, start+1, end);
-			}
+
+		for (int i=0;i<digitsToRotate;i++) {
+			// first rotate, then print, so that original array is back at completion of loop.
+			leftRotate(num, digitsToRotate);
+			printPermutation(num, start+1, end);
 		}
 	}
 
