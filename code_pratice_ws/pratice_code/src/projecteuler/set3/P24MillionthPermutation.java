@@ -9,6 +9,7 @@ public class P24MillionthPermutation {
 		findPermutation(str.toCharArray(), str.length());
 	}
 
+	// TODO see improved method in solution of problem 41.
 	private void findPermutation(char[] chars, int length) {
 		if (stop)
 			return;

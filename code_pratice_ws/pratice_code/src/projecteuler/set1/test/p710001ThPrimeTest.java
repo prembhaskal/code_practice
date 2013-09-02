@@ -42,7 +42,7 @@ public class p710001ThPrimeTest {
 
 //		System.out.println("10001st prime is " + testClass.getPrime(10001));
 
-		System.out.println("1000000th prime is " + testClass.getPrime(10000000));
+		System.out.println("1000000th prime is " + testClass.getPrime(1000000));
 //		System.out.println("1000000th prime is " + testClass.getPrime(1000000));
 	}
     
