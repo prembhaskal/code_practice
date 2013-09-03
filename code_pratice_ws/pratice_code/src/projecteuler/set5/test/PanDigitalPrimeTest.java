@@ -42,7 +42,7 @@ public class PanDigitalPrimeTest {
 
 	@Test
 	public void testRotate() {
-		int[] num = new int[]{1,2,3,4};
+		int[] num = new int[]{4,3,2,1};
 
 		testClass.leftRotate(num, 3);
 		UtilitiesClass.printArray(num);
@@ -50,7 +50,7 @@ public class PanDigitalPrimeTest {
 
 	@Test
 	public void testPermutation() {
-		int num = 1234;
+		int num = 4321;
 		testClass.print = true;
 		testClass.printPermutation(num);
 	}

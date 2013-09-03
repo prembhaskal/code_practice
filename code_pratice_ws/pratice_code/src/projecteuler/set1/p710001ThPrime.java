@@ -7,8 +7,8 @@ public class p710001ThPrime {
 
 	// by limiting the test to primes greater than square root of previously found primes,
 	// even 1millionth prime could be found in less than 10 seconds on moderate pc.
-	public long getPrime(int primeNumber) {
-		long [] primes = new long[primeNumber];
+	public int getPrime(int primeNumber) {
+		int [] primes = new int[primeNumber];
 		primes[0] = 2;
 		primes[1] = 3;
 
@@ -21,7 +21,7 @@ public class p710001ThPrime {
 			boolean isPrime = true;
 
 			for (int primeIndex = 1;primeIndex < primeNumber;primeIndex++) {
-				long prime = primes[primeIndex];
+				int prime = primes[primeIndex];
 				if (prime!=0) {
 
 					if (prime > num/prime) // we need to check only primes smaller than square-root of number being tested.
