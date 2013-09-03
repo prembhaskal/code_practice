@@ -9,7 +9,9 @@ public class PanDigitalPrime {
 
 	public boolean print = false;
 	public int getLargestPanDigitPrime() {
-		return 0;
+		int start = 1234567;
+		printPermutation(start);
+		return maxPrime;
 	}
 
 	private int maxPrime = 2;
@@ -18,6 +20,21 @@ public class PanDigitalPrime {
 		if (isPrime(num)) {
 			maxPrime = Math.max(num, maxPrime);
 		}
+	}
+
+	private void registerPrime(int[] arr) {
+		int actualNum = getNumFromArray(arr);
+		registerPrime(actualNum);
+	}
+
+	private int getNumFromArray(int[] arr) {
+		int num = 0;
+
+		for (int i : arr) {
+			num = num*10 + i;
+		}
+
+		return num;
 	}
 
 	public void printPermutation(int startNumber) {
@@ -42,8 +59,11 @@ public class PanDigitalPrime {
 	private void printPermutation(int[] num, int start, int end) {
 		int digitsToRotate = end - start + 1;
 
-		if (digitsToRotate == 1)
+		if (digitsToRotate == 1) {
 			printArray(num);
+			registerPrime(num);
+		}
+
 
 		for (int i=0;i<digitsToRotate;i++) {
 			// first rotate, then print, so that original array is back at completion of loop.

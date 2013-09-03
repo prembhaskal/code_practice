@@ -36,8 +36,9 @@ public class PanDigitalPrimeTest {
     */ 
     @Test
     public void testGetLargestPanDigitPrime() throws Exception { 
-        
-    }
+        int largestPrime = testClass.getLargestPanDigitPrime();
+		System.out.println(largestPrime);
+	}
 
 	@Test
 	public void testRotate() {
