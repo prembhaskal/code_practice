@@ -1,4 +1,4 @@
-package codechef.september13;
+package codechef.september13.chef_and_integer;
 
 import java.io.*;
 import java.util.Arrays;
@@ -44,7 +44,9 @@ class TaskA {
 		out.println(totalCost);
 	}
 
-
+// logic....removing in bulk is good only till the condition is met
+// X >= the_negative_nos_left, because after that it is beneficial to remove single single elements.
+// so remove until X>= negative_nos, then just remove single single elements.
 	private long getMinCost() {
 		if (X==0)
 			return 0;

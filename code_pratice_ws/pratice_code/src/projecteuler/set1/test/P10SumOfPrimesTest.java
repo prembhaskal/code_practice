@@ -43,6 +43,11 @@ public class P10SumOfPrimesTest {
 		sum = testClass.getSumOfPrimes(2000000);
 		System.out.println("sum of primes till 2000000 is " + sum);
 	}
+
+	@Test
+	public void printPrimes() {
+		testClass.printPrimes(500);
+	}
     
         
 } 

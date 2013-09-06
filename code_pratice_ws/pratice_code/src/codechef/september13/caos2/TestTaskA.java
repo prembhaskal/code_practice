@@ -1,4 +1,4 @@
-package codechef.september13;
+package codechef.september13.caos2;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -16,6 +16,14 @@ public class P10SumOfPrimes {
 		return sum;
 	}
 
+	public void printPrimes(int range) {
+		getAllPrimes(range);
+
+		for (int i=0;primes[i]!=0;i++) {
+			System.out.println(primes[i]);
+		}
+	}
+
 	private void getAllPrimes(int range) {
 		primes[0] = 2;
 		primes[1] = 3;
