@@ -26,7 +26,7 @@ public class TestClass {
 			out = new PrintWriter(file);
 
 			String line;
-			for (int i=1;i<=2000000;i++) {
+			for (int i=1;i<=200;i++) {
 				line = "";
 				line += i + "," + i + ",";
 				line += "name_" + i + ",";
