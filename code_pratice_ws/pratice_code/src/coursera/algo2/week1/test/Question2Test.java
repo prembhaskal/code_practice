@@ -1,7 +1,6 @@
 package coursera.algo2.week1.test; 
 
 import common.util.InputReader;
-import java.io.File;
 import java.io.InputStream;
 import java.util.Scanner;
 import java.io.PrintWriter;
@@ -12,15 +11,15 @@ import static org.junit.Assert.*;
 import coursera.algo2.week1.*;  
 
 /** 
-* Question1 Tester. 
+* Question2 Tester. 
 * 
 * @author <Premkumar Bhaskal> 
 * @since <pre>Sep 7, 2013</pre> 
 * @version 1.0 
 */ 
-public class Question1Test { 
+public class Question2Test { 
     
-    Question1 testClass = new Question1();
+    Question2 testClass = new Question2();
     long starttime;
     
     @Before
@@ -41,15 +40,15 @@ public class Question1Test {
     */ 
     @Test
     public void testSolve() throws Exception {
-		InputStream input = getClass().getResourceAsStream("files/test1.txt");
-//		InputStream input = getClass().getResourceAsStream("files/jobs.txt");
-		InputReader reader = new InputReader(input);
-
+//		InputStream inputStream = getClass().getResourceAsStream("files/test1.txt");
+		InputStream inputStream = getClass().getResourceAsStream("files/jobs.txt");
+		InputReader in = new InputReader(inputStream);
 		PrintWriter out = new PrintWriter(System.out);
-		testClass.solve(reader, out);
 
-		input.close();
+		testClass.solve(in, out);
+
 		out.flush();
+		inputStream.close();
     } 
     
         
