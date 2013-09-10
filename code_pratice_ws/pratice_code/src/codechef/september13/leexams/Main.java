@@ -1,9 +1,7 @@
 package codechef.september13.leexams;
 
 import java.io.*;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
 	public static void main(String[] s) {
@@ -65,33 +63,35 @@ class TaskA {
 		if (n > 16)
 			return;
 
-		findProbability(0, "", 1.00);
+		findProbability(0, new ArrayList<Integer>(), 1.00);
 	}
 
-	private void findProbability(int level, String str, double prob) {
+	private void findProbability(int level, List<Integer> list, double prob) {
 		if (level==n) {
-//			System.out.println("str --> " + str + " has prob " + prob);
-			if (checkifStrHasUniqueNos(str)) {
+
+			if (checkifStrHasUniqueNos(list)) {
 				totalProbability += prob;
 			}
 			return;
 		}
 
 		// choose A
-		findProbability(level+1, str + A[level], prob*P[level]);
+		List<Integer> list1 = new ArrayList<>();
+		list1.addAll(list);
+		list1.add(A[level]);
+		findProbability(level+1, list1, prob * P[level]);
+
 		// choose B
-		findProbability(level+1, str + B[level], prob*(1.0-P[level]));
+		List<Integer> list2 = new ArrayList<>();
+		list2.addAll(list);
+		list2.add(B[level]);
+		findProbability(level + 1, list2, prob * (1.0 - P[level]));
 	}
 
-	private boolean checkifStrHasUniqueNos(String str) {
-		char [] chars = str.toCharArray();
-		Set<Character> charSet = new HashSet<>();
+	private boolean checkifStrHasUniqueNos(List<Integer> list) {
+		Set<Integer> set = new HashSet<>(list);
 
-		for (char ch : chars) {
-			charSet.add(ch);
-		}
-
-		if (chars.length==charSet.size())
+		if (set.size()==list.size())
 			return true;
 		return false;
 	}
