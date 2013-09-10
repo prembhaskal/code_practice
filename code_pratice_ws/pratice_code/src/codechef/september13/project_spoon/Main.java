@@ -81,7 +81,7 @@ class TaskA {
 			}
 
 			numberOfCities[i] = max;
-//			System.out.println(max);
+//			System.out.println(i + "--> " + max);
 		}
 
 	}
