@@ -66,6 +66,7 @@ class TaskA {
 		findProbability(0, new ArrayList<Integer>(), 1.00);
 	}
 
+	// TODO change the brute force to a DP or something faster.
 	private void findProbability(int level, List<Integer> list, double prob) {
 		if (level==n) {
 
