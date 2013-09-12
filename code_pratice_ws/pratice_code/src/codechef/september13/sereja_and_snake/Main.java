@@ -66,6 +66,7 @@ class TaskA {
 	private static int MOVE_LEFT = 2;// 2 --> move left
 	private static int MOVE_RIGHT = 3;// 3 --> move right
 
+	// WORKING BRUTE FORCE.
 	private void findMovesBruteForceMethod() {
 		moves = new int[MAX_MOVES];
 
