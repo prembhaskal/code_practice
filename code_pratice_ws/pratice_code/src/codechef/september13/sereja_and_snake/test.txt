@@ -1,8 +1,9 @@
-2 2
-1 0
+2 3
 1 1
-0 1
-
+1 2
+1 0
+0 2
+0 0
 
 # other tests cases go here.
 # single column
@@ -11,7 +12,7 @@
 3 0
 2 0
 
-
+2 cols - 2 rows
 2 2
 1 1
 1 0
@@ -22,3 +23,36 @@
 0 1
 0 2
 0 3
+
+# 2 rows - 3 columns - 5 apples
+2 3
+1 1
+1 2
+1 0
+0 2
+0 0
+
+
+# 4 rows - 2 columns - 7 apples
+4 2
+1 0
+2 0
+3 0
+3 1
+2 1
+1 1
+1 0
+
+#4 rows - 3 cols - 11 apples
+4 3
+2 0
+3 0
+2 0
+3 0
+2 0
+3 0
+2 0
+3 0
+2 0
+3 0
+2 0

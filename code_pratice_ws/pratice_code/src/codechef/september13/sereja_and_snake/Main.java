@@ -128,10 +128,10 @@ class TaskA {
 						}
 						// else keep doing what we were doing.
 						else if (direction==MOVE_DOWN) {
-							headXPos--;
+							headXPos++;
 							direction = moves[totalMoves++] = MOVE_DOWN;
 						} else {
-							headXPos++;
+							headXPos--;
 							direction = moves[totalMoves++] = MOVE_UP;
 						}
 					}
@@ -175,10 +175,10 @@ class TaskA {
 						}
 						// else keep doing what we were doing.
 						else if (direction==MOVE_DOWN) {
-							headXPos--;
+							headXPos++;
 							direction = moves[totalMoves++] = MOVE_DOWN;
 						} else {
-							headXPos++;
+							headXPos--;
 							direction = moves[totalMoves++] = MOVE_UP;
 						}
 					}
