@@ -49,7 +49,7 @@ class TaskA {
 			apples[i] = position;
 		}
 
-		findTheMovesNaiveMethod();
+		findMovesBruteForceMethod();
 
 		out.println(totalMoves);
 		for (int i=0;i<totalMoves-1;i++) {
@@ -61,48 +61,131 @@ class TaskA {
 	}
 
 	// top-left --> 0,0   bottom-right --> M-1,N-1
-	// 0 --> move up
-	// 1 --> move down
-	// 2 --> move left
-	// 3 --> move right
-	private void findTheMovesNaiveMethod() {
+	private static int MOVE_UP = 0;// 0 --> move up
+	private static int MOVE_DOWN = 1;// 1 --> move down
+	private static int MOVE_LEFT = 2;// 2 --> move left
+	private static int MOVE_RIGHT = 3;// 3 --> move right
+
+	private void findMovesBruteForceMethod() {
 		moves = new int[MAX_MOVES];
 
 		int headXPos = 0;
 		int headYPos = 0;
 
-		int direction = 3; // we move to right at beginning.
+		// single column, keep moving down in circle
+		if (cols==1) {
+			for (Position destination : apples) {
 
-		for (int i=0;i<apples.length;i++) {
-			Position destination = apples[i];
+				while (!(destination.xpos==headXPos && destination.ypos==headYPos)) {
+					headXPos = (headXPos+1)%rows;
+					moves[totalMoves++] = MOVE_DOWN;
+				}
+			}
+		}
+		// single row, keep moving right in circle
+		 else if (rows==1) {
+			for (Position destination : apples) {
+				while (!(destination.xpos==headXPos && destination.ypos==headYPos)) {
+					headYPos = (headYPos+1)%cols;
+					moves[totalMoves++] = MOVE_RIGHT;
+				}
+			}
+		}
+		// we reach back to the origin by climbing up, if columns are even.
+		else if (cols%2==0) {
+			int direction = MOVE_RIGHT;
+			for (Position destination : apples) {
+				while (!(destination.xpos==headXPos && destination.ypos == headYPos)) {
+					// if we are on the top row
+					if (headXPos==0) {
+						// see if we can move right
+						if (headYPos != cols-1) {
+							headYPos++;
+							direction = moves[totalMoves++] = MOVE_RIGHT;
+						} else { // else move down, if we cannot move right anymore
+							headXPos++;
+							direction = moves[totalMoves++] = MOVE_DOWN;
+						}
+					}
+					// LAST COLUMN if we have reached back the first column, keep moving up (without worrying much)
+					else if (headYPos==0) {
+						headXPos--;
+						direction = moves[totalMoves++] = MOVE_UP;
+					}
 
-			// do until we reach the apple.
-			while (!(headXPos == destination.xpos && headYPos == destination.ypos)) {
-				if (direction==3) { // we were moving right.
-					if (headYPos < cols-1) { // move to right if there is a place
-						headYPos++;
-						moves[totalMoves++] = 3;
-					} else {
-						headXPos = (headXPos+1)%rows; // move down (or up if we cross boundary)
-						moves[totalMoves++] = 1; // since we moved down. (modularly)
-						direction = 2; // change direction, we move left now.
+					 else {
+						// if we are moving down, check if we reached last row, turn LEFT
+						if (direction==MOVE_DOWN && headXPos==rows-1) {
+							headYPos--;
+							moves[totalMoves++] = MOVE_LEFT;
+							direction = MOVE_UP; // reverse direction.
+						}
+						// if we are moving up, check if we reached 2nd row (no == ) turn RIGHT
+						else if (direction==MOVE_UP && headXPos==1) {
+							headYPos--;
+							moves[totalMoves++] = MOVE_LEFT;
+							direction = MOVE_DOWN; // reverse direction.
+						}
+						// else keep doing what we were doing.
+						else if (direction==MOVE_DOWN) {
+							headXPos--;
+							direction = moves[totalMoves++] = MOVE_DOWN;
+						} else {
+							headXPos++;
+							direction = moves[totalMoves++] = MOVE_UP;
+						}
 					}
 				}
+			}
+		}
+		// we reach origin by circling if columns are odd.
+		else {
+			int direction = MOVE_RIGHT;
+			for (Position destination : apples) {
+				while (!(destination.xpos==headXPos && destination.ypos == headYPos)) {
+					// if we are on the top row
+					if (headXPos==0) {
+						// see if we can move right
+						if (headYPos != cols-1) {
+							headYPos++;
+							direction = moves[totalMoves++] = MOVE_RIGHT;
+						} else { // else move down, if we cannot move right anymore
+							headXPos++;
+							direction = moves[totalMoves++] = MOVE_DOWN;
+						}
+					}
+					// LAST COLUMN if we have reached back the first column, keep moving down (modular circle)
+					else if (headYPos==0) {
+						headXPos = (headXPos + 1) % rows;
+						direction = moves[totalMoves++] = MOVE_DOWN;
+					}
 
-				else { // we were moving left
-					if (headYPos > 0) {
-						headYPos--;
-						moves[totalMoves++] = 2;
-					} else {
-						headXPos = (headXPos+1)%rows;
-						moves[totalMoves++] = 1; // we moved down.
-						direction = 3; // we move right now.
+					else {
+						// if we are moving down, check if we reached last row, turn LEFT
+						if (direction==MOVE_DOWN && headXPos==rows-1) {
+							headYPos--;
+							moves[totalMoves++] = MOVE_LEFT;
+							direction = MOVE_UP; // reverse direction.
+						}
+						// if we are moving up, check if we reached 2nd row (no == ) turn RIGHT
+						else if (direction==MOVE_UP && headXPos==1) {
+							headYPos--;
+							moves[totalMoves++] = MOVE_LEFT;
+							direction = MOVE_DOWN; // reverse direction.
+						}
+						// else keep doing what we were doing.
+						else if (direction==MOVE_DOWN) {
+							headXPos--;
+							direction = moves[totalMoves++] = MOVE_DOWN;
+						} else {
+							headXPos++;
+							direction = moves[totalMoves++] = MOVE_UP;
+						}
 					}
 				}
 			}
 		}
 	}
-
 
 	// number when each cell is numbered from 0 to N*M-1;
 	private int getEquivalentNumber(int xpos, int ypos) {
