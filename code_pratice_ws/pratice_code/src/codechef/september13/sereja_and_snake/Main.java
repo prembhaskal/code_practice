@@ -121,7 +121,7 @@ class TaskA {
 							moves[totalMoves++] = MOVE_LEFT;
 							direction = MOVE_UP; // reverse direction.
 						}
-						// if we are moving up, check if we reached 2nd row (no == ) turn RIGHT
+						// if we are moving up, check if we reached 2nd row (no == 1) turn RIGHT
 						else if (direction==MOVE_UP && headXPos==1) {
 							headYPos--;
 							moves[totalMoves++] = MOVE_LEFT;
@@ -168,7 +168,7 @@ class TaskA {
 							moves[totalMoves++] = MOVE_LEFT;
 							direction = MOVE_UP; // reverse direction.
 						}
-						// if we are moving up, check if we reached 2nd row (no == ) turn RIGHT
+						// if we are moving up, check if we reached 2nd row (no == 1) turn RIGHT
 						else if (direction==MOVE_UP && headXPos==1) {
 							headYPos--;
 							moves[totalMoves++] = MOVE_LEFT;
