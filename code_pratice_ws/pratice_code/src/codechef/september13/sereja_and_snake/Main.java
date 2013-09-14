@@ -232,83 +232,6 @@ class TaskA {
 				}
 			}
 		}
-		// we reach back to the origin by climbing up, if columns are even.
-		else if (cols%2==0) {
-			int direction = MOVE_RIGHT;
-			for (Position destination : apples) {
-				while (!(destination.xpos==headXPos && destination.ypos == headYPos)) {
-					// if we are on the top row
-					if (headXPos==0) {
-						// see if we can move right
-						if (headYPos != cols-1) {
-							headYPos++;
-							direction = moves[totalMoves++] = MOVE_RIGHT;
-						} else { // else move down, if we cannot move right anymore
-							headXPos++;
-							direction = moves[totalMoves++] = MOVE_DOWN;
-						}
-					}
-					// LAST COLUMN if we have reached back the first column, keep moving up (without worrying much)
-					else if (headYPos==0) {
-						headXPos--;
-						direction = moves[totalMoves++] = MOVE_UP;
-					}
-
-					else {
-						// if we are moving down, check if we reached last row, turn LEFT
-						if (direction==MOVE_DOWN && headXPos==rows-1) {
-							headYPos--;
-							moves[totalMoves++] = MOVE_LEFT;
-
-							while (canSkipTwoTiles(headYPos, tailYPos,tailXPos, destination)) {
-								headYPos--;
-								moves[totalMoves++] = MOVE_LEFT;
-								headYPos--;
-								moves[totalMoves++] = MOVE_LEFT;
-							}
-
-							direction = MOVE_UP; // reverse direction.
-						}
-						// if we are moving up, check if we reached 2nd row (no == 1) turn RIGHT
-						else if (direction==MOVE_UP && headXPos==1) {
-							headYPos--;
-							moves[totalMoves++] = MOVE_LEFT;
-
-							while (canSkipTwoTiles(headYPos, tailYPos,tailXPos, destination)) {
-								headYPos--;
-								moves[totalMoves++] = MOVE_LEFT;
-								headYPos--;
-								moves[totalMoves++] = MOVE_LEFT;
-							}
-
-							direction = MOVE_DOWN; // reverse direction.
-						}
-						// else keep doing what we were doing.
-						else if (direction==MOVE_DOWN) {
-							headXPos++;
-							direction = moves[totalMoves++] = MOVE_DOWN;
-						} else {
-							headXPos--;
-							direction = moves[totalMoves++] = MOVE_UP;
-						}
-					}
-
-					// put the current Position in Queue
-					headPosition.add(new Position(headXPos, headYPos));
-
-					// snake moves if we don't eat the apple.
-					if (!(destination.xpos==headXPos && destination.ypos==headYPos)) {
-						Position tailPosition = headPosition.remove();
-
-						tailXPos = tailPosition.xpos;
-						tailYPos = tailPosition.ypos;
-					}
-
-//					printPosition(headXPos, headYPos, tailXPos, tailYPos);
-				}
-			}
-		}
-		// we reach origin by circling if columns are odd.
 		else {
 			int direction = MOVE_RIGHT;
 			for (Position destination : apples) {
@@ -324,10 +247,16 @@ class TaskA {
 							direction = moves[totalMoves++] = MOVE_DOWN;
 						}
 					}
-					// LAST COLUMN if we have reached back the first column, keep moving down (modular circle)
+					// LAST COLUMN
 					else if (headYPos==0) {
-						headXPos = (headXPos + 1) % rows;
-						direction = moves[totalMoves++] = MOVE_DOWN;
+						if (direction==MOVE_UP) { // if we have reached back the first column moving up, then keep moving up (without worrying much)
+							headXPos--;
+							direction = moves[totalMoves++] = MOVE_UP;
+						} else {
+							headXPos = (headXPos + 1) % rows;
+							direction = moves[totalMoves++] = MOVE_DOWN;
+						}
+
 					}
 
 					else {
