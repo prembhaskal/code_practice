@@ -260,7 +260,7 @@ class TaskA {
 							headYPos--;
 							moves[totalMoves++] = MOVE_LEFT;
 
-							while (canSkipTwoTiles(headYPos, tailYPos, destination)) {
+							while (canSkipTwoTiles(headYPos, tailYPos,tailXPos, destination)) {
 								headYPos--;
 								moves[totalMoves++] = MOVE_LEFT;
 								headYPos--;
@@ -274,7 +274,7 @@ class TaskA {
 							headYPos--;
 							moves[totalMoves++] = MOVE_LEFT;
 
-							while (canSkipTwoTiles(headYPos, tailYPos, destination)) {
+							while (canSkipTwoTiles(headYPos, tailYPos,tailXPos, destination)) {
 								headYPos--;
 								moves[totalMoves++] = MOVE_LEFT;
 								headYPos--;
@@ -336,7 +336,7 @@ class TaskA {
 							headYPos--;
 							moves[totalMoves++] = MOVE_LEFT;
 
-							while (canSkipTwoTiles(headYPos, tailYPos, destination)) {
+							while (canSkipTwoTiles(headYPos, tailYPos,tailXPos, destination)) {
 								headYPos--;
 								moves[totalMoves++] = MOVE_LEFT;
 								headYPos--;
@@ -350,7 +350,7 @@ class TaskA {
 							headYPos--;
 							moves[totalMoves++] = MOVE_LEFT;
 
-							while (canSkipTwoTiles(headYPos, tailYPos, destination)) {
+							while (canSkipTwoTiles(headYPos, tailYPos,tailXPos, destination)) {
 								headYPos--;
 								moves[totalMoves++] = MOVE_LEFT;
 								headYPos--;
@@ -387,7 +387,7 @@ class TaskA {
 	}
 
 	// TODO fixme -- when head moves once, tail also moves... so following calculation is not so accurate
-	private boolean canSkipTwoTiles(int headYPos, int tailYPos, Position destination) {
+	private boolean canSkipTwoTiles(int headYPos, int tailYPos, int tailXPos, Position destination) {
 //		if (cols < 6) // don't do for smaller mazes.
 //			return false;
 
@@ -395,8 +395,8 @@ class TaskA {
 		if (headYPos < 3)
 			return false;
 
-		// check if the configuration is TAIL - APPLE (2 Pos Diff) HEAD
-		if ((headYPos-destination.ypos) > 2 && (destination.ypos > tailYPos))
+		// check if the configuration is TAIL - APPLE (2 Pos Diff) HEAD or APPLE - (2 Pos Diff) HEAD and tail is in first row.
+		if ((headYPos-destination.ypos) > 2 && (destination.ypos > tailYPos || tailXPos==0))
 			return true;
 
 		// check if configuration is TAIL -(2 pos diff) - HEAD - APPLE
