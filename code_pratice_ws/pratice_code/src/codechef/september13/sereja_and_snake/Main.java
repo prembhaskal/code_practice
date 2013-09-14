@@ -273,6 +273,14 @@ class TaskA {
 						else if (direction==MOVE_UP && headXPos==1) {
 							headYPos--;
 							moves[totalMoves++] = MOVE_LEFT;
+
+							if (canSkipTwoTiles(headYPos, tailYPos, destination.ypos)) {
+								headYPos--;
+								moves[totalMoves++] = MOVE_LEFT;
+								headYPos--;
+								moves[totalMoves++] = MOVE_LEFT;
+							}
+
 							direction = MOVE_DOWN; // reverse direction.
 						}
 						// else keep doing what we were doing.
@@ -341,6 +349,14 @@ class TaskA {
 						else if (direction==MOVE_UP && headXPos==1) {
 							headYPos--;
 							moves[totalMoves++] = MOVE_LEFT;
+
+							if (canSkipTwoTiles(headYPos, tailYPos, destination.ypos)) {
+								headYPos--;
+								moves[totalMoves++] = MOVE_LEFT;
+								headYPos--;
+								moves[totalMoves++] = MOVE_LEFT;
+							}
+
 							direction = MOVE_DOWN; // reverse direction.
 						}
 						// else keep doing what we were doing.
