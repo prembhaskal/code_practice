@@ -260,7 +260,7 @@ class TaskA {
 							headYPos--;
 							moves[totalMoves++] = MOVE_LEFT;
 
-							if (canSkipTwoTiles(headYPos, tailYPos, destination.ypos)) {
+							while (canSkipTwoTiles(headYPos, tailYPos, destination.ypos)) {
 								headYPos--;
 								moves[totalMoves++] = MOVE_LEFT;
 								headYPos--;
@@ -274,7 +274,7 @@ class TaskA {
 							headYPos--;
 							moves[totalMoves++] = MOVE_LEFT;
 
-							if (canSkipTwoTiles(headYPos, tailYPos, destination.ypos)) {
+							while (canSkipTwoTiles(headYPos, tailYPos, destination.ypos)) {
 								headYPos--;
 								moves[totalMoves++] = MOVE_LEFT;
 								headYPos--;
@@ -336,7 +336,7 @@ class TaskA {
 							headYPos--;
 							moves[totalMoves++] = MOVE_LEFT;
 
-							if (canSkipTwoTiles(headYPos, tailYPos, destination.ypos)) {
+							while (canSkipTwoTiles(headYPos, tailYPos, destination.ypos)) {
 								headYPos--;
 								moves[totalMoves++] = MOVE_LEFT;
 								headYPos--;
@@ -350,7 +350,7 @@ class TaskA {
 							headYPos--;
 							moves[totalMoves++] = MOVE_LEFT;
 
-							if (canSkipTwoTiles(headYPos, tailYPos, destination.ypos)) {
+							while (canSkipTwoTiles(headYPos, tailYPos, destination.ypos)) {
 								headYPos--;
 								moves[totalMoves++] = MOVE_LEFT;
 								headYPos--;
@@ -396,6 +396,10 @@ class TaskA {
 			return false;
 		// check if the configuration is TAIL - APPLE (2 Pos Diff) HEAD
 		if ((headYPos-destinationYPos) > 2 && (destinationYPos > tailYPos))
+			return true;
+
+		// check if configuration is TAIL -(2 pos diff) - HEAD - APPLE
+		if ((destinationYPos > headYPos) && (headYPos-destinationYPos) > 2)
 			return true;
 
 		// don't move otherwise ... at least right now.
