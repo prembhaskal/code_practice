@@ -34,6 +34,12 @@ class TaskA {
 
 	Queue<Position> headPosition;
 
+	private int headXPos = 0;
+	private int headYPos = 0;
+
+	private int tailYPos = 0;
+	private int tailXPos = 0;
+
 	int[] moves;
 	int totalMoves;
 
@@ -206,11 +212,11 @@ class TaskA {
 		moves = new int[MAX_MOVES];
 		headPosition = new ArrayDeque<>();
 
-		int headXPos = 0;
-		int headYPos = 0;
+		headXPos = 0;
+		headYPos = 0;
 
-		int tailYPos = 0;
-		int tailXPos = 0;
+		tailYPos = 0;
+		tailXPos = 0;
 
 		// single column, keep moving down in circle
 		if (cols==1) {
@@ -241,9 +247,11 @@ class TaskA {
 						if (headYPos != cols-1) {
 							headYPos++;
 							direction = moves[totalMoves++] = MOVE_RIGHT;
+							updateTailPosition(destination);
 						} else { // else move down, if we cannot move right anymore
 							headXPos++;
 							direction = moves[totalMoves++] = MOVE_DOWN;
+							updateTailPosition(destination);
 						}
 					}
 					// LAST COLUMN
@@ -251,9 +259,11 @@ class TaskA {
 						if (direction==MOVE_UP) { // if we have reached back the first column moving up, then keep moving up (without worrying much)
 							headXPos--;
 							direction = moves[totalMoves++] = MOVE_UP;
+							updateTailPosition(destination);
 						} else {
 							headXPos = (headXPos + 1) % rows;
 							direction = moves[totalMoves++] = MOVE_DOWN;
+							updateTailPosition(destination);
 						}
 
 					}
@@ -263,11 +273,14 @@ class TaskA {
 						if (direction==MOVE_DOWN && headXPos==rows-1) {
 							headYPos--;
 							moves[totalMoves++] = MOVE_LEFT;
+							updateTailPosition(destination);
 
-							while (canSkipOneColumn(headYPos, tailYPos, tailXPos, destination)) {
+							while (canSkipColumn(1, headYPos, tailYPos, tailXPos, destination)) {
 								headYPos--;
 								moves[totalMoves++] = MOVE_LEFT;
+								updateTailPosition(destination);
 							}
+
 
 							direction = MOVE_UP; // reverse direction.
 						}
@@ -275,10 +288,12 @@ class TaskA {
 						else if (direction==MOVE_UP && headXPos==1) {
 							headYPos--;
 							moves[totalMoves++] = MOVE_LEFT;
+							updateTailPosition(destination);
 
-							while (canSkipOneColumn(headYPos, tailYPos, tailXPos, destination)) {
+							while (canSkipColumn(1, headYPos, tailYPos, tailXPos, destination)) {
 								headYPos--;
 								moves[totalMoves++] = MOVE_LEFT;
+								updateTailPosition(destination);
 							}
 
 							direction = MOVE_DOWN; // reverse direction.
@@ -287,29 +302,23 @@ class TaskA {
 						else if (direction==MOVE_DOWN) {
 							headXPos++;
 							direction = moves[totalMoves++] = MOVE_DOWN;
-							while (headXPos< rows-1 && canSkipOneColumn(headYPos, tailYPos, tailXPos, destination)) {
+							while (headXPos < rows-1 && canSkipColumn(1, headYPos, tailYPos, tailXPos, destination)) {
 								headYPos--;
 								moves[totalMoves++] = MOVE_LEFT;
+//								updateTailPosition(destination);
 							}
+							updateTailPosition(destination);
+
 						} else {
 							headXPos--;
 							direction = moves[totalMoves++] = MOVE_UP;
-							while (headXPos>1 && canSkipOneColumn(headYPos, tailYPos, tailXPos, destination)) {
+							while (headXPos>1 && canSkipColumn(1, headYPos, tailYPos, tailXPos, destination)) {
 								headYPos--;
 								moves[totalMoves++] = MOVE_LEFT;
+//								updateTailPosition(destination);
 							}
+							updateTailPosition(destination);
 						}
-					}
-
-					// put the current Position in Queue
-					headPosition.add(new Position(headXPos, headYPos));
-
-					// snake moves if we don't eat the apple.
-					if (!(destination.xpos==headXPos && destination.ypos==headYPos)) {
-						Position tailPosition = headPosition.remove();
-
-						tailXPos = tailPosition.xpos;
-						tailYPos = tailPosition.ypos;
 					}
 
 //					printPosition(headXPos, headYPos, tailXPos, tailYPos);
@@ -318,8 +327,21 @@ class TaskA {
 		}
 	}
 
+	private void updateTailPosition(Position destination) {
+		// put the current Position in Queue
+		headPosition.add(new Position(headXPos, headYPos));
+
+		// snake moves if we don't eat the apple.
+		if (!(destination.xpos==headXPos && destination.ypos==headYPos)) {
+			Position tailPosition = headPosition.remove();
+
+			tailXPos = tailPosition.xpos;
+			tailYPos = tailPosition.ypos;
+		}
+	}
+
 	// TODO fixme -- when head moves once, tail also moves... so following calculation is not so accurate
-	private boolean canSkipOneColumn(int headYPos, int tailYPos, int tailXPos, Position destination) {
+	private boolean canSkipColumn(int colsToSkip, int headYPos, int tailYPos, int tailXPos, Position destination) {
 //		if (cols < 6) // don't do for smaller mazes.
 //			return false;
 
@@ -328,15 +350,15 @@ class TaskA {
 			return false;
 
 		// check if the configuration is TAIL - APPLE (2 Pos Diff) HEAD or APPLE - (2 Pos Diff) HEAD and tail is in first row.
-		if ((headYPos-destination.ypos) > 1 && (destination.ypos > tailYPos || tailXPos==0))
+		if ((headYPos-destination.ypos) > colsToSkip && (destination.ypos > tailYPos || tailXPos==0))
 			return true;
 
 		// check if configuration is TAIL -(2 pos diff) - HEAD - APPLE
-		if ((destination.ypos > headYPos) && (headYPos-destination.ypos) > 1)
+		if ((destination.ypos > headYPos) && (headYPos-destination.ypos) > colsToSkip)
 			return true;
 
 		// check if configuration in APPLE - (2 pos diff) - HEAD - TAIL
-		if ((headYPos-destination.ypos > 1) && (headYPos < tailYPos))
+		if ((headYPos-destination.ypos > colsToSkip) && (headYPos < tailYPos))
 			return true;
 
 		// don't move otherwise ... at least right now.
