@@ -388,12 +388,13 @@ class TaskA {
 
 	// TODO fixme -- when head moves once, tail also moves... so following calculation is not so accurate
 	private boolean canSkipTwoTiles(int headYPos, int tailYPos, int destinationYPos) {
-		if (cols < 6) // don't do for smaller mazes.
-			return false;
+//		if (cols < 6) // don't do for smaller mazes.
+//			return false;
 
 		// we don't want to jump to first column directly.
 		if (headYPos < 3)
 			return false;
+
 		// check if the configuration is TAIL - APPLE (2 Pos Diff) HEAD
 		if ((headYPos-destinationYPos) > 2 && (destinationYPos > tailYPos))
 			return true;
