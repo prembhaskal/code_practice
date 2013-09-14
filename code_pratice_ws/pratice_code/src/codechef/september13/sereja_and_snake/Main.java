@@ -264,11 +264,9 @@ class TaskA {
 							headYPos--;
 							moves[totalMoves++] = MOVE_LEFT;
 
-							while (canSkipOneTile(headYPos, tailYPos, tailXPos, destination)) {
+							while (canSkipOneColumn(headYPos, tailYPos, tailXPos, destination)) {
 								headYPos--;
 								moves[totalMoves++] = MOVE_LEFT;
-//								headYPos--;
-//								moves[totalMoves++] = MOVE_LEFT;
 							}
 
 							direction = MOVE_UP; // reverse direction.
@@ -278,11 +276,9 @@ class TaskA {
 							headYPos--;
 							moves[totalMoves++] = MOVE_LEFT;
 
-							while (canSkipOneTile(headYPos, tailYPos, tailXPos, destination)) {
+							while (canSkipOneColumn(headYPos, tailYPos, tailXPos, destination)) {
 								headYPos--;
 								moves[totalMoves++] = MOVE_LEFT;
-//								headYPos--;
-//								moves[totalMoves++] = MOVE_LEFT;
 							}
 
 							direction = MOVE_DOWN; // reverse direction.
@@ -291,9 +287,17 @@ class TaskA {
 						else if (direction==MOVE_DOWN) {
 							headXPos++;
 							direction = moves[totalMoves++] = MOVE_DOWN;
+							while (headXPos< rows-1 && canSkipOneColumn(headYPos, tailYPos, tailXPos, destination)) {
+								headYPos--;
+								moves[totalMoves++] = MOVE_LEFT;
+							}
 						} else {
 							headXPos--;
 							direction = moves[totalMoves++] = MOVE_UP;
+							while (headXPos>1 && canSkipOneColumn(headYPos, tailYPos, tailXPos, destination)) {
+								headYPos--;
+								moves[totalMoves++] = MOVE_LEFT;
+							}
 						}
 					}
 
@@ -315,7 +319,7 @@ class TaskA {
 	}
 
 	// TODO fixme -- when head moves once, tail also moves... so following calculation is not so accurate
-	private boolean canSkipOneTile(int headYPos, int tailYPos, int tailXPos, Position destination) {
+	private boolean canSkipOneColumn(int headYPos, int tailYPos, int tailXPos, Position destination) {
 //		if (cols < 6) // don't do for smaller mazes.
 //			return false;
 
