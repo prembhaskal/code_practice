@@ -348,8 +348,8 @@ class TaskA {
 			return true;
 
 		// if we could go down then do it here itself.
-//		if ((headYPos >= destination.ypos) && (destination.ypos > tailYPos || tailXPos==0))
-//			return true;
+		if ((headYPos > destination.ypos && (headYPos>tailYPos)) && (destination.ypos > tailYPos))
+			return true;
 
 		return false;
 	}
