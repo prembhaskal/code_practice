@@ -242,15 +242,15 @@ class TaskA {
 			for (Position destination : apples) {
 				while (!(destination.xpos==headXPos && destination.ypos == headYPos)) {
 					// if we are on the top row
-					if (headXPos==0) {
-						// see if we can move right
-						if (headYPos != cols-1) {
-							headYPos++;
-							direction = moves[totalMoves++] = MOVE_RIGHT;
-							updateTailPosition(destination);
-						} else { // else move down, if we cannot move right anymore
+					if (headXPos==0) { // move down, if we cannot move right anymore OR if we can skip some tiles.
+						if (headYPos==cols-1 || canTurnDown(headYPos, tailYPos, tailXPos, destination)) {
 							headXPos++;
 							direction = moves[totalMoves++] = MOVE_DOWN;
+							updateTailPosition(destination);
+						}// keep moving right
+						else {
+							headYPos++;
+							direction = moves[totalMoves++] = MOVE_RIGHT;
 							updateTailPosition(destination);
 						}
 					}
@@ -338,6 +338,20 @@ class TaskA {
 			tailXPos = tailPosition.xpos;
 			tailYPos = tailPosition.ypos;
 		}
+	}
+
+	private boolean canTurnDown(int headYPos, int tailYPos, int tailXPos, Position destination) {
+		if (headYPos < 2)
+			return false;
+
+		if ( (headYPos>=destination.ypos) && (headYPos>tailYPos) && (tailXPos==0))
+			return true;
+
+		// if we could go down then do it here itself.
+//		if ((headYPos >= destination.ypos) && (destination.ypos > tailYPos || tailXPos==0))
+//			return true;
+
+		return false;
 	}
 
 	// TODO fixme -- when head moves once, tail also moves... so following calculation is not so accurate

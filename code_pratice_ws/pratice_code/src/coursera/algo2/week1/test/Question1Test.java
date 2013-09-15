@@ -41,8 +41,8 @@ public class Question1Test {
     */ 
     @Test
     public void testSolve() throws Exception {
-		InputStream input = getClass().getResourceAsStream("files/test1.txt");
-//		InputStream input = getClass().getResourceAsStream("files/jobs.txt");
+//		InputStream input = getClass().getResourceAsStream("files/test1.txt");
+		InputStream input = getClass().getResourceAsStream("files/jobs.txt");
 		InputReader reader = new InputReader(input);
 
 		PrintWriter out = new PrintWriter(System.out);
