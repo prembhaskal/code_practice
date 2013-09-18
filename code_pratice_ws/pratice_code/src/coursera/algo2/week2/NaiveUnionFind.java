@@ -45,7 +45,11 @@ public class NaiveUnionFind {
 		List<Integer> members2 = clusterVsMembers[leader2];
 
 		if (members1.size() >= members2.size()) {
-
+			assignNewLeader(members1, leader2);
+			members2.addAll(members1);
+		} else {
+			assignNewLeader(members2, leader1);
+			members1.addAll(members2);
 		}
 	}
 
@@ -54,4 +58,5 @@ public class NaiveUnionFind {
 			vertexVsLeaders[node] = leader;
 		}
 	}
+
 }
