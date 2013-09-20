@@ -10,8 +10,6 @@ public class Clustering1 {
 	int numberOfEdges;
 	int numberOfClusters;
 
-	NaiveUnionFind unionFind;
-
 	public int findMaxSpacing(InputReader in, int clusters) {
 		numberOfNodes = in.nextInt();
 
@@ -33,7 +31,7 @@ public class Clustering1 {
 
 		numberOfClusters = numberOfNodes;
 
-		unionFind = new NaiveUnionFind(numberOfNodes);
+		NaiveUnionFind unionFind = new NaiveUnionFind(numberOfNodes);
 
 		int i=0;
 		while (numberOfClusters != clusters) {

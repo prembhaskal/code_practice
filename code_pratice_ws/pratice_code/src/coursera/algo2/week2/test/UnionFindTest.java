@@ -13,8 +13,9 @@ import org.junit.Test;
 * @version 1.0 
 */ 
 public class UnionFindTest { 
-    
-    NaiveUnionFind testClass;
+
+//    NaiveUnionFind testClass;
+	UnionFind1 testClass;
     long starttime;
     
     @Before
@@ -30,7 +31,8 @@ public class UnionFindTest {
 
 	@Test
 	public void testUnionFind() {
-		testClass = new NaiveUnionFind(6);
+//		testClass = new NaiveUnionFind(6);
+		testClass = new UnionFind1(6);
 
 		printLeaders();
 
@@ -60,6 +62,16 @@ public class UnionFindTest {
 			System.out.println("leader for vertex --> " + i + " is " + testClass.find(i));
 		}
 		System.out.println("--------------------------\n");
+	}
+
+	@Test
+	public void performanceTest() {
+		int nodes = 1000000;
+		testClass = new UnionFind1(nodes);
+
+		for (int i=1;i<nodes+1;i++) {
+			testClass.find(i);
+		}
 	}
     
         
