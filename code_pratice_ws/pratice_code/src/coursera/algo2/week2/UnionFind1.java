@@ -4,12 +4,15 @@ public class UnionFind1 {
 
 	private int[] leaders;
 	private int count;
+	private int[] sz;    // sz[i] = number of objects in subtree rooted at i
 
 	public UnionFind1(int size) {
 		leaders = new int[size+1];
+		sz = new int[size+1];
 		count = size;
 		for (int i = 1; i < leaders.length; i++) {
 			leaders[i] = i;
+			sz[i] = 1;
 		}
 	}
 
@@ -31,7 +34,17 @@ public class UnionFind1 {
 		int i = find(p);
 		int j = find(q);
 		if (i == j) return;
-		leaders[i] = j;
+		if (sz[i] < sz[j]) {
+			leaders[i] = j;
+			sz[j] += sz[i];
+		} else {
+			leaders[j] = i;
+			sz[i] += sz[j];
+		}
 		count--;
+	}
+
+	public int getCountOfClusters() {
+		return count;
 	}
 }
