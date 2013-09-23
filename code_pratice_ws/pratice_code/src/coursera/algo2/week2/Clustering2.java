@@ -15,7 +15,7 @@ public class Clustering2 {
 
 	List<Edge> edges = new ArrayList<>();
 
-	HashMap<Integer, List<Integer>> lookup = new HashMap<>();
+	HashMap<Integer, Integer> lookup = new HashMap<>();
 
 	public int getNoOfClusters(InputReader in) {
 		countOfNodes = in.nextInt();
@@ -92,24 +92,15 @@ public class Clustering2 {
 	}
 
 	private void getMatchedNodes(int nodeReps, int nodeNum) {
-		List<Integer> matchNodes = lookup.get(nodeReps);
-		if (matchNodes!=null) {
-			for (int matchedNode : matchNodes) {
-				if (matchedNode > nodeNum) // we only search below this node, to avoid duplicates
-					neighbourNodes.add(matchedNode);
-			}
-		}
+		Integer matchedNode = lookup.get(nodeReps);
+		if (matchedNode != null && matchedNode > nodeNum)
+			neighbourNodes.add(matchedNode);
 	}
 
 	private void addInLookup() {
 		for (int i = 1; i < countOfNodes + 1; i++) {
 			int intValue = Integer.parseInt(nodeBits[i], 2);
-			List<Integer> nodes = lookup.get(intValue);
-			if (nodes==null) {
-				nodes = new ArrayList<>();
-				lookup.put(intValue, nodes);
-			}
-			nodes.add(i);
+			lookup.put(intValue, i);
 		}
 	}
 
