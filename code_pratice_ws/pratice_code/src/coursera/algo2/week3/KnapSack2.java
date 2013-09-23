@@ -21,7 +21,8 @@ public class KnapSack2 {
 			values[i] = in.nextInt();
 			weights[i] = in.nextInt();
 		}
-		return runKnapSackStupidWay();
+//		return runKnapSackStupidWay();
+		return runKnapSackSingleArray();
 	}
 
 	private int runKnapSackStupidWay() {
@@ -46,5 +47,25 @@ public class KnapSack2 {
 		}
 
 		return previousValues[knapsackWeight];
+	}
+
+	private int runKnapSackSingleArray() {
+		int[] knapSackValues = new int[knapsackWeight+1];
+
+		for (int i = 0; i < totalItems; i++) {
+			for (int j = knapsackWeight; j >= 0; j--) {
+				if (i==0) {
+					knapSackValues[j] = (j >= weights[i]) ? values[i] : 0;
+				}
+				else if (j < weights[i]) {
+					// do nothing as same array
+				} else {
+					knapSackValues[j] = Math.max(knapSackValues[j-weights[i]] + values[i],
+												knapSackValues[j]);
+				}
+			}
+		}
+
+		return knapSackValues[knapsackWeight];
 	}
 }
