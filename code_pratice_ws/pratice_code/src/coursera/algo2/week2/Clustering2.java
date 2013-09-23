@@ -15,7 +15,7 @@ public class Clustering2 {
 
 	List<Edge> edges = new ArrayList<>();
 
-	HashMap<String, List<Integer>> lookup = new HashMap<>();
+	HashMap<Integer, List<Integer>> lookup = new HashMap<>();
 
 	public int getNoOfClusters(InputReader in) {
 		countOfNodes = in.nextInt();
@@ -54,66 +54,60 @@ public class Clustering2 {
 		return numberOfClusters;
 	}
 
+
+	List<Integer> neighbourNodes;
 	private void findAllEdgesWithinDistance2() {
 		for (int i=1;i<countOfNodes+1;i++) {
-			List<Integer> neighbourNodes = new ArrayList<>();
+			neighbourNodes = new ArrayList<>();
+			int nodeRep = Integer.parseInt(nodeBits[i], 2);
 			for (int dist = 0; dist < 3; dist++) {
-				neighbourNodes.addAll(findAllEdgesAtDistance(dist,nodeBits[i],i));
+				findAllEdgesAtDistance(dist, nodeRep ,i);
 				for (int neighbour : neighbourNodes) {
 					Edge edge = new Edge(i, neighbour, dist);
 					edges.add(edge);
 				}
 			}
 
+			neighbourNodes.clear();
+
 		}
 	}
 
-	private List<Integer> findAllEdgesAtDistance(int distance, String nodeBits, int nodeNum) {
-		List<Integer> vertices = new ArrayList<>();
+	private int ONE_BIT_MASK = 0x0000001;
+
+	private void findAllEdgesAtDistance(int distance, int nodeBits, int nodeNum) {
 		if (distance==0) {
-			vertices.addAll(getMatchedNodes(nodeBits, nodeNum));
+			getMatchedNodes(nodeBits, nodeNum);
 		}
 		else {
-
-			char[] actualNodeBits = nodeBits.toCharArray();
-
+			int oneBitMask = ONE_BIT_MASK;
 			for (int i=0;i<bits;i++) {
-				char ch = actualNodeBits[i];
-				if (ch=='0')
-					actualNodeBits[i] = '1';
-				else
-					actualNodeBits[i] = '0';
-
-				String matchNodeBits = new String(actualNodeBits);
-				vertices.addAll(findAllEdgesAtDistance(distance - 1, matchNodeBits, nodeNum));
-				actualNodeBits[i] = ch;
+				int matchNodeReps = nodeBits ^ oneBitMask;
+				findAllEdgesAtDistance(distance - 1, matchNodeReps, nodeNum);
+				oneBitMask = oneBitMask << 1;
 			}
 
 		}
 
-		return vertices;
 	}
 
-	private List<Integer> getMatchedNodes(String nodeBits, int nodeNum) {
-		List<Integer> returnNodes = new ArrayList<>();
-
-		List<Integer> matchNodes = lookup.get(nodeBits);
+	private void getMatchedNodes(int nodeReps, int nodeNum) {
+		List<Integer> matchNodes = lookup.get(nodeReps);
 		if (matchNodes!=null) {
 			for (int matchedNode : matchNodes) {
 				if (matchedNode > nodeNum) // we only search below this node, to avoid duplicates
-					returnNodes.add(matchedNode);
+					neighbourNodes.add(matchedNode);
 			}
 		}
-
-		return returnNodes;
 	}
 
 	private void addInLookup() {
 		for (int i = 1; i < countOfNodes + 1; i++) {
-			List<Integer> nodes = lookup.get(nodeBits[i]);
+			int intValue = Integer.parseInt(nodeBits[i], 2);
+			List<Integer> nodes = lookup.get(intValue);
 			if (nodes==null) {
 				nodes = new ArrayList<>();
-				lookup.put(nodeBits[i], nodes);
+				lookup.put(intValue, nodes);
 			}
 			nodes.add(i);
 		}
