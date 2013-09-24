@@ -1,6 +1,7 @@
 package coursera.algo2.week3;
 
 import common.util.InputReader;
+import java.util.HashMap;
 
 public class KnapSack2 {
 
@@ -23,6 +24,7 @@ public class KnapSack2 {
 		}
 //		return runKnapSackStupidWay();
 		return runKnapSackSingleArray();
+//		return runKnapSackRecurse();
 	}
 
 	private int runKnapSackStupidWay() {
@@ -67,5 +69,61 @@ public class KnapSack2 {
 		}
 
 		return knapSackValues[knapsackWeight];
+	}
+
+	HashMap<KnapSackPair, Integer> dp;
+	private int runKnapSackRecurse() {
+		 dp = new HashMap<>();
+		return runKnapSackRecurse(knapsackWeight, totalItems-1);
+	}
+
+	private int runKnapSackRecurse(int weightRem, int node) {
+		if (weightRem < 0 || node < 0)
+			return 0;
+
+		KnapSackPair knapSackPair = new KnapSackPair(node, weightRem);
+		if (dp.containsKey(knapSackPair))
+			return dp.get(knapSackPair);
+
+		int val1 = 0;
+		if (weightRem > weights[node])
+			val1 = runKnapSackRecurse(weightRem - weights[node], node-1) + values[node];
+		int val2 = runKnapSackRecurse(weightRem, node-1);
+
+		int maxVal = Math.max(val1, val2);
+
+		dp.put(knapSackPair, maxVal);
+
+		return maxVal;
+	}
+
+	private class KnapSackPair {
+		int node;
+		int weight;
+
+		public KnapSackPair(int node, int weight) {
+			this.node = node;
+			this.weight = weight;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+
+			KnapSackPair that = (KnapSackPair) o;
+
+			if (node != that.node) return false;
+			if (weight != that.weight) return false;
+
+			return true;
+		}
+
+		@Override
+		public int hashCode() {
+			int result = node;
+			result = 31 * result + weight;
+			return result;
+		}
 	}
 }

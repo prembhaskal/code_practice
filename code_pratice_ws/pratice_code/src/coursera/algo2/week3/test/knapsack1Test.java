@@ -40,8 +40,8 @@ public class knapsack1Test {
     */ 
     @Test
     public void testGetMaxValue() throws Exception {
-//		InputStream inputStream = getClass().getResourceAsStream("files/knapsack1.txt");
-		InputStream inputStream = getClass().getResourceAsStream("files/test1.txt");
+		InputStream inputStream = getClass().getResourceAsStream("files/knapsack1.txt");
+//		InputStream inputStream = getClass().getResourceAsStream("files/test1.txt");
 		InputReader in = new InputReader(inputStream);
 
 		int maxValue = testClass.getMaxValue(in);

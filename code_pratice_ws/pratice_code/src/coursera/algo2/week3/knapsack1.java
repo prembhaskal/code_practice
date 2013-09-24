@@ -26,7 +26,8 @@ public class knapsack1 {
 			weights[i] = in.nextInt();
 		}
 
-		return runKnapSack();
+//		return runKnapSack();
+		return runKnapSackRecurse();
 	}
 
 	private int runKnapSack() {
@@ -47,5 +48,35 @@ public class knapsack1 {
 		}
 
 		return DP[totalItems-1][knapsackWeight];
+	}
+
+
+	private int runKnapSackRecurse() {
+		DP = new int[totalItems][knapsackWeight+1];
+
+		for (int i = 0; i < totalItems; i++) {
+			Arrays.fill(DP[i], -1);
+		}
+
+		return runKnapSackRecurse(knapsackWeight, totalItems-1);
+	}
+
+	private int runKnapSackRecurse(int weightRem, int node) {
+		if (weightRem < 0 || node < 0)
+			return 0;
+
+		if (DP[node][weightRem] >= 0)
+			return DP[node][weightRem];
+
+		int val1 = 0;
+		// either we choose this item in the sack
+		if (weightRem > weights[node])
+			val1 = runKnapSackRecurse(weightRem - weights[node], node-1) + values[node];
+		// or we don't choose this item in the sack.
+		int val2 = runKnapSackRecurse(weightRem, node-1);
+
+		int maxVal = Math.max(val1, val2);
+		DP[node][weightRem] = maxVal;
+		return maxVal;
 	}
 }
