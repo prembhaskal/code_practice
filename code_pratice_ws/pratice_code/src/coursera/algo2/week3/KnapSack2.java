@@ -78,7 +78,7 @@ public class KnapSack2 {
 	}
 
 	private int runKnapSackRecurse(int weightRem, int node) {
-		if (weightRem < 0 || node < 0)
+		if (weightRem <= 0 || node < 0)
 			return 0;
 
 		KnapSackPair knapSackPair = new KnapSackPair(node, weightRem);

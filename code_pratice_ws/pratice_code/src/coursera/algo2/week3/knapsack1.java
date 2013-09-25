@@ -62,7 +62,7 @@ public class knapsack1 {
 	}
 
 	private int runKnapSackRecurse(int weightRem, int node) {
-		if (weightRem < 0 || node < 0)
+		if (weightRem <= 0 || node < 0)
 			return 0;
 
 		if (DP[node][weightRem] >= 0)
