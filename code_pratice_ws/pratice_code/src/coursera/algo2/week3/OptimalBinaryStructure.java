@@ -32,11 +32,12 @@ public class OptimalBinaryStructure {
 
 				double minVal = Integer.MAX_VALUE;
 
-				for (int root = i; root < i+sum; root++) {
+				for (int root = i; root <= i+sum; root++) {
 					double newVal = probSum + getDP(i, root-1) + getDP(root+1, i + sum);
 					minVal = Math.min(newVal, minVal);
-					DP[i][i + sum] = minVal;
 				}
+
+				DP[i][i + sum] = minVal;
 			}
 		}
 
