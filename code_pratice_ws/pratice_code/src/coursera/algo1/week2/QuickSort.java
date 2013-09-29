@@ -51,14 +51,18 @@ public class QuickSort {
 			return start;
 		}
 
+		// i is the boundary of elements less than pivot.....till nums[i-1] elements are less than pivot.
+		// j is the boundary of elements not yet observed.
+		// start .....< P .....i .... > P ..... j ..... elements yet to be observed.
+
 		int i = start+1;
 		int temp;
 		for (int j=start+1;j<=end;j++) {
 			if (nums[j] < nums[start]) {
-				temp = nums[j];
+				temp = nums[j];// swap with left most element > P.
 				nums[j] = nums[i];
 				nums[i] = temp;
-				i++;
+				i++; // move the boundary less than the pivot.
 			}
 		}
 
