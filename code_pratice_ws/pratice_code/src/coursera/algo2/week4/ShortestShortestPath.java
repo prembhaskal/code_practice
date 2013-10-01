@@ -26,6 +26,7 @@ public class ShortestShortestPath {
 	private int [][] previousArray;
 	private int [][] presentArray;
 
+	// TODO convert it to use just single array.
 	private Integer runFloydWarshall2Arrays() {
 		previousArray = new int[totalNodes+1][totalNodes+1];
 		presentArray = new int[totalNodes+1][totalNodes+1];
