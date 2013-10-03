@@ -40,7 +40,8 @@ public class ShortestJohnsonAlgorithmTest {
     */ 
     @Test
     public void testGetShortestShortestPath() throws Exception {
-		InputStream inputStream = getClass().getResourceAsStream("files/week5_large.txt");
+//		InputStream inputStream = getClass().getResourceAsStream("files/week5_large.txt");
+		InputStream inputStream = getClass().getResourceAsStream("files/g3.txt");
 		InputReader in = new InputReader(inputStream);
 
 		testClass.getShortestShortestPath(in);

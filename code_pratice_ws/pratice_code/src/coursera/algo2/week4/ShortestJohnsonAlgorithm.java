@@ -19,7 +19,8 @@ public class ShortestJohnsonAlgorithm {
 		totalEdges = in.nextInt();
 
 		readGraphWithAdditionalNode(in);
-
+		runBellManFordAlgorithm();
+		calculateNewEdgesCosts(previousBellMan);
 		return 0;
 	}
 
@@ -34,29 +35,53 @@ public class ShortestJohnsonAlgorithm {
 
 		presentBellMan = new int[totalNodes];
 
-		for (int budget = 1; budget < totalNodes; budget++) {
+		// DP for the Bellman Ford.
+		// for each of budget 1 to n-1, find the new values.
+		// using only 2 1-D array for space optimisation.
+		for (int budget = 1; budget < totalNodes - 1; budget++) {
 			for (int vertex = 1; vertex < totalNodes-1; vertex++) {
-				int val1 = previousBellMan[vertex];
-				int val2 = Integer.MAX_VALUE;
-				List<Node> inBoundNodes = inBoundGraph.inBoundList[vertex];
-				if (inBoundNodes != null) {
-					long valMin = Integer.MAX_VALUE;
-					for (Node inBoundNode : inBoundNodes) {
-						valMin = Math.min(previousBellMan[inBoundNode.vertex] + inBoundNode.cost , valMin);
-					}
-
-					if (valMin > Integer.MAX_VALUE)
-						valMin = Integer.MAX_VALUE;
-
-					val2 = (int) valMin;
-				}
-
-				presentBellMan[vertex] = Math.min(val1, val2);
+				presentBellMan[vertex] = getBellManMinValue(vertex);
 			}
 
 			// throw old previous values
 			previousBellMan = presentBellMan;
 			presentBellMan = new int[totalNodes];
+		}
+
+	}
+
+	private int getBellManMinValue(int vertex) {
+		int val1 = previousBellMan[vertex];
+		int val2 = Integer.MAX_VALUE;
+		List<Node> inBoundNodes = inBoundGraph.inBoundList[vertex];
+		if (inBoundNodes != null) {
+			long valMin = Integer.MAX_VALUE;
+			for (Node inBoundNode : inBoundNodes) {
+				valMin = Math.min(previousBellMan[inBoundNode.vertex] + (long)inBoundNode.cost , valMin);
+			}
+
+			if (valMin > Integer.MAX_VALUE)
+				valMin = Integer.MAX_VALUE;
+
+			val2 = (int) valMin;
+		}
+
+		return Math.min(val1, val2);
+	}
+
+	private void calculateNewEdgesCosts(int[] bellManValues) {
+		for (int vertex = 1; vertex < totalNodes - 1; vertex++) {
+			List<Node> neighbours = normalGraph.adjacencyList[vertex];
+			if (neighbours != null) {
+				for (Node neighbour : neighbours) {
+					int newCost = neighbour.cost + bellManValues[vertex] - bellManValues[neighbour.vertex];
+					neighbour.cost = newCost;
+
+					if (newCost < 0) {
+						System.out.println("has negative");
+					}
+				}
+			}
 		}
 	}
 
