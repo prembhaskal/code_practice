@@ -1,6 +1,7 @@
 package codechef.practice.rise_and_fall_power;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -27,6 +28,9 @@ public class Main {
 // http://stackoverflow.com/questions/635183/fast-exponentiation-when-only-first-k-digits-are-required
 // http://discuss.codechef.com/questions/15398/first-k-digits-of-nn
 // to get the first k digits of the exponent 10(x).
+
+// TODO somehow java solutions not seem to be working some precision issue.
+// try C++.
 class TaskA {
 
 	public void solve(InputReader in, PrintWriter out) throws IOException {
@@ -77,9 +81,11 @@ class TaskA {
 		double x = n * 1.0 * Math.log10(n * 1.0);
 		double fracX = x - Math.floor(x);
 
-		double allDigits = Math.pow(10, fracX + k);
-		long allDigitsInt = (long)allDigits;
-		String allDigitsStr = allDigitsInt + "";
+		double allDigits = Math.pow(10, fracX + k + 1);
+		BigDecimal bigDecimal = BigDecimal.valueOf(allDigits);
+		int allDigitsNum = bigDecimal.intValue();
+
+		String allDigitsStr = allDigitsNum + "";
 
 		return allDigitsStr.substring(0, k);
 	}
