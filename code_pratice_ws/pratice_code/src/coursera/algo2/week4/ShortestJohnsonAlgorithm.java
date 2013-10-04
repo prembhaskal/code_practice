@@ -1,6 +1,8 @@
 package coursera.algo2.week4;
 
 import common.util.InputReader;
+import coursera.algo1.week5.GenericHeap;
+import coursera.algo1.week5.HeapEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +23,8 @@ public class ShortestJohnsonAlgorithm {
 		readGraphWithAdditionalNode(in);
 		runBellManFordAlgorithm();
 		calculateNewEdgesCosts(previousBellMan);
+
+		runDijkstraForAllNodes();
 		return 0;
 	}
 
@@ -83,6 +87,84 @@ public class ShortestJohnsonAlgorithm {
 				}
 			}
 		}
+	}
+
+	private void runDijkstraForAllNodes() {
+
+		for (int node = 1; node < totalNodes - 1; node++) {
+			runDijkstraForNode(node);
+		}
+	}
+
+
+	boolean[] isExplored;
+	int[] minDijkstraScores;
+	GenericHeap<HeapEntry> heap;
+
+	private void runDijkstraForNode(int startNode) {
+		isExplored = new boolean[totalNodes - 1];
+		minDijkstraScores = new int[totalNodes - 1];
+		isExplored[startNode] = true;// start with the first node.
+
+
+		Arrays.fill(minDijkstraScores, Integer.MAX_VALUE);
+		minDijkstraScores[startNode] = 0;
+
+		initializeHeap(startNode);
+
+		System.out.println("running for source node " + startNode);
+
+		for (int i = 1; i <= totalNodes - 2; i++) {
+			if ( i != startNode) {
+				HeapEntry minNode = heap.extractMin();
+				if (heap.getSize() == 0) {
+					System.out.println("node --> " + i);
+				}
+				minDijkstraScores[minNode.value] = minNode.key;
+				isExplored[minNode.value] = true;
+				recomputeMinScoreFor(minNode.value);
+			}
+		}
+
+	}
+
+
+	private void recomputeMinScoreFor(int node) {
+		if (normalGraph.adjacencyList[node]==null)
+			return;
+
+		for (Node neighbour : normalGraph.adjacencyList[node]) {
+			if (isExplored[neighbour.vertex]==false) {
+				heap.delete(heap.getIndexOf(neighbour.vertex));
+				// min[Ui] = min(Luw + A[w], A[Ui])
+				int minScore = Math.min(minDijkstraScores[node] + neighbour.cost,
+						minDijkstraScores[neighbour.vertex]);
+				heap.insert(new HeapEntry(minScore, neighbour.vertex));
+				// need to keep track of minimum length for a node.
+				minDijkstraScores[neighbour.vertex] = Math.min(minScore, minDijkstraScores[neighbour.vertex]);
+			}
+		}
+	}
+
+
+	private void initializeHeap(int startNode) {
+		// add only edges starting from 0 to rest of graph.
+		if (normalGraph.adjacencyList[startNode] != null)
+			for (Node neighbour : normalGraph.adjacencyList[startNode]) {
+				minDijkstraScores[neighbour.vertex] = neighbour.cost;
+			}
+
+		// TODO -3 -2 clean it up, its unnecessarily complex
+		// store the min value for nodes other than start node.
+		HeapEntry[] heapEntries = new HeapEntry[totalNodes-3];
+		for (int i = 1, j = 0; i <= totalNodes - 2; i++) {
+			if (i != startNode) {
+				HeapEntry heapEntry = new HeapEntry(minDijkstraScores[i], i);
+				heapEntries[j++] = heapEntry;
+			}
+		}
+
+		heap = new GenericHeap<>(heapEntries, totalNodes-1);
 	}
 
 	private void readGraphWithAdditionalNode(InputReader in) {

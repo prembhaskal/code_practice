@@ -33,7 +33,7 @@ public class  GenericHeap<T extends HeapEntry> {
 
 	public T extractMin() {
 		if (size < 1)
-			return null; // this normally should not happen, programming calling should take care of it.
+			return null; // this normally should not happen, program calling should take care of it.
 		T min = nums[0];
 		nums[0] = nums[size-1]; // put last element at top
 		size--; // reduce size;
@@ -51,6 +51,8 @@ public class  GenericHeap<T extends HeapEntry> {
 	}
 
 	public void delete(int nodeIndex) {
+		if (size == 0)
+			throw new RuntimeException("trying to delete from empty heap");
 		swap(nodeIndex, size-1);// swap element to delete with last element in heap
 		size--; // since we removed one element
 
