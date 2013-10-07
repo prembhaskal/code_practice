@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * increase stack size for the -Xss16m
+ */
 public class StrongConnectedComp {
 
 	private Graph graph;
