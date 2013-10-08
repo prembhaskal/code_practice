@@ -31,6 +31,8 @@ class TaskA {
 	int[] B;
 	double totalProbability;
 
+	boolean [] used;
+
 	public void solve(InputReader in, PrintWriter out) throws IOException {
 
 		int tests = in.nextInt();
@@ -40,6 +42,8 @@ class TaskA {
 			P = new double[n];
 			A = new int[n];
 			B = new int[n];
+			used = new boolean[17];
+
 			totalProbability = 0;
 
 			for (int j = 0; j < n; j++) {
@@ -63,7 +67,8 @@ class TaskA {
 		if (n > 16)
 			return;
 
-		findProbability(0, new ArrayList<Integer>(), 1.00);
+//		findProbability(0, new ArrayList<Integer>(), 1.00);
+		findProb(0, 1.00);
 	}
 
 	// TODO change the brute force to a DP or something faster.
@@ -95,6 +100,27 @@ class TaskA {
 		if (set.size()==list.size())
 			return true;
 		return false;
+	}
+
+// better approach since we dont want to put the elements in a set in the end to check distinct
+	// this is much faster
+	private void findProb(int level, double prob) {
+		if (level == n) {
+			totalProbability += prob;
+			return;
+		}
+
+		if (!used[A[level]]) { // choose this A number ... if it is not used before.
+			used[A[level]] = true;
+			findProb(level + 1, prob * P[level]);
+			used[A[level]] = false;
+		}
+
+		if (!used[B[level]]) { // choose this B number ... if it is not used before.
+			used[B[level]] = true;
+			findProb(level + 1, prob * (1.0 - P[level]) );
+			used[B[level]] = false;
+		}
 	}
 
 
