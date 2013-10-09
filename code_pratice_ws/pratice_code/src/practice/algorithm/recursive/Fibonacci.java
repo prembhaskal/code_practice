@@ -1,4 +1,4 @@
-package recursive;
+package practice.algorithm.recursive;
 
 public class Fibonacci {
 

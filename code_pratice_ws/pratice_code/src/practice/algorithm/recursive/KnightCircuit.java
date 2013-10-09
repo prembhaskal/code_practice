@@ -1,4 +1,4 @@
-package recursive;
+package practice.algorithm.recursive;
 
 // SRM 564 DIV - I
 public class KnightCircuit {

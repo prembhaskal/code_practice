@@ -1,4 +1,4 @@
-package recursive;
+package practice.algorithm.recursive;
 
 // SRM144 DIV 1 -->  300 points problem
 public class BinaryCode {

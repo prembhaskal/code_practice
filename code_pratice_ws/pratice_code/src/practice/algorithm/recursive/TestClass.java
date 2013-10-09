@@ -1,4 +1,4 @@
-package recursive;
+package practice.algorithm.recursive;
 
 import topcoder.srm.misc.*;
 import topcoder.srm.s566iv2.PenguinPals;
