@@ -87,7 +87,52 @@ public class TravellingSalesMan1 {
 		}
 	}
 
+	// loop over the the possible sub-graphs and find the minimum of those here.
 	private void doStuff(int[] nums, boolean[] mask) {
+		Set<Integer> mainSubGraph = new HashSet<>();
 
+		// make the main sub graph first.
+		for (int i = 0; i < nums.length; i++) {
+			if (mask[i])
+				mainSubGraph.add(i);
+		}
+
+		for (int node : mainSubGraph) {
+			Set<Integer> otherSubGraph = new HashSet<>(mainSubGraph);
+			otherSubGraph.remove(node);
+
+			double max = Integer.MAX_VALUE;
+
+			for (int previousNode : mainSubGraph) {
+				if (previousNode == node)
+					continue;
+
+				double val1 = getValueASubGraphk(otherSubGraph, previousNode);
+				double val2 = getDistance(node, previousNode);
+
+				double val = val1 + val2;
+				max = Math.max(max, val);
+			}
+		}
+	}
+
+	// TODO try to cache this part.
+	private double getDistance(int node1, int node2) {
+		double xDiff = cityCoordinates[node1][0] - cityCoordinates[node2][0];
+		double xDiff2 = xDiff * xDiff;
+
+		double yDiff = cityCoordinates[node1][1] - cityCoordinates[node2][0];
+		double yDiff2 = yDiff * yDiff;
+
+		return Math.sqrt(xDiff2 + yDiff2);
+	}
+
+	private double getValueASubGraphk(Set<Integer> subGraph, int previousNode) {
+		double[] lengths = subGraphMap.get(subGraph);
+
+		if (lengths == null)
+			return Integer.MAX_VALUE; // +1 for proper comparison.
+		else
+			return lengths[previousNode];
 	}
 }
