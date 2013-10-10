@@ -35,8 +35,13 @@ The following are the details of the parser.
  Max error tree counts:
  (Configurable property)
 
+ Program should be robust enough to handle changes.
+ changes : data format.
+           other tree format.
+
+
  JAVA DOCS at only at the appropriate places.
 
- comment as minimal as possible. Code should be self explainatory.
+ comment as minimal as possible. Code should be self explanatory.
 
  Bundle the thing in a jar, so that they could easily run it.
