@@ -4,7 +4,7 @@ import java.io.OutputStream;
 
 public interface XmlMarshaller {
 
-	void marshal(Object xmlElement, OutputStream os);
+	void marshal(Object xmlElement, OutputStream os) throws MarshalException;
 
-	String marshal(Object xmlElement);
+	String marshal(Object xmlElement) throws MarshalException;
 }

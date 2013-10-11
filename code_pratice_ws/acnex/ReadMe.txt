@@ -26,7 +26,7 @@ The following are the details of the parser.
 
   TreeException: the TreeElements representing the tree and not proper.
 
-  MarshallException: The Element to String conversion failure due to various reasons like.
+  MarshalException: The Element to String conversion failure due to various reasons like.
    invalid Element, (What can be the other reason for this failure??).
 
  STOP PROCESSING at error.
@@ -34,6 +34,9 @@ The following are the details of the parser.
  (parser will try its best to skip the error and come up with a xml representation).
  Max error tree counts:
  (Configurable property)
+ IGNORE the blank lines.
+
+ TEST for null names and values.
 
  Program should be robust enough to handle changes.
  changes : data format.
