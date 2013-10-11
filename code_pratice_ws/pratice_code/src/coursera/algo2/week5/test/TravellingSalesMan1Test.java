@@ -1,8 +1,11 @@
 package coursera.algo2.week5.test; 
 
+import java.io.InputStream;
 import java.util.Scanner;
 import java.io.PrintWriter;
-import org.junit.Test; 
+
+import common.util.InputReader;
+import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
 import static org.junit.Assert.*;
@@ -37,8 +40,14 @@ public class TravellingSalesMan1Test {
     * 
     */ 
     @Test
-    public void testGetMinTotalTravelPeriod() throws Exception { 
-        
+    public void testGetMinTotalTravelPeriod() throws Exception {
+		InputStream inputStream = getClass().getResourceAsStream("files/tsp.txt");
+		InputReader in = new InputReader(inputStream);
+
+		double minLength = testClass.getMinTotalTravelPeriod(in);
+
+		System.out.println("min length of TSP is " + minLength);
+		inputStream.close();
     } 
     
         
