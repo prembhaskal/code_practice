@@ -10,35 +10,52 @@ import static junit.framework.Assert.assertEquals;
 
 public class XmlElementMarshallerTest {
 
-	XmlMarshaller xmlMarshaller = new XmlElementMarshaller();
-	String name;
-	String value;
+	XmlElementMarshaller elementMarshaller = new XmlElementMarshaller();
+	String name = "name";
+	String value = "prem kumar";
+	XmlElement xmlElement = new XmlElement(name, value);
 
 	@Test(expected = MarshalException.class)
 	public void testMarshalExceptionOnPassingInvalidObject() throws Exception{
 		Object object = new Object();
-		xmlMarshaller.marshal(object);
+		elementMarshaller.createTag(object);
 	}
 
 	@Test
-	public void marshalXmlElementSansAttributes() throws Exception {
+	public void createTagXmlElementSansAttributes() throws Exception {
 		name = "name";
 		value = "prem kumar";
-		XmlElement xmlElement = new XmlElement(name, value);
+
 		String expectedXmlString = "<" + name + ">" + value + "</" + name + ">";
-		String actualXmlString = xmlMarshaller.marshal(xmlElement);
+		String actualXmlString = elementMarshaller.createTag(xmlElement);
 
 		assertEquals("the encoded xml is not proper", expectedXmlString, actualXmlString);
 	}
 
 	@Test
-	public void marshalXmlElementWithNullValue() throws Exception {
+	public void createStartingTag() throws Exception {
+		String actualString = elementMarshaller.createStartingTag(xmlElement);
+		String expectedString = "<" + xmlElement.getName() + ">";
+
+		assertEquals("the encoded start tag is not proper", expectedString, actualString);
+	}
+
+	@Test
+	public void createEmptyTag() throws Exception {
+		String actualString  = elementMarshaller.createEndingTag(xmlElement);
+		String expectedString = "</" + xmlElement.getName() + ">";
+
+		assertEquals("the encoded end tag is not proper", expectedString, actualString);
+	}
+
+	@Test
+	public void createXmlElementWithNullValue() throws Exception {
 		name = "name";
 		value = null;
 
 		XmlElement xmlElement = new XmlElement(name, value);
 		String expectedXmlString = "<" + name + "></" + name + ">";
-		String actualXmlString = xmlMarshaller.marshal(xmlElement);
+		String actualXmlString = elementMarshaller.createTag(xmlElement);
 
 		assertEquals("the encoded xml is not proper", expectedXmlString, actualXmlString);
 	}
@@ -56,9 +73,9 @@ public class XmlElementMarshallerTest {
 
 		XmlElement xmlElement = new XmlElement(name, value, attributes);
 
-		String expectedXmlString = "<" + name + " " + attName + "=\"" + attValue + "\">" + value + "</" + name + ">";
-		String actualXmlString = xmlMarshaller.marshal(xmlElement);
+		String expectedString = "<" + name + " " + attName + "=\"" + attValue + "\">";
+		String actualString = elementMarshaller.createStartingTag(xmlElement);
 
-		assertEquals("the encoded xml is not proper", expectedXmlString, actualXmlString);
+		assertEquals("the encoded xml is not proper", expectedString, actualString);
 	}
 }

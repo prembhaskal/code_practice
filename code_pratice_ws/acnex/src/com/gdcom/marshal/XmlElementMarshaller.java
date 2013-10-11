@@ -5,40 +5,31 @@ import com.gdcom.elements.XmlElement;
 import java.io.OutputStream;
 import java.util.List;
 
-public class XmlElementMarshaller implements XmlMarshaller {
+public class XmlElementMarshaller{
 
-	@Override
-	public void marshal(Object xmlElement, OutputStream os) {
-	}
-
-	@Override
-	public String marshal(Object xmlElement) throws MarshalException{
+	public String createTag(Object xmlElement) throws MarshalException{
 		if (! (xmlElement instanceof XmlElement))
 			throw new MarshalException("unknown object passed for marshaling");
 
 		XmlElement element = (XmlElement) xmlElement;
-		List<XmlAttribute> attributes = element.getAttributes();
 
 		StringBuilder xmlString = new StringBuilder();
 
-		if (attributes.isEmpty()) {
-			xmlString.append(createEmptyStartingTag(element.getName()));
-			xmlString.append(element.getValue());
-			xmlString.append(createEndingTag(element.getName()));
-		} else {
-			xmlString.append(createTagWithAttributes(element.getName(), element.getAttributes()));
-			xmlString.append(element.getValue());
-			xmlString.append(createEndingTag(element.getName()));
-		}
+		xmlString.append(createStartingTag(element));
+		xmlString.append(element.getValue());
+		xmlString.append(createEndingTag(element));
 
 		return xmlString.toString();
 	}
 
-	private String createEmptyStartingTag(String tagName) {
-		return "<" + tagName + ">";
+	public String createStartingTag(XmlElement xmlElement) {
+		if (xmlElement.getAttributes().isEmpty())
+			return "<" + xmlElement.getName() + ">";
+		else
+			return createStartingTagWithAttributes(xmlElement.getName(), xmlElement.getAttributes());
 	}
 
-	private String createTagWithAttributes(String tagName, List<XmlAttribute> attributes) {
+	private String createStartingTagWithAttributes(String tagName, List<XmlAttribute> attributes) {
 		StringBuilder tag = new StringBuilder();
 		tag.append("<" + tagName);
 
@@ -55,7 +46,7 @@ public class XmlElementMarshaller implements XmlMarshaller {
 		return xmlAttribute.getName() + "=\"" + xmlAttribute.getValue() + "\"";
 	}
 
-	private String createEndingTag(String tagName) {
-		return "</" + tagName + ">";
+	public String createEndingTag(XmlElement element) {
+		return "</" + element.getName() + ">";
 	}
 }
