@@ -10,11 +10,12 @@ The following are the details of the parser.
 
 >> the parser is divided into following parts.
   1. RawData Converter:
-        Convert the raw data from input file to TreeElements and TreeAttributes.
-        These objects will represent the tree in raw form.
+        Convert the raw data line to a Node, which has XmlElement and XmlAttribute.
+        These objects will represent the tree in the raw form.
 
   2. Tree Creator:
-        This part will convert the list of TreeElements representing a tree to a actual Tree DataStructure.
+        This part will take as input, the list of Nodes representing a tree and then link them to each other, thus
+        forming a tree structure.
         The tree is a collection of Node, where each node in turn have child nodes.
 
   3. XmlMarshaller:
