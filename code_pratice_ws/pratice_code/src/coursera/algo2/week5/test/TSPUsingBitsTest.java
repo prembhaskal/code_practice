@@ -40,7 +40,7 @@ public class TSPUsingBitsTest {
     */ 
     @Test
     public void testGetMinTotalTravelPeriod() throws Exception {
-		InputStream inputStream = getClass().getResourceAsStream("files/test.txt");
+		InputStream inputStream = getClass().getResourceAsStream("files/tsp.txt");
 		InputReader in = new InputReader(inputStream);
 
 		System.out.println("min val is " + testClass.getMinTotalTravelPeriod(in));

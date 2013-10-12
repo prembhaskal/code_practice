@@ -1,10 +1,7 @@
 package coursera.algo2.week5;
 
 import common.util.InputReader;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class TSPUsingBits {
 
@@ -35,10 +32,12 @@ public class TSPUsingBits {
 		subGraphMap = new HashMap<>();
 
 		initAndOrBits();
+		initNearestNodes();
 
-		// iterate for all subgraph sizes from 2 to n
+		// iterate for all sub graph sizes from 2 to n
 		for (int size = 2; size <= totalCities; size++) {
 			findForSubGraphs(0, 0, 0, size);
+			System.out.println("completed level --> " + size);
 		}
 
 		// get minimum from full graph (all bits representing cities are set)
@@ -84,10 +83,16 @@ public class TSPUsingBits {
 		}
 	}
 
-	// the initial bitMask should be 0000000000000, else it wont work.
+	// the initial bitMask should be 0000000000000, else it won't work.
 	private void findForSubGraphs(int bitMask, int idx, int size, int maxSize) {
+		// stop early, if we cannot meet the maxSize requirement.
+		int remElements = totalCities - idx;
+		if (size + remElements < maxSize)
+			return;
+
 		if (size == maxSize) {
-			doStuff(bitMask);
+//			doStuff(bitMask);
+			doStuffLocalSearch(bitMask);
 			return;
 		}
 
@@ -103,6 +108,7 @@ public class TSPUsingBits {
 		findForSubGraphs(bitMask, idx + 1, size, maxSize);
 	}
 
+	// TODO do only local search in the otherSubGraph.... search only nearest nodes.
 	private void doStuff(int mainSubGraph) {
 
 		// loop over all selected nodes in the main sub graph.
@@ -111,7 +117,7 @@ public class TSPUsingBits {
 			if (otherSubGraph == 0) // check if node 'i' is set , else continue.
 				continue;
 
-			otherSubGraph = mainSubGraph & andBits[node]; // reset this bit in the bitMask and use the resultant subgraph.
+			otherSubGraph = mainSubGraph & andBits[node]; // reset this bit in the bitMask and use the resultant sub graph.
 			double min = Integer.MAX_VALUE;
 			for (int previousNode = 0; previousNode < totalCities; previousNode++) {
 				if (node == previousNode)
@@ -120,6 +126,50 @@ public class TSPUsingBits {
 				int res = otherSubGraph & orBits[previousNode];
 				if (res == 0) // skip this bit is not set.
 					continue;
+
+				double val1 = getValueASubGraphk(otherSubGraph, previousNode);
+				double val2 = getDistance(node, previousNode);
+
+				double val = val1 + val2;
+				min = Math.min(min, val);
+
+				putValueAGraphK(mainSubGraph, node, min);
+			}
+		}
+
+	}
+
+	private void doStuffLocalSearch(int mainSubGraph) {
+
+		// loop over all selected nodes in the main sub graph.
+		for (int node = 0; node < totalCities; node++) {
+			int otherSubGraph = mainSubGraph & orBits[node];
+			if (otherSubGraph == 0) // check if node 'i' is set , else continue.
+				continue;
+
+			otherSubGraph = mainSubGraph & andBits[node]; // reset this bit in the bitMask and use the resultant sub graph.
+			double min = Integer.MAX_VALUE;
+
+			int nodesMatched = 0;
+
+			for (int j = 0; j < totalCities; j++) {
+
+				// get the nearest nodes
+				Node nearNode = nearestNodes[node][j];
+				int previousNode = nearNode.node;
+
+				if (node == previousNode)
+					continue;
+
+				// check if this node is set
+				int res = otherSubGraph & orBits[previousNode];
+				if (res == 0) // skip this bit is not set.
+					continue;
+
+				if (nodesMatched == 1)
+					break;
+
+				nodesMatched++;
 
 				double val1 = getValueASubGraphk(otherSubGraph, previousNode);
 				double val2 = getDistance(node, previousNode);
@@ -178,4 +228,44 @@ public class TSPUsingBits {
 		lengths[thisNode] = val;
 	}
 
+	Node[][] nearestNodes;
+
+	private void initNearestNodes() {
+		nearestNodes = new Node[totalCities][totalCities];
+
+		// fill the nearest nodes.
+		for (int i = 0; i < totalCities; i++) {
+			for (int j = 0; j < totalCities; j++) {
+				double dist = getDistance(i, j);
+				Node node = new Node(j, dist);
+				nearestNodes[i][j] = node;
+			}
+		}
+
+		// sort each of the nodes, so that the nearest nodes are nearer.
+		for (int i = 0; i < totalCities; i++) {
+			Arrays.sort(nearestNodes[i]);
+		}
+	}
+
+}
+
+class Node implements Comparable<Node>{
+	double distance;
+	int node;
+
+	public Node(int node, double distance) {
+		this.node = node;
+		this.distance = distance;
+	}
+
+	@Override
+	public int compareTo(Node o) {
+		if (this.distance < o.distance)
+			return -1;
+		else if (this.distance > o.distance)
+			return 1;
+		else
+			return 0;
+	}
 }
