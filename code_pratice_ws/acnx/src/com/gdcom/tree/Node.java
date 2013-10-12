@@ -34,6 +34,10 @@ public class Node {
 		return parentNode;
 	}
 
+	public void setParentNode(Node node) {
+		parentNode = node;
+	}
+
 	public List<Node> getChildNodes() {
 		return Collections.unmodifiableList(childNodes);
 	}
