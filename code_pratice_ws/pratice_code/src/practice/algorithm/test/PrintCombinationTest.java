@@ -38,9 +38,12 @@ public class PrintCombinationTest {
     */ 
     @Test
     public void testPrintCombination() throws Exception { 
-        int[] nums = new int[]{1,2,3,4,5,6,7,8,9,10};
-		testClass.printCombination(nums, 10, true);
-    } 
+        int[] nums = new int[]{1,2,3};
+		testClass.printCombination(nums, 2, true);
+
+		int binaryNo = 0b0111;
+		System.out.println("binary no is " + binaryNo);
+	}
 
 	@Test
     public void testFindAllCombination() {
@@ -52,5 +55,13 @@ public class PrintCombinationTest {
 		for (int i = 1; i < 25; i++) {
 			testClass.printCombination(nums, i, false);
 		}
+	}
+
+	@Test
+	public void testPrintCombinationUsingBits() {
+		int length = 5;
+		int setBits = 3;
+
+		testClass.printCombinationOfBits(length, setBits, true);
 	}
 } 

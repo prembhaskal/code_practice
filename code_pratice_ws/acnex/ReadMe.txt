@@ -38,6 +38,9 @@ The following are the details of the parser.
 
  TEST for null names and values.
 
+ CREATING TREE Structure:
+ use Stacks to create the tree structure.
+
  Program should be robust enough to handle changes.
  changes : data format.
            other tree format.
