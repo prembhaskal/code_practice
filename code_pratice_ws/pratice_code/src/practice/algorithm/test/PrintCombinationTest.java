@@ -52,16 +52,25 @@ public class PrintCombinationTest {
 			nums[i] = i+1;
 		}
 
-		for (int i = 1; i < 25; i++) {
+		for (int i = 1; i < nums.length; i++) {
 			testClass.printCombination(nums, i, false);
 		}
 	}
 
 	@Test
 	public void testPrintCombinationUsingBits() {
-		int length = 5;
-		int setBits = 3;
+		int length = 10;
+		int setBits = 6;
 
 		testClass.printCombinationOfBits(length, setBits, true);
+	}
+
+	@Test
+	public void testFindAllCombinationBits() {
+		int length = 25;
+
+		for (int i = 0; i < length; i++) {
+			testClass.printCombinationOfBits(length, i+1, false);
+		}
 	}
 } 

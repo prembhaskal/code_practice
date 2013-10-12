@@ -56,6 +56,15 @@ public class PrintCombination {
 		System.out.println("");
 	}
 
+	public void printCombinationOfBits(int length, int setBits, boolean print) {
+		this.print = print;
+		this.totalLength = length;
+		int bitMask = 0b0;
+
+		initAndBits();
+		getCombinationUsingBits(bitMask, 0, 0, setBits);
+	}
+
 
 	private int[] andBits;
 	private int[] orBits;
@@ -72,25 +81,21 @@ public class PrintCombination {
 		for (int i = 0; i < totalLength; i++) {
 			andBits[i] = start ^ xorBit;
 			orBits[i] = start;
-			System.out.println("AND -->" + Integer.toBinaryString(andBits[i]) + "<-- ");
-			System.out.println("OR -->" + Integer.toBinaryString(orBits[i]) + "<-- ");
+//			System.out.println("AND -->" + Integer.toBinaryString(andBits[i]) + "<-- ");
+//			System.out.println("OR -->" + Integer.toBinaryString(orBits[i]) + "<-- ");
 			start = start << 1;
 		}
 	}
 
-	public void printCombinationOfBits(int length, int setBits, boolean print) {
-		this.print = print;
-		this.totalLength = length;
-		int bitMask = 0b0;
-//		bitMask = bitMask << length;
-//		bitMask = bitMask - 1;
-
-		initAndBits();
-		getCombinationUsingBits(bitMask, 0, 0, setBits);
-	}
-
 	// the initial bitMask should be 0000000000000, else it wont work.
 	private void getCombinationUsingBits(int bitMask, int idx, int size, int maxSize) {
+
+		// stop early, if we cannot meet the maxSize requirement.
+		int remElements = totalLength - idx;
+		if (size + remElements < maxSize)
+			return;
+
+
 		if (size == maxSize) {
 			doStuff(bitMask);
 			return;
@@ -109,6 +114,8 @@ public class PrintCombination {
 	}
 
 	private void doStuff(int bitMask) {
-		System.out.println(bitMask + " " + Integer.toBinaryString(bitMask));
+		if (print)
+			System.out.println(bitMask + " " + Integer.toBinaryString(bitMask));
 	}
+
 }

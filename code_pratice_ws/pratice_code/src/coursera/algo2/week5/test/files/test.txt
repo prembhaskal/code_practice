@@ -37,7 +37,7 @@ Ans - 37
 1 1
 1 0
 
-Ans - find out
+Ans - 4
 
 
 16
