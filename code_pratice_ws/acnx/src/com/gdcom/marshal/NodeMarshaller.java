@@ -2,6 +2,7 @@ package com.gdcom.marshal;
 
 import com.gdcom.tree.Node;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.List;
 
 public class NodeMarshaller implements XmlMarshaller {
@@ -9,7 +10,8 @@ public class NodeMarshaller implements XmlMarshaller {
 	XmlElementMarshaller xmlElementMarshaller = new XmlElementMarshaller();
 
 	@Override
-	public void marshal(Object xmlElement, OutputStream os) throws MarshalException {
+	public void marshal(Object xmlElement, PrintWriter out) throws MarshalException {
+
 	}
 
 	@Override

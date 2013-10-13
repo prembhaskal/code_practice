@@ -67,7 +67,7 @@ public class XmlElement {
 		if (attributes != null ? !attributes.equals(that.attributes) : that.attributes != null) return false;
 		if (name != null ? !name.equals(that.name) : that.name != null) return false;
 		if (value != null ? !value.equals(that.value) : that.value != null) return false;
-
+		if (isIdElement != that.isIdElement) return false;
 		return true;
 	}
 

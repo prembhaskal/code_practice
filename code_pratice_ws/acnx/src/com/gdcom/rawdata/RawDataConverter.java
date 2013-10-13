@@ -5,6 +5,7 @@ import com.gdcom.elements.XmlElement;
 import com.gdcom.tree.Node;
 import java.util.Arrays;
 
+// TODO add validation for the data.
 public class RawDataConverter {
 
 	private Tokenizer tokenizer;
@@ -26,7 +27,7 @@ public class RawDataConverter {
 
 		int level = getLevel(tokenizer.getNextToken());
 		String token = tokenizer.getNextToken();
-		if (isId(token)) {
+		if (isId(level, token)) {
 			String id = getId(token);
 			String name = tokenizer.getNextToken();
 			node = createIdNode(level, name, id);
@@ -57,8 +58,8 @@ public class RawDataConverter {
 		return Integer.parseInt(token);
 	}
 
-	private boolean isId(String token) {
-		return token.matches("^@.*@$");
+	private boolean isId(int level, String token) {
+		return level==0 && token.matches("^@.*@$");
 	}
 
 	private String getId(String token) {

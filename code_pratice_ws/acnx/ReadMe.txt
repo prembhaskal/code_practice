@@ -8,6 +8,9 @@ The following are the details of the parser.
    input_file.
    output_file.
 
+>> Data Partition Class:
+   Also converts a chunk of data (BufferedReader) having multiple id elements into parts, each having just one id element.
+
 >> the parser is divided into following parts.
   1. RawData Converter:
         Convert the raw data line to a Node, which has XmlElement.
