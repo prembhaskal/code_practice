@@ -57,10 +57,10 @@ public class NodeMarshallerTest {
 		// form all the elements.
 		XmlElement rootElement = new XmlElement("rootNode", null);
 		XmlAttribute idAttribute = new XmlAttribute("id", "1");
-		XmlElement element1 = new XmlElement("elem1", null, Arrays.asList(idAttribute));
+		XmlElement element1 = new XmlElement("elem1", null, Arrays.asList(idAttribute), true);
 
 		XmlAttribute valueAttribute = new XmlAttribute("value", "prem");
-		XmlElement nameElement = new XmlElement("name", null, Arrays.asList(valueAttribute));
+		XmlElement nameElement = new XmlElement("name", null, Arrays.asList(valueAttribute), false);
 
 		XmlElement surnElement = new XmlElement("surn", "bhaskal");
 		XmlElement middleElement = new XmlElement("middle", "kumar");

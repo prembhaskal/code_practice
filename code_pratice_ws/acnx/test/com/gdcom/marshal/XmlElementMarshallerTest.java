@@ -71,7 +71,7 @@ public class XmlElementMarshallerTest {
 		List<XmlAttribute> attributes = new ArrayList<>();
 		attributes.add(xmlAttribute);
 
-		XmlElement xmlElement = new XmlElement(name, value, attributes);
+		XmlElement xmlElement = new XmlElement(name, value, attributes, false);
 
 		String expectedString = "<" + name + " " + attName + "=\"" + attValue + "\">";
 		String actualString = elementMarshaller.createStartingTag(xmlElement);

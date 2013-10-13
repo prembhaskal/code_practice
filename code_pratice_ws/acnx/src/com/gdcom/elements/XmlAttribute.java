@@ -17,4 +17,17 @@ public class XmlAttribute {
 	public String getValue() {
 		return value;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		XmlAttribute attribute = (XmlAttribute) o;
+
+		if (name != null ? !name.equals(attribute.name) : attribute.name != null) return false;
+		if (value != null ? !value.equals(attribute.value) : attribute.value != null) return false;
+
+		return true;
+	}
 }

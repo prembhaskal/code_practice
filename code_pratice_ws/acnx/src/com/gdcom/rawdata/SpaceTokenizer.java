@@ -2,18 +2,17 @@ package com.gdcom.rawdata;
 
 import java.util.NoSuchElementException;
 
-public class RawSpaceTokenizer implements Tokenizer {
+public class SpaceTokenizer implements Tokenizer {
 
 	private String DEFAULT_DELIMITER = " ";
-	private String str;
 	private String[] tokens;
 
 	private int currentToken;
 
 	@Override
-	public void tokenize(String str) {
-		this.str = str.replaceAll("[\\ ]+", " ");
-		tokens = str.split(" ");
+	public void tokenize(String line) {
+		line = line.replaceAll("[\\ ]+", " "); // replace continuous spaces with a single one.
+		tokens = line.split(" ");
 		currentToken = -1;
 	}
 
@@ -34,7 +33,7 @@ public class RawSpaceTokenizer implements Tokenizer {
 		}
 		// remove last space.
 		if (sb.length() > 0)
-			sb.substring(0, sb.length()-1);
+			sb.deleteCharAt(sb.length()-1);
 
 		return sb.toString();
 	}

@@ -48,4 +48,19 @@ public class Node {
 		}
 		childNodes.add(childNode);
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Node node = (Node) o;
+
+		if (level != node.level) return false;
+		if (childNodes != null ? !childNodes.equals(node.childNodes) : node.childNodes != null) return false;
+		if (parentNode != null ? !parentNode.equals(node.parentNode) : node.parentNode != null) return false;
+		if (xmlElement != null ? !xmlElement.equals(node.xmlElement) : node.xmlElement != null) return false;
+
+		return true;
+	}
 }
