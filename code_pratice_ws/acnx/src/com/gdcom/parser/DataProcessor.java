@@ -66,9 +66,7 @@ public class DataProcessor {
 		Node rootNode = treeCreator.formTreeFromNodes(subTreeNodes);
 		fixAttributes.fixAttributeForTree(rootNode);
 
-		for (Node node : subTreeNodes) {
-			xmlMarshaller.marshal(node, out);
-		}
+		xmlMarshaller.marshal(rootNode, out);
 	}
-	
+
 }

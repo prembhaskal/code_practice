@@ -4,7 +4,9 @@ import com.gdcom.elements.XmlAttribute;
 import com.gdcom.elements.XmlElement;
 import com.gdcom.tree.Node;
 import java.awt.image.AreaAveragingScaleFilter;
+import java.io.*;
 import java.util.Arrays;
+import org.junit.After;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
@@ -16,6 +18,13 @@ public class NodeMarshallerTest {
 	XmlElement rootElement = new XmlElement("root", "val");
 	Node rootNode = new Node(rootElement, 0, null);
 
+	File outputFile = new File("NodeMarshalOutput.xml");
+
+	@After
+	public void cleanUp() {
+		boolean test = outputFile.delete();
+		System.out.println("deleted " + test);
+	}
 
 	@Test(expected = MarshalException.class)
 	public void testMarshalExceptionOnInvalidObject() throws Exception {
@@ -39,21 +48,48 @@ public class NodeMarshallerTest {
 		assertEquals("the encoded xml is not proper", expectedString, actualString);
 	}
 
-	/**
-	 *
-	 <rootNode>
-	 <elem1 id="1">
-	 <name value="prem">
-	 <surn>bhaskal</surn>
-	 <middle>kumar</middle>
-	 </name>
-	 <sex>M</sex>
-	 </elem1>
-	 <rootNode>
-	 */
 	@Test
 	public void testMarshalNodeCombination1() throws Exception {
+		rootNode = getNodeCombination1();
 
+		String actualXml = xmlMarshaller.marshal(rootNode);
+		String expectedXml = getExpectedXml1();
+//		System.out.println(expectedXml);
+
+		assertEquals("the encoded xml is not proper", expectedXml, actualXml);
+	}
+
+	@Test
+	public void testMarshalWritesToFileProperly() throws Exception {
+		rootNode = getNodeCombination1();
+		PrintWriter out = new PrintWriter(outputFile);
+		xmlMarshaller.marshal(rootNode, out);
+		out.flush();
+		out.close();
+
+		String actualXml = readContentOfOutputFile();
+		String expectedXml = getExpectedXml1();
+
+		assertEquals("encoded xml is not proper", expectedXml, actualXml);
+	}
+
+	private String readContentOfOutputFile() throws Exception {
+		InputStream in = new FileInputStream(outputFile);
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+
+		char[] chars = new char[1024];
+		int len;
+		StringBuilder stringBuilder = new StringBuilder();
+		while ((len=bufferedReader.read(chars)) > 0) {
+			stringBuilder.append(chars, 0, len);
+		}
+
+		in.close();
+
+		return stringBuilder.toString();
+	}
+
+	private Node getNodeCombination1() {
 		// form all the elements.
 		XmlElement rootElement = new XmlElement("rootNode", null);
 		XmlAttribute idAttribute = new XmlAttribute("id", "1");
@@ -79,8 +115,24 @@ public class NodeMarshallerTest {
 
 		nameNode.addChildNode(surnNode);
 		nameNode.addChildNode(middleNode);
+		return rootNode;
+	}
 
-		String actualXml = "<rootNode>\n" +
+
+	/*
+	 *
+	 <rootNode>
+	 <elem1 id="1">
+	 <name value="prem">
+	 <surn>bhaskal</surn>
+	 <middle>kumar</middle>
+	 </name>
+	 <sex>M</sex>
+	 </elem1>
+	 <rootNode>
+	 */
+	private String getExpectedXml1() {
+		String expectedXml = "<rootNode>\n" +
 				"<elem1 id=\"1\">\n" +
 				"<name value=\"prem\">\n" +
 				"<surn>bhaskal</surn>\n" +
@@ -89,12 +141,7 @@ public class NodeMarshallerTest {
 				"<sex>M</sex>\n" +
 				"</elem1>\n" +
 				"</rootNode>";
-
-		String expectedXml = xmlMarshaller.marshal(rootNode);
-
-//		System.out.println(expectedXml);
-
-		assertEquals("the encoded xml is not proper", actualXml, expectedXml);
+		return expectedXml;
 	}
 
 }

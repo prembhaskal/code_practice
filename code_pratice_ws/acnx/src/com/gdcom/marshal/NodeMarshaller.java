@@ -11,7 +11,8 @@ public class NodeMarshaller implements XmlMarshaller {
 
 	@Override
 	public void marshal(Object xmlElement, PrintWriter out) throws MarshalException {
-
+		String encodedXml = marshal(xmlElement);
+		out.print(encodedXml);
 	}
 
 	@Override
