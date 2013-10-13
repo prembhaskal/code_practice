@@ -9,6 +9,8 @@ public class NodeMarshaller implements XmlMarshaller {
 
 	XmlElementMarshaller xmlElementMarshaller = new XmlElementMarshaller();
 
+	String lineSeparator = "\r\n";
+
 	@Override
 	public void marshal(Object xmlElement, PrintWriter out) throws MarshalException {
 		String encodedXml = marshal(xmlElement);
@@ -41,21 +43,20 @@ public class NodeMarshaller implements XmlMarshaller {
 			xml.append(tag);
 		}
 		else {
-
 			String startTag = xmlElementMarshaller.createStartingTag(node.getXmlElement());
 			xml.append(startTag);
-			xml.append("\n");
+			xml.append(lineSeparator);
 
 			for (Node childNode : childNodes) {
 				String childXml = encodeNode(childNode);
 				xml.append(childXml);
-				xml.append("\n");
+				xml.append(lineSeparator);
 			}
 
 			String endTag = xmlElementMarshaller.createEndingTag(node.getXmlElement());
 			xml.append(endTag);
-
 		}
+
 		return xml.toString();
 	}
 

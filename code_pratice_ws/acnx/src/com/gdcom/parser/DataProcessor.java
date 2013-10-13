@@ -20,6 +20,8 @@ public class DataProcessor {
 	private FixAttributes fixAttributes;
 	private XmlMarshaller xmlMarshaller;
 
+	private String lineSeparator = "\r\n";
+
 	public DataProcessor(RawDataConverter dataConverter, TreeCreator treeCreator, FixAttributes fixAttributes,
 						 XmlMarshaller xmlMarshaller) {
 		this.dataConverter = dataConverter;
@@ -35,13 +37,12 @@ public class DataProcessor {
 
 		line = reader.readLine();
 		node = dataConverter.convertToNode(line);
+		subTreeNodes.add(node);
 
 		if (!isStartOfNextSubTree(node))
 			throw new ParserException("data is not starting with an id element");
 
 		while ((line = reader.readLine()) != null) {
-			subTreeNodes.add(node);
-
 			if (line.isEmpty())
 				continue;
 
@@ -50,6 +51,8 @@ public class DataProcessor {
 				parseSubTree(subTreeNodes, out);
 				subTreeNodes.clear();
 			}
+			// add the read node to sub tree.
+			subTreeNodes.add(node);
 		}
 
 		// take care of remaining lines.(if any)
@@ -66,6 +69,7 @@ public class DataProcessor {
 		fixAttributes.fixAttributeForTree(rootNode);
 
 		xmlMarshaller.marshal(rootNode, out);
+		out.print(lineSeparator);
 	}
 
 }

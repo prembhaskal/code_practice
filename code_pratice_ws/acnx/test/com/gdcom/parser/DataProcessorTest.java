@@ -7,6 +7,7 @@ import com.gdcom.rawdata.SpaceTokenizer;
 import com.gdcom.tree.FixAttributes;
 import com.gdcom.tree.TreeCreator;
 import java.io.*;
+import org.junit.After;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertTrue;
@@ -22,7 +23,16 @@ public class DataProcessorTest {
 
 	File inputFile1 = new File(getClass().getResource("files/parsed_input_1.txt").getFile());
 	File expectedOutputFile1 = new File(getClass().getResource("files/expected_output_1.xml").getFile());
+
+	File inputFile2 = new File(getClass().getResource("files/parsed_input_2.txt").getFile());
+	File expectedOutputFile2 = new File(getClass().getResource("files/expected_output_2.xml").getFile());
+
 	File actualOutputFile = new File("processed_output_file.xml");
+
+	@After
+	public void cleanUp() {
+		actualOutputFile.delete();
+	}
 
 	@Test
 	public void testDataIsParsedCorrectly1() throws Exception {
@@ -35,6 +45,19 @@ public class DataProcessorTest {
 
 		assertTrue("encoded xml is not proper", compareFiles(expectedOutputFile1, actualOutputFile));
 	}
+
+	@Test
+	public void testDataIsParsedCorrectly2() throws Exception {
+		BufferedReader inputFileReader = new BufferedReader(new FileReader(inputFile2));
+		PrintWriter out = new PrintWriter(actualOutputFile);
+		dataProcessor.processData(inputFileReader, out);
+
+		out.close();
+		inputFileReader.close();
+
+		assertTrue("encoded xml is not proper", compareFiles(expectedOutputFile2, actualOutputFile));
+	}
+
 
 	private boolean compareFiles(File expectedFile, File actualFile) throws IOException {
 		BufferedReader expFileReader = new BufferedReader(new FileReader(expectedFile));
@@ -65,6 +88,9 @@ public class DataProcessorTest {
 				}
 			}
 		}
+
+		actFileReader.close();
+		expFileReader.close();
 
 		return fileEqual;
 	}

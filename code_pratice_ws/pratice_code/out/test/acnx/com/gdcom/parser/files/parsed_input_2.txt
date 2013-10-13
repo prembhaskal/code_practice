@@ -1,0 +1,7 @@
+0 @I1@ indi
+1 name Jamis Gordon /Buck/
+2 surn Buck
+2 givn Jamis Gordon
+1 sex M
+0 @N0122@ note
+1 conc King of England

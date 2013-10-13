@@ -22,8 +22,7 @@ public class NodeMarshallerTest {
 
 	@After
 	public void cleanUp() {
-		boolean test = outputFile.delete();
-		System.out.println("deleted " + test);
+		outputFile.delete();
 	}
 
 	@Test(expected = MarshalException.class)
@@ -132,14 +131,14 @@ public class NodeMarshallerTest {
 	 <rootNode>
 	 */
 	private String getExpectedXml1() {
-		String expectedXml = "<rootNode>\n" +
-				"<elem1 id=\"1\">\n" +
-				"<name value=\"prem\">\n" +
-				"<surn>bhaskal</surn>\n" +
-				"<middle>kumar</middle>\n" +
-				"</name>\n" +
-				"<sex>M</sex>\n" +
-				"</elem1>\n" +
+		String expectedXml = "<rootNode>\r\n" +
+				"<elem1 id=\"1\">\r\n" +
+				"<name value=\"prem\">\r\n" +
+				"<surn>bhaskal</surn>\r\n" +
+				"<middle>kumar</middle>\r\n" +
+				"</name>\r\n" +
+				"<sex>M</sex>\r\n" +
+				"</elem1>\r\n" +
 				"</rootNode>";
 		return expectedXml;
 	}
