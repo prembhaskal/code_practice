@@ -18,7 +18,7 @@ public class RawDataConverterTest {
 		String idLine = "0 @I1@ INDI";
 		Node actualNode = rawDataConverter.convertToNode(idLine);
 
-		XmlAttribute idAttribute = new XmlAttribute("id", "I1");
+		XmlAttribute idAttribute = new XmlAttribute("id", "@I1@");
 		XmlElement expIdElement = new XmlElement("INDI", null, Arrays.asList(idAttribute), true);
 		Node expectedNode = new Node(expIdElement,0, null);
 

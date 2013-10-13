@@ -28,7 +28,7 @@ public class RawDataConverter {
 		int level = getLevel(tokenizer.getNextToken());
 		String token = tokenizer.getNextToken();
 		if (isId(level, token)) {
-			String id = getId(token);
+			String id = token;
 			String name = tokenizer.getNextToken();
 			node = createIdNode(level, name, id);
 		}
@@ -62,7 +62,4 @@ public class RawDataConverter {
 		return level==0 && token.matches("^@.*@$");
 	}
 
-	private String getId(String token) {
-		return token.replaceAll("@", "");
-	}
 }
