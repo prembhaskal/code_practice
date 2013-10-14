@@ -1,9 +1,23 @@
 package coursera.algo2.week5;
 
 import common.util.InputReader;
+
+import java.io.*;
 import java.util.*;
 
 public class TSPUsingBits {
+
+
+	public static void main(String[] a) {
+		InputStream inputStream = System.in;
+		InputReader in = new InputReader(inputStream);
+		PrintWriter out = new PrintWriter(System.out);
+
+		TSPUsingBits tspUsingBits = new TSPUsingBits();
+		double minValue = tspUsingBits.getMinTotalTravelPeriod(in);
+
+		out.println("min value is " + minValue);
+	}
 
 	int totalCities;
 
@@ -25,11 +39,15 @@ public class TSPUsingBits {
 
 	}
 
-	private Map<Integer, double[]> subGraphMap;
+//	private Map<Integer, double[]> subGraphMap;
+
+	private Map<Integer, double[]>[] sizeVsSubGraphMapArray;
 
 	private double getMinTotalTravelPeriod() {
 
-		subGraphMap = new HashMap<>();
+//		subGraphMap = new HashMap<>();
+
+		sizeVsSubGraphMapArray = new Map[totalCities+1];
 
 		initAndOrBits();
 		initNearestNodes();
@@ -38,12 +56,14 @@ public class TSPUsingBits {
 		for (int size = 2; size <= totalCities; size++) {
 			findForSubGraphs(0, 0, 0, size);
 			System.out.println("completed level --> " + size);
+			discardOldDPValues(size - 1);
 		}
 
 		// get minimum from full graph (all bits representing cities are set)
 		int fullGraph = 1 << totalCities;
 		fullGraph = fullGraph - 1;
 
+		Map<Integer, double[]> subGraphMap = sizeVsSubGraphMapArray[totalCities];
 		double[] lengths = subGraphMap.get(fullGraph);
 		double min = Integer.MAX_VALUE;
 		for (int i = 1; i < totalCities; i++) {
@@ -53,6 +73,14 @@ public class TSPUsingBits {
 		}
 
 		return min;
+	}
+
+	private void discardOldDPValues(int size) {
+		Map<Integer, double[]> subGraphMap = sizeVsSubGraphMapArray[size];
+
+		if (subGraphMap != null)
+			subGraphMap.clear();
+
 	}
 
 
@@ -92,7 +120,7 @@ public class TSPUsingBits {
 
 		if (size == maxSize) {
 //			doStuff(bitMask);
-			doStuffLocalSearch(bitMask);
+			doStuffLocalSearch(bitMask, size);
 			return;
 		}
 
@@ -109,7 +137,7 @@ public class TSPUsingBits {
 	}
 
 	// TODO do only local search in the otherSubGraph.... search only nearest nodes.
-	private void doStuff(int mainSubGraph) {
+	private void doStuff(int mainSubGraph, int size) {
 
 		// loop over all selected nodes in the main sub graph.
 		for (int node = 0; node < totalCities; node++) {
@@ -127,19 +155,22 @@ public class TSPUsingBits {
 				if (res == 0) // skip this bit is not set.
 					continue;
 
-				double val1 = getValueASubGraphk(otherSubGraph, previousNode);
+				double val1 = getValueASubGraphk(otherSubGraph, previousNode, size);
 				double val2 = getDistance(node, previousNode);
 
 				double val = val1 + val2;
 				min = Math.min(min, val);
 
-				putValueAGraphK(mainSubGraph, node, min);
+				putValueAGraphK(mainSubGraph, node, min, size);
 			}
 		}
 
 	}
 
-	private void doStuffLocalSearch(int mainSubGraph) {
+	// parameter controlling how many nodes will be looked up for the local search.
+	private int LOCAL_SEARCH = 5;
+
+	private void doStuffLocalSearch(int mainSubGraph, int size) {
 
 		// loop over all selected nodes in the main sub graph.
 		for (int node = 0; node < totalCities; node++) {
@@ -166,18 +197,18 @@ public class TSPUsingBits {
 				if (res == 0) // skip this bit is not set.
 					continue;
 
-				if (nodesMatched == 1)
+				if (nodesMatched == LOCAL_SEARCH)
 					break;
 
 				nodesMatched++;
 
-				double val1 = getValueASubGraphk(otherSubGraph, previousNode);
+				double val1 = getValueASubGraphk(otherSubGraph, previousNode, size - 1);
 				double val2 = getDistance(node, previousNode);
 
 				double val = val1 + val2;
 				min = Math.min(min, val);
 
-				putValueAGraphK(mainSubGraph, node, min);
+				putValueAGraphK(mainSubGraph, node, min, size);
 			}
 		}
 
@@ -195,7 +226,13 @@ public class TSPUsingBits {
 		return Math.sqrt(xDiff2 + yDiff2);
 	}
 
-	private double getValueASubGraphk(int bitMask, int previousNode) {
+	private double getValueASubGraphk(int bitMask, int previousNode, int size) {
+		Map<Integer, double[]> subGraphMap = sizeVsSubGraphMapArray[size];
+
+		if (subGraphMap == null) {
+			subGraphMap = new HashMap<>();
+			sizeVsSubGraphMapArray[size] = subGraphMap;
+		}
 		double[] lengths = subGraphMap.get(bitMask);
 
 		if (lengths == null) {
@@ -217,7 +254,14 @@ public class TSPUsingBits {
 		}
 	}
 
-	private void putValueAGraphK(int bitMask, int thisNode, double val) {
+	private void putValueAGraphK(int bitMask, int thisNode, double val, int size) {
+		Map<Integer, double[]> subGraphMap = sizeVsSubGraphMapArray[size];
+
+		if (subGraphMap == null) {
+			subGraphMap = new HashMap<>();
+			sizeVsSubGraphMapArray[size] = subGraphMap;
+		}
+
 		double [] lengths = subGraphMap.get(bitMask);
 		if (lengths == null) {
 			lengths = new double[totalCities];

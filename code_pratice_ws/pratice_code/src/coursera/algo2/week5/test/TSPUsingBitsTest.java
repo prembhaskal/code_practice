@@ -1,10 +1,11 @@
 package coursera.algo2.week5.test; 
 
-import common.util.InputReader;
 import java.io.InputStream;
 import java.util.Scanner;
 import java.io.PrintWriter;
-import org.junit.Test; 
+
+import common.util.InputReader;
+import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
 import static org.junit.Assert.*;
@@ -40,7 +41,7 @@ public class TSPUsingBitsTest {
     */ 
     @Test
     public void testGetMinTotalTravelPeriod() throws Exception {
-		InputStream inputStream = getClass().getResourceAsStream("files/tsp.txt");
+		InputStream inputStream = getClass().getResourceAsStream("files/test.txt");
 		InputReader in = new InputReader(inputStream);
 
 		System.out.println("min val is " + testClass.getMinTotalTravelPeriod(in));
