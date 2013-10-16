@@ -12,6 +12,8 @@ import org.junit.Test;
 
 import static junit.framework.Assert.assertTrue;
 
+// TODO tests here should just test that the treeCreator, fixAttributes are called with proper values, no comparing of xml should be done here.
+// TODO write a separate integration test to do that.
 public class DataProcessorTest {
 
 	RawDataConverter rawDataConverter = new RawDataConverter(new SpaceTokenizer());
