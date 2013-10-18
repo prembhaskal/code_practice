@@ -41,12 +41,27 @@ public class TwoSatUsingSCCTest {
     */ 
     @Test
     public void testIsSatisfiable() throws Exception {
-		InputStream inputStream = getClass().getResourceAsStream("files/graph.txt");
+		InputStream inputStream = getClass().getResourceAsStream("files/2sat6.txt");
 		InputReader in = new InputReader(inputStream);
 
-		testClass.isSatisfiable(in);
+		boolean isSAT = testClass.isSatisfiable(in);
+
+		System.out.println("is SAT " + isSAT);
 
 		inputStream.close();
+	}
+
+	@Test
+	public void testIsSatForAllFiles() throws Exception {
+		for (int i = 1; i < 7; i++) {
+			String file = "files/2sat" + i + ".txt";
+			InputStream inputStream = getClass().getResourceAsStream(file);
+			InputReader in = new InputReader(inputStream);
+
+			boolean isSAT = testClass.isSatisfiable(in);
+
+			System.out.println("is SAT  for " + i + " -- "+ isSAT);
+		}
 	}
     
         
