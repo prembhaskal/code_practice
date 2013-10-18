@@ -25,6 +25,8 @@ public class TwoSatUsingSCC {
 		// total vertices = 3*2 + 2 = 8
 		readGraph(in);
 
+		System.out.println("graph created");
+
 		findStronglyConnectedComponents();
 
 		return isSAT;
@@ -147,7 +149,7 @@ public class TwoSatUsingSCC {
 			graph.addNeighbour(compNode1 + clauses + 1, node2 + clauses + 1);
 			graph.addNeighbour(compNode2 + clauses + 1, node1 + clauses + 1);
 
-			reverseGraph.addNeighbour(node2 + clauses + 1, compNode1+clauses+1);
+			reverseGraph.addNeighbour(node2 + clauses + 1, compNode1 + clauses + 1);
 			reverseGraph.addNeighbour(node1 + clauses + 1, compNode2 + clauses + 1);
 		}
 	}
