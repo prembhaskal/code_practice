@@ -49,6 +49,19 @@ public class GraphReduction {
 		return clauses - totalDeleted;
 	}
 
+	public int[][] getReducedClauses(InputReader in) {
+		int remainingClauses = reduceTheGraph(in);
+
+		int[][] reducedClauses = new int[remainingClauses][2];
+
+		for (int i = 0, j = 0; i < clauses; i++) {
+			if (!deletedClauses[i])
+				reducedClauses[j++] = clauseArray[i];
+		}
+
+		return reducedClauses;
+	}
+
 	private void readGraph(InputReader in) {
 		for (int i = 0; i < clauses; i++) {
 			clauseArray[i][0] = in.nextInt();
