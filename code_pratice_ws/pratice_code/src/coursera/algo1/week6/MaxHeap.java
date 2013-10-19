@@ -1,4 +1,4 @@
-package coursera.algo1.week6.test;
+package coursera.algo1.week6;
 
 import java.util.Arrays;
 

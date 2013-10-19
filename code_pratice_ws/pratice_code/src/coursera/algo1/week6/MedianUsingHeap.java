@@ -1,7 +1,6 @@
 package coursera.algo1.week6;
 
 import coursera.algo1.week5.HeapAsArray;
-import coursera.algo1.week6.test.MaxHeap;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
