@@ -1,8 +1,8 @@
-.idea
+/.idea
 # ignore the generated class files.
 *.class
 SCC.txt
-out/production/
+/out/production/
 HashInt.txt
 clustering_big.txt
 week5_large.txt
