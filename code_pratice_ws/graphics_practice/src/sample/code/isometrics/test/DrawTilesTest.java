@@ -16,7 +16,8 @@ public class DrawTilesTest {
 
 	public static void main(String[] s) throws Exception {
 		DrawTilesTest drawTilesTest = new DrawTilesTest();
-		drawTilesTest.testNormalGrid();
+//		drawTilesTest.testNormalGrid();
+		drawTilesTest.testNormalGrid2();
 	}
 
 	private void testNormalGrid() throws Exception {
@@ -48,5 +49,35 @@ public class DrawTilesTest {
 			}
 		}
 	}
+
+	private void testNormalGrid2() {
+		// create appropriate rows and columns
+		rows = 6;
+		columns = 6;
+		createPoints();
+
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				DrawTiles drawTiles = new DrawTiles(points, rows, columns);
+				drawTiles.setVisible(true);
+			}
+		});
+	}
+
+	private void createPoints() {
+		int tileHt = 50;
+		points = new Point[rows][columns];
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				int x = tileHt * (i+1);
+				int y = tileHt * (j+1);
+				points[i][j] = new Point(x, y);
+			}
+		}
+
+	}
+
+
 
 }

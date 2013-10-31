@@ -7,7 +7,6 @@ import java.io.InputStream;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import sample.code.Point;
 
 public class DrawTiles extends JFrame {
@@ -30,7 +29,7 @@ public class DrawTiles extends JFrame {
 
 		add(new Surface(coordinates, rows, columns));
 
-		setSize(350, 250);
+		setSize(400, 400);
 		setLocationRelativeTo(null);
 	}
 
