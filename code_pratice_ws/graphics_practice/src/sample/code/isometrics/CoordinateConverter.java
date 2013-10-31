@@ -56,10 +56,13 @@ public class CoordinateConverter {
 	private Point offSetPoint;
 
 
-	public CoordinateConverter(int screenWidth, int screenHeight) {
+	public CoordinateConverter(int screenWidth, int screenHeight, Point offSetPt) {
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
-		setDefaultOffset();
+		if (offSetPt == null)
+			setDefaultOffset();
+		else
+			this.offSetPoint = offSetPt;
 	}
 
 	// default offset --> considering the screen covers the map entirely.

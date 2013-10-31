@@ -87,7 +87,8 @@ public class DrawTilesTest {
 		int screenHeight = 480;
 
 		createPoints();
-		CoordinateConverter coordinateConverter = new CoordinateConverter(screenWidth, screenHeight);
+		Point offSetPoint = new Point(-50, 0);
+		CoordinateConverter coordinateConverter = new CoordinateConverter(screenWidth, screenHeight, offSetPoint);
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
