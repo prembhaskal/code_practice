@@ -4,6 +4,7 @@ import common.util.InputReader;
 import java.io.InputStream;
 import javax.swing.SwingUtilities;
 import sample.code.Point;
+import sample.code.isometrics.CoordinateConverter;
 import sample.code.isometrics.DrawTiles;
 
 public class DrawTilesTest {
@@ -17,7 +18,8 @@ public class DrawTilesTest {
 	public static void main(String[] s) throws Exception {
 		DrawTilesTest drawTilesTest = new DrawTilesTest();
 //		drawTilesTest.testNormalGrid();
-		drawTilesTest.testNormalGrid2();
+//		drawTilesTest.testNormalGrid2();
+		drawTilesTest.testIsometricGrid();
 	}
 
 	private void testNormalGrid() throws Exception {
@@ -66,16 +68,43 @@ public class DrawTilesTest {
 	}
 
 	private void createPoints() {
-		int tileHt = 50;
+		int factor = 50;
 		points = new Point[rows][columns];
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				int x = tileHt * (i+1);
-				int y = tileHt * (j+1);
+		for (int i = 0; i < rows; i++) { // x points
+			for (int j = 0; j < columns; j++) { // y points
+				int x = factor * (i+1);
+				int y = factor * (j+1);
 				points[i][j] = new Point(x, y);
 			}
 		}
 
+	}
+
+	private void testIsometricGrid() {
+		rows = columns = 5;
+
+		int screenWidth = 640;
+		int screenHeight = 480;
+
+		createPoints();
+		CoordinateConverter coordinateConverter = new CoordinateConverter(screenWidth, screenHeight);
+
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				Point isoPoint = coordinateConverter.normalToIsometric(points[i][j]);
+				System.out.println("normal point " + points[i][j].x + " -- " + points[i][j].y);
+				points[i][j] = isoPoint;
+				System.out.println("iso point " + points[i][j].x + " -- " + points[i][j].y);
+			}
+		}
+
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				DrawTiles drawTiles = new DrawTiles(points, rows, columns);
+				drawTiles.setVisible(true);
+			}
+		});
 	}
 
 

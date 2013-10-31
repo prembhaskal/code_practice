@@ -29,7 +29,7 @@ public class DrawTiles extends JFrame {
 
 		add(new Surface(coordinates, rows, columns));
 
-		setSize(400, 400);
+		setSize(640, 480);
 		setLocationRelativeTo(null);
 	}
 
