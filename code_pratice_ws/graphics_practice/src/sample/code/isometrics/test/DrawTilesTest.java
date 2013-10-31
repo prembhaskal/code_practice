@@ -13,19 +13,18 @@ public class DrawTilesTest {
 
 	private int rows;
 	private int columns;
-	private Point[][] points;
 
 	public static void main(String[] s) throws Exception {
 		DrawTilesTest drawTilesTest = new DrawTilesTest();
 //		drawTilesTest.testNormalGrid();
-//		drawTilesTest.testNormalGrid2();
+		drawTilesTest.testNormalGrid2();
 		drawTilesTest.testIsometricGrid();
 	}
 
 	private void testNormalGrid() throws Exception {
 		InputStream inputStream = getClass().getResourceAsStream("data.txt");
 		InputReader in = new InputReader(inputStream);
-		readData(in);
+		final Point[][] points = readData(in);
 
 		inputStream.close();
 
@@ -38,10 +37,10 @@ public class DrawTilesTest {
 		});
 	}
 
-	private void readData(InputReader in) {
+	private Point[][] readData(InputReader in) {
 		rows = in.nextInt();
 		columns = in.nextInt();
-		points = new Point[rows][columns];
+		Point[][] points = new Point[rows][columns];
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
@@ -50,13 +49,14 @@ public class DrawTilesTest {
 				points[i][j] = new Point(x, y);
 			}
 		}
+
+		return points;
 	}
 
 	private void testNormalGrid2() {
 		// create appropriate rows and columns
-		rows = 6;
-		columns = 6;
-		createPoints();
+		rows = columns = 5;
+		final Point[][] points = createPoints();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -67,9 +67,9 @@ public class DrawTilesTest {
 		});
 	}
 
-	private void createPoints() {
+	private Point[][] createPoints() {
 		int factor = 50;
-		points = new Point[rows][columns];
+		Point[][] points = new Point[rows][columns];
 		for (int i = 0; i < rows; i++) { // x points
 			for (int j = 0; j < columns; j++) { // y points
 				int x = factor * (i+1);
@@ -77,6 +77,8 @@ public class DrawTilesTest {
 				points[i][j] = new Point(x, y);
 			}
 		}
+
+		return points;
 
 	}
 
@@ -86,8 +88,8 @@ public class DrawTilesTest {
 		int screenWidth = 640;
 		int screenHeight = 480;
 
-		createPoints();
-		Point offSetPoint = new Point(-50, 0);
+		final Point[][] points = createPoints();
+		Point offSetPoint = null;//new Point(-50, 0);
 		CoordinateConverter coordinateConverter = new CoordinateConverter(screenWidth, screenHeight, offSetPoint);
 
 		for (int i = 0; i < rows; i++) {
