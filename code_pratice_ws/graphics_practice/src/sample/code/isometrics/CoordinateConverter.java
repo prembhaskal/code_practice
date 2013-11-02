@@ -45,13 +45,14 @@ public class CoordinateConverter {
 
 	// assuming unit size for the tile.
 	private int TILE_SIZE = 1;
-	private double ISO_TILE_WIDTH = TILE_SIZE * Math.sqrt(2);
-	private double ISO_TILE_HEIGHT = TILE_SIZE /(Math.sqrt(2) * 2.0);
+	private double ISO_TILE_WIDTH = TILE_SIZE / Math.sqrt(2);
+	private double ISO_TILE_HEIGHT = TILE_SIZE / (2 * Math.sqrt(2));
 
-	// this factor comes from fact that the width remains same, thus isoTileWidth size varies.
-	private double MULTIPLY_FACTOR1 = Math.sqrt(5)/Math.sqrt(8);
-	// when factor is one, the map looks more like isometric than the diametric.
-	private double MULTIPLY_FACTOR2 = 1.0;
+	/*
+	 isoX conversion is not needed because the x and y position are decided by the ISO_TILE_WIDTH
+	 and ISO_TILE_HEIGHT.
+	 */
+	private double MULTIPLY_FACTOR = 1.0 ;//* Math.sqrt(5)/Math.sqrt(8);
 
 	private Point offSetPoint;
 
@@ -74,8 +75,8 @@ public class CoordinateConverter {
 		int normX = normalPoint.x;
 		int normY = normalPoint.y;
 
-		double isoX = MULTIPLY_FACTOR1 * normX;
-		double isoY = MULTIPLY_FACTOR1 * normY;
+		double isoX = MULTIPLY_FACTOR * normX;
+		double isoY = MULTIPLY_FACTOR * normY;
 
 		int screenX = (int) ((isoX - isoY) * ISO_TILE_WIDTH - offSetPoint.x);
 		int screenY = (int) ((isoX + isoY) * ISO_TILE_HEIGHT - offSetPoint.y);
