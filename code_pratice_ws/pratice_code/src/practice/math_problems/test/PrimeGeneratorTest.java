@@ -63,9 +63,9 @@ public class PrimeGeneratorTest {
 
 	@Test
 	public void testGeneratePrimesInRangeUsingSieve() throws Exception {
-		int start = 1000_000_000;
-		int end = 1001_000_000;
-
+		int start = 1010000000;
+		int end = 1011000000;
+//		1010000000 1011000000
 		// NOTE start - end < 1000_000;
 
 		testClass.generatePrimesInRangeUsingSeive(start, end);

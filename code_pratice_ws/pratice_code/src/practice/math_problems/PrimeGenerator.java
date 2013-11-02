@@ -6,6 +6,8 @@ import java.util.List;
 
 public class PrimeGenerator {
 
+	// TODO implement the code given in http://code.google.com/p/primesieve/, it seems much faster.
+
 	int PRECOMPUTE_LIMIT = 1000_000;
 
 	public List<Integer> generatePrimeUsingOptimalTrialDivision(int end) {
