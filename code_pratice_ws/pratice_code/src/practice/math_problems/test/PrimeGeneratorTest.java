@@ -49,6 +49,25 @@ public class PrimeGeneratorTest {
 		int end = 1000_000;
 		testClass.generatePrimesSieveOfEratNormal(end);
 	}
-    
-        
+
+	@Test
+	public void testGeneratePrimesInRangeTrialDivision() throws Exception {
+		int start = 1000_000_000;
+		int end = 1001_000_000;
+
+		// NOTE start - end < 1000_000;
+
+		testClass.generatePrimesInRangeTrialDivision(start, end);
+	}
+
+
+	@Test
+	public void testGeneratePrimesInRangeUsingSieve() throws Exception {
+		int start = 1000_000_000;
+		int end = 1001_000_000;
+
+		// NOTE start - end < 1000_000;
+
+		testClass.generatePrimesInRangeUsingSeive(start, end);
+	}
 } 
