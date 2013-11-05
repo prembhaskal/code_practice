@@ -1,13 +1,19 @@
-static var
-[
-['E','E','D','D'],
-['E','E','E','E'],
-['E','E','E','E']
+// -------- Maze 8 ---------------------
+var dimension8 = new MazeDimension(4, 5);
+var level8Static = [
+	['D','E','E','I'],
+	['E','E','E','E'],
+	['I','E','E','E'],
+	['I','I','E','E'],
+	['I','I','I','D']
 ];
 
-movable var
-[
-['X','B','P','X'],
-['X','X','B','X'],
-['X','X','X','X']
+var level8Movable = [
+	['X','X','X','X'],
+	['P','B','B','X'],
+	['X','X','X','X'],
+	['X','X','X','X'],
+	['X','X','X','X']
 ];
+var rawMaze8 = new RawMaze(dimension8, level8Static, level8Movable);
+rawMazes.push(rawMaze8);

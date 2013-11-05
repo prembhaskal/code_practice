@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 public class MazeLevelGenerator {
 
 	public void generateLevel(InputReader in, PrintWriter out) {
+		int level = in.nextInt();
 		int rows = in.nextInt();
 		int columns = in.nextInt();
 
@@ -22,12 +23,18 @@ public class MazeLevelGenerator {
 			movableArray[i] = line.toCharArray();
 		}
 
+		out.println("// -------- Maze " + level + " ---------------------");
+		String dimensionVar = "dimension" + level;
+		String staticVar = "level" + level + "Static";
+		String movableVar = "level" + level + "Movable";
+		String rawMazeVar = "rawMaze" + level;
+		out.println("var " + dimensionVar + " = new MazeDimension(" + columns + ", " + rows + ");");
+
 		// for static items.
 		String str;
-		out.println("static var");
-		out.println("[");
+		out.println("var " + staticVar + " = [");
 		for (int i = 0; i < rows; i++) {
-			str = "[";
+			str = "\t[";
 			for (int j = 0; j < columns; j++) {
 				str += "'" + staticArray[i][j] + "',";
 			}
@@ -43,11 +50,10 @@ public class MazeLevelGenerator {
 
 		out.println();
 
-		out.println("movable var");
-		out.println("[");
+		out.println("var " + movableVar + " = [");
 		// for movable items.
 		for (int i = 0; i < rows; i++) {
-			str = "[";
+			str = "\t[";
 			for (int j = 0; j < columns; j++) {
 				str += "'" + movableArray[i][j] + "',";
 			}
@@ -61,6 +67,8 @@ public class MazeLevelGenerator {
 
 		out.println("];");
 
+		out.println("var " + rawMazeVar + " = new RawMaze(" + dimensionVar + ", " + staticVar + ", " + movableVar + ");");
+		out.println("rawMazes.push(" + rawMazeVar + ");");
 
 	}
 }
