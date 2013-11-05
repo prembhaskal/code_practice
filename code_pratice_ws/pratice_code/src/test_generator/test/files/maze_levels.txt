@@ -1,0 +1,25 @@
+3 4
+EEDD
+EEEE
+EEEE
+XBPX
+XXBX
+XXXX
+
+
+//
+rows columns
+row1 ... each row for the immovable item
+row2
+row3
+.
+.
+.
+rowN
+row1 ... each row here for the movable items.
+row2
+row3
+.
+.
+.
+rowN
