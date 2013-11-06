@@ -41,6 +41,12 @@ public class SubStringDivisibilityTest {
         long sum = testClass.getSumOfThatNos();
 		System.out.println("total sum is " + sum);
 	}
+
+	@Test
+	public void testGetSumFaster() {
+		long sum = testClass.getSumFaster();
+		System.out.println("total sum is " + sum);
+	}
     
         
 } 

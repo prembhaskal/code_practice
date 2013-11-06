@@ -6,9 +6,13 @@ public class SubStringDivisibility {
 
 	private long sum;
 
+	int totalnums = 0;
+
 	public long getSumOfThatNos() {
+		sum = 0;
 		int[] num = new int[]{1,2,3,4,5,6,7,8,9,0};
 		findPermutations(num, 10);
+		System.out.println("total such numbers are " + totalnums);
 		return sum;
 	}
 
@@ -72,6 +76,7 @@ public class SubStringDivisibility {
 			return;
 
 		sum += getActualNum(num);
+		totalnums++;
 	}
 
 	private long getActualNum(int[] num) {
@@ -89,6 +94,66 @@ public class SubStringDivisibility {
 		prod = num[start++] + prod*10;
 		prod = num[start] + prod*10;
 		return prod;
+	}
+
+	public long getSumFaster() {
+		sum = 0;
+		int[] num = new int[]{1,2,3,4,5,6,7,8,9,0};
+		findPermutations(num, 10);
+
+		return sum;
+	}
+
+	private void permutationWithCheck(int[] nums, int digitsToRotate) {
+		if (digitsToRotate > 1) {
+			if (!preCheck(nums, digitsToRotate))
+				return;
+		}
+
+		if (digitsToRotate == 1) {
+			doStuff(nums);
+			return;
+		}
+
+		for (int i = 0; i < digitsToRotate; i++) {
+			leftRotate(nums,  digitsToRotate);
+			permutationWithCheck(nums, digitsToRotate - 1);
+		}
+	}
+
+	private boolean preCheck(int[] num, int digitsToRotate) {
+		if (digitsToRotate > 6)
+			return true;
+		int prod;
+
+		if (digitsToRotate == 6) {
+			// check for div by 2
+			prod = getNum(num, 1);
+			if (prod % 2 != 0)
+				return false;
+		}
+		else if (digitsToRotate == 5) {
+			prod = getNum(num, 2);
+			if (prod % 3 != 0)
+				return false;
+		}
+		else if (digitsToRotate == 4) {
+			prod = getNum(num, 3);
+			if (prod % 5 != 0)
+				return false;
+		}
+		else if (digitsToRotate == 3) {
+			prod = getNum(num, 4);
+			if (prod % 7 != 0)
+				return false;
+		}
+		else if (digitsToRotate == 2) {
+			prod = getNum(num, 5);
+			if (prod % 11 != 0)
+				return false;
+		}
+
+		return true;
 	}
 
 
