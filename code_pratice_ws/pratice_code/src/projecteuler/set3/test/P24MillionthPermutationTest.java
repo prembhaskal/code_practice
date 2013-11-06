@@ -1,5 +1,6 @@
 package projecteuler.set3.test; 
 
+import algorithm.UtilitiesClass;
 import java.util.Scanner;
 import java.io.PrintWriter;
 import org.junit.Test; 
@@ -40,6 +41,30 @@ public class P24MillionthPermutationTest {
     public void testFindPermutation() throws Exception { 
         testClass.findPermutation("0123456789");
     } 
-    
+
+	@Test
+	public void testNextPermutation() {
+		int[] num = new int[]{1,2,3,4};
+		testClass.nextPermutation(num);
+
+		UtilitiesClass.printArrayNoSpaces(num);
+
+		num = new int[]{1,2,3,4};
+
+		do {
+			UtilitiesClass.printArrayNoSpaces(num);
+		} while (testClass.nextPermutation(num));
+	}
+
+	@Test
+	public void get1MillionthPermutation() {
+		int[] num = new int[]{0,1,2,3,4,5,6,7,8,9};
+
+		for (int i = 1; i < 1000_000; i++) {
+			testClass.nextPermutation(num);
+		}
+
+		UtilitiesClass.printArrayNoSpaces(num);
+	}
         
 } 
