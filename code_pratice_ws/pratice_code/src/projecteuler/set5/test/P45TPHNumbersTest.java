@@ -1,0 +1,47 @@
+package projecteuler.set5.test; 
+
+import java.util.Scanner;
+import java.io.PrintWriter;
+import org.junit.Test; 
+import org.junit.Before; 
+import org.junit.After;
+import static org.junit.Assert.*;
+import projecteuler.set5.*;  
+
+/** 
+* P45TPHNumbers Tester. 
+* 
+* @author <Premkumar Bhaskal> 
+* @since <pre>Nov 9, 2013</pre> 
+* @version 1.0 
+*/ 
+public class P45TPHNumbersTest { 
+    
+    P45TPHNumbers testClass = new P45TPHNumbers();
+    long starttime;
+    
+    @Before
+    public void before() throws Exception {
+          starttime = System.nanoTime(); 
+    } 
+    
+    @After
+    public void after() throws Exception {
+		long now = System.nanoTime();
+		System.out.println("elapsed time " + (now-starttime)/1000000 + "milli secs");
+    } 
+    
+        /** 
+    * 
+    * Method: getNextTriangleNumber() 
+    * 
+    */ 
+    @Test
+    public void testGetNextTriangleNumber() throws Exception { 
+        long nextNum = testClass.getNextTriangleNumber(100000);
+
+		System.out.println("next number is " + nextNum);
+	}
+    
+        
+} 
