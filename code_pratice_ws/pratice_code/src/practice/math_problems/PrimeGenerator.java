@@ -125,13 +125,20 @@ public class PrimeGenerator {
 				start = start + prime - rem;
 			}
 
+			if (start == prime)
+				start += prime;
+
 			for ( ; start <= upper; start+= prime)
 				newPrimes[((int) (start - lower))] = false;
 		}
 
 		for (int i = 0; i < newPrimes.length; i++) {
-			if (newPrimes[i])
-				newPrimeList.add(lower+i);
+			if (newPrimes[i]) {
+				long num = lower + i;
+				if (num > 1)
+					newPrimeList.add(lower+i);
+			}
+
 		}
 
 		System.out.println("total primes in the range " + lower + " to " + upper + " are " + newPrimeList.size());
