@@ -45,6 +45,8 @@ class TaskA {
 
 	}
 
+	// This got accepted... thanks to http://www.bytehood.com/spoj-the-next-palindrome/418/
+	// need to solve by myself :( :(
 	private String getNextPalin(String numStr) {
 		int[] num = getNum(numStr);
 
@@ -72,51 +74,31 @@ class TaskA {
 
 
 
+		// check for inputs like 9191, 919,,90809
+
 		// add condition when centre is 9.
 		boolean overflow = false;
 
-		if (compareArrays(origNum, num)) {
-			// increase the centre number/pair once, so that we don't have to compare array again and again.
-			while (left >= 0 && num[left] == 9) {
-				num[right] = num[left] = 0;
-				left--;
-				right++;
+		while (compareArrays(origNum, num)) {
+			int l = left;
+			int r = right;
+			while (l >= 0 && num[l] == 9) {
+				num[r] = num[l] = 0;
+				l--;
+				r++;
 
-				if (left < 0)
+				if (l < 0)
 					overflow = true;
 			}
 
-			if (!overflow) {
-				num[left] += 1;
-				num[right] = num[left];
+			if (overflow)
+				break;
 
-				left--;
-				right++;
+			num[l] += 1;
+			num[r] = num[l];
 
-				while (left >= 0) {
-					if (num[left] < num[right]) {
-						while (left >= 0 && num[left] == 9) {
-							num[right] = num[left] = 0;
-							left--;
-							right++;
-
-							if (left < 0)
-								overflow = true;
-						}
-
-						if (overflow)
-							break;
-
-						num[left] += 1;
-						num[right] = num[left];
-					}
-
-					left--;
-					right++;
-				}
-			}
-
-
+			l--;
+			r++;
 		}
 
 		if (overflow) {
@@ -145,13 +127,13 @@ class TaskA {
 
 	// true if num1 is equal to OR greater than num2, considering both represent a number.
 	private boolean compareArrays(int[] num1, int[] num2) {
-		int i = num1.length - 1;
-		while ( i>=0) {
+		int i = 0;
+		while ( i < num1.length) {
 			if (num1[i] < num2[i])
 				return false;
 			else if (num1[i] > num2[i])
 				return true;
-			i--;
+			i++;
 		}
 
 		return true;
