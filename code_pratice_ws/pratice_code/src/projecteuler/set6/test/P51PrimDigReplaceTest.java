@@ -39,7 +39,7 @@ public class P51PrimDigReplaceTest {
     @Test
     public void testGetSmallestPrime() throws Exception {
 		int primValue = 2;
-		int digitsInPrime = 5;
+		int digitsInPrime = 6;
         testClass.getSmallestPrime(primValue, digitsInPrime);
     } 
     
