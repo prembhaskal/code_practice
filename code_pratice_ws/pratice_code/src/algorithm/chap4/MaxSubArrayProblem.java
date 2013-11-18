@@ -49,7 +49,7 @@ public class MaxSubArrayProblem {
 			}
 
 			if (max_end_here >= max_so_far) {
-				max_so_far = Math.max(max_end_here, max_so_far);
+				max_so_far = max_end_here;
 				start = start_temp; // get the start used for calculating this max value.
 				end = i;
 			}
