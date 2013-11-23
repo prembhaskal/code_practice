@@ -2,24 +2,22 @@ package fb.hackercup.cup2013_2.test;
 
 import common.util.InputReader;
 import java.io.InputStream;
-import java.util.Scanner;
 import java.io.PrintWriter;
 import org.junit.Test; 
 import org.junit.Before; 
 import org.junit.After;
-import static org.junit.Assert.*;
-import fb.hackercup.cup2013_2.*;  
+import fb.hackercup.cup2013_2.*;
 
 /** 
-* SquareDetector Tester. 
+* Basketball Tester.
 * 
 * @author <Premkumar Bhaskal> 
 * @since <pre>Nov 23, 2013</pre> 
 * @version 1.0 
 */ 
-public class SquareDetectorTest { 
+public class BasketballTest {
     
-    SquareDetector testClass = new SquareDetector();
+    Basketball testClass = new Basketball();
     long starttime;
     
     @Before
@@ -40,11 +38,9 @@ public class SquareDetectorTest {
     */ 
     @Test
     public void testSolve() throws Exception {
-		InputStream inputStream = getClass().getResourceAsStream("files/square_detector.txt");
+		InputStream inputStream = getClass().getResourceAsStream("files/basketball_input.txt");
 		InputReader in = new InputReader(inputStream);
-
-		PrintWriter out = new PrintWriter("output/sqa_detect_output.txt");
-
+		PrintWriter out = new PrintWriter("output/basketball_output.txt");
 		testClass.solve(in, out);
 
 		inputStream.close();
