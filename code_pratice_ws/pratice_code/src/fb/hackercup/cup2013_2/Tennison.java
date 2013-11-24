@@ -39,9 +39,9 @@ public class Tennison {
 
 		double probWinning = Ps * Pi + Pr * (1 - Pi);
 		// we win this set.
-		double P1 = getProbability(set + 1, wins + 1, Pi*(1+Pu*Pw), probTillHere * probWinning);
+		double P1 = getProbability(set + 1, wins + 1, Pi + Pu*Pw, probTillHere * probWinning);
 		// we lose this set.
-		double P2 = getProbability(set + 1, wins, Pi*(1-Pd*Pl), probTillHere * (1-probWinning));
+		double P2 = getProbability(set + 1, wins, Pi - Pd*Pl, probTillHere * (1-probWinning));
 
 		return P1 + P2;
 	}
