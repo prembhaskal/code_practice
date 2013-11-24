@@ -39,10 +39,34 @@ public class Tennison {
 
 		double probWinning = Ps * Pi + Pr * (1 - Pi);
 		// we win this set.
-		double P1 = getProbability(set + 1, wins + 1, Pi + Pu*Pw, probTillHere * probWinning);
+		double P1 = getProbability(set + 1, wins + 1, Math.min(1.0, Pi + Pu * Pw), probTillHere * probWinning);
 		// we lose this set.
-		double P2 = getProbability(set + 1, wins, Pi - Pd*Pl, probTillHere * (1-probWinning));
+		double P2 = getProbability(set + 1, wins, Math.max(0.0, Pi - Pd*Pl), probTillHere * (1-probWinning));
 
 		return P1 + P2;
 	}
+
+//	private double getProbabilityDP() {
+//		int maxSetPossible = setsToWin*2;
+//		double [][] prodArray = new double[maxSetPossible][maxSetPossible];
+//
+//		// we win in first set
+//		prodArray[1][1] = prodHere(Ps, 0, 0);
+//		// we lose in first set
+//		prodArray[0][1] = 1 - prodArray[1][1];
+//
+//		for (int i = 0; i <= setsToWin; i++) {
+//			for (int j = i + 1; j < maxSetPossible; j++) {
+//				prodArray[i][j] = prodHere(Ps, i, j - i) * prodArray[i-1][j-1];
+//				pro
+//			}
+//		}
+//	}
+//
+//	private double prodHere(double probSun, double inc, double dec) {
+//		double prod = Pr * probSun  + Ps * (1-probSun);
+//		prod += inc;
+//		prod -= dec;
+//		return prod;
+//	}
 }
