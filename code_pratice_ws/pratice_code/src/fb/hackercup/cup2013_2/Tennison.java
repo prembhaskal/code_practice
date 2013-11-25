@@ -19,6 +19,7 @@ public class Tennison {
 			Pl = in.nextDouble();
 
 			double prob = getProbBruteForce();
+			double prob1 = getProbMemoization();
 
 			out.println("Case #" + i + ": " + prob);
 		}
@@ -26,30 +27,33 @@ public class Tennison {
 
 	int setsToWin;
 	double Ps, Pr, Pi, Pu, Pw, Pd, Pl;
+	int PuInt, PdInt;
 
 	private double getProbBruteForce() {
-		return getProbability(1, 0, Pi, 1.0);
+		return getProbability(1, 0, Pi);
 	}
 
 	// TODO the brute force should be changed a little so that
 	// if we win,  the sun can remain the same.
 	//         OR, the sun can increase...
 	// similarly for losing.
-	private double getProbability(int set, int wins, double Pi, double probTillHere) {
+	private double getProbability(int set, int wins, double Pi) {
 		if (wins == setsToWin)
-			return probTillHere;
+			return 1.0;
 		if (set == 2*setsToWin)
 			return 0;
 
 		double probWinning = Ps * Pi + Pr * (1 - Pi);
 		// win and more sun
-		double P1 = getProbability(set + 1, wins + 1, Math.min(1.0, Pi + Pu), probTillHere * probWinning * Pw);
+		double P1 = getProbability(set + 1, wins + 1, Math.min(1.0, Pi + Pu)) * probWinning * Pw;
 		// win and same sun
-		double P2 = getProbability(set + 1, wins + 1, Pi, probTillHere * probWinning * (1 - Pw));
+		double P2 = getProbability(set + 1, wins + 1, Pi) *probWinning * (1 - Pw);
 		// lose and lesser sun
-		double P3 = getProbability(set + 1, wins, Math.max(0.0, Pi - Pd), probTillHere * (1-probWinning) * Pl);
+		double P3 = getProbability(set + 1, wins, Math.max(0.0, Pi - Pd)) * (1-probWinning) * Pl;
 		// lose and same sun
-		double P4 = getProbability(set + 1, wins, Pi, probTillHere * (1 - probWinning) * (1 - Pl));
+		double P4 = getProbability(set + 1, wins, Pi)* (1 - probWinning) * (1 - Pl);
+
+		System.out.println(set + " - " + wins + " - " + Pi + " ---> " + (P1 + P2 + P3 + P4));
 
 		return P1 + P2 + P3 + P4;
 	}
@@ -61,4 +65,48 @@ public class Tennison {
 	// one guy even used a map of double...some craziness...
 	// most people multiplied by 1000, to convert to integer....to apply DP..didn't get the logic much..though the solution
 	// says the same thing.
+
+	private double getProbMemoization() {
+		double [][][] DP = new double[2*setsToWin][setsToWin][1001];
+		PuInt = (int) (Pu * 1000);
+		PdInt = (int) (Pd * 1000);
+		int PiInt = (int) (Pi * 1000);
+
+		for (int i = 0; i < 2 * setsToWin; i++) {
+			for (int j = 0; j < setsToWin; j++) {
+				for (int k = 0; k < 1001; k++) {
+					DP[i][j][k] = -1;
+				}
+			}
+		}
+
+		return getProbabilityMemoization(1, 0, PiInt, DP);
+	}
+
+	private double getProbabilityMemoization(int set, int wins, int Pint, double [][][] DP) {
+		if (wins == setsToWin)
+			return 1.0;
+		if (set == 2*setsToWin)
+			return 0;
+		if (DP[set][wins][Pint] >= 0.0)
+			return DP[set][wins][Pint];
+
+		double probWinning = Ps * Pint + Pr * (1000 - Pint);
+		probWinning = probWinning / 1000;
+
+		// win and more sun
+		double P1 = getProbabilityMemoization(set + 1, wins + 1, Math.min(1000, Pint + PuInt), DP) * probWinning * Pw;
+		// win and same sun
+		double P2 = getProbabilityMemoization(set + 1, wins + 1, Pint, DP) * probWinning * (1 - Pw);
+		// lose and lesser sun
+		double P3 = getProbabilityMemoization(set + 1, wins, Math.max(0, Pint - PdInt), DP) * (1 - probWinning) * Pl;
+		// lose and same sun
+		double P4 = getProbabilityMemoization(set + 1, wins, Pint, DP) * (1 - probWinning) * (1 - Pl);
+
+		DP[set][wins][Pint] = P1 + P2 + P3 + P4;
+
+		System.out.println("M - " + set + " - " + wins + " - " + Pint + " ---> " + DP[set][wins][Pint]);
+
+		return DP[set][wins][Pint];
+	}
 }
