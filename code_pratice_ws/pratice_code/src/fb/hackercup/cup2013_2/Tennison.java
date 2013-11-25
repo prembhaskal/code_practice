@@ -59,5 +59,6 @@ public class Tennison {
 	// the probability of the next set.
 
 	// one guy even used a map of double...some craziness...
-	// most people multiplied by 1000, to convert to integer....to apply DP..didn't get the logic.
+	// most people multiplied by 1000, to convert to integer....to apply DP..didn't get the logic much..though the solution
+	// says the same thing.
 }

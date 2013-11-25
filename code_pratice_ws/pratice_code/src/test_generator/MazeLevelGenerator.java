@@ -24,6 +24,7 @@ public class MazeLevelGenerator {
 		}
 
 		out.println("// -------- Maze " + level + " ---------------------");
+		String univDimensionVar = "universalDimension";
 		String dimensionVar = "dimension" + level;
 		String staticVar = "level" + level + "Static";
 		String movableVar = "level" + level + "Movable";
@@ -66,8 +67,11 @@ public class MazeLevelGenerator {
 		}
 
 		out.println("];");
+		out.println();
 
-		out.println("var " + rawMazeVar + " = new RawMaze(" + dimensionVar + ", " + staticVar + ", " + movableVar + ");");
+		out.println(staticVar + " = convertToUniversal(" + dimensionVar + ", " + staticVar + ");");
+		out.println(movableVar + " = convertToUniversal(" + dimensionVar + ", " + movableVar + ");");
+		out.println("var " + rawMazeVar + " = new RawMaze(" + univDimensionVar + ", " + staticVar + ", " + movableVar + ");");
 		out.println("rawMazes.push(" + rawMazeVar + ");");
 
 	}

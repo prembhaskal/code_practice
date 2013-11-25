@@ -15,5 +15,8 @@ var level8Movable = [
 	['X','X','X','X'],
 	['X','X','X','X']
 ];
-var rawMaze8 = new RawMaze(dimension8, level8Static, level8Movable);
+
+level8Static = convertToUniversal(dimension8, level8Static);
+level8Movable = convertToUniversal(dimension8, level8Movable);
+var rawMaze8 = new RawMaze(universalDimension, level8Static, level8Movable);
 rawMazes.push(rawMaze8);
