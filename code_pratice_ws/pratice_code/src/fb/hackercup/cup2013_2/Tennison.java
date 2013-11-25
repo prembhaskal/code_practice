@@ -18,10 +18,11 @@ public class Tennison {
 			Pd = in.nextDouble();
 			Pl = in.nextDouble();
 
-			double prob = getProbBruteForce();
-			double prob1 = getProbMemoization();
+//			double prob = getProbBruteForce();
+			double prob = getProbMemoization();
 
-			out.println("Case #" + i + ": " + prob);
+			out.print("Case #" + i + ": ");
+			out.format("%.6f%n", prob);
 		}
 	}
 
@@ -53,7 +54,7 @@ public class Tennison {
 		// lose and same sun
 		double P4 = getProbability(set + 1, wins, Pi)* (1 - probWinning) * (1 - Pl);
 
-		System.out.println(set + " - " + wins + " - " + Pi + " ---> " + (P1 + P2 + P3 + P4));
+//		System.out.println(set + " - " + wins + " - " + Pi + " ---> " + (P1 + P2 + P3 + P4));
 
 		return P1 + P2 + P3 + P4;
 	}
@@ -80,7 +81,8 @@ public class Tennison {
 			}
 		}
 
-		return getProbabilityMemoization(1, 0, PiInt, DP);
+		double ans =  getProbabilityMemoization(1, 0, PiInt, DP);
+		return ans;
 	}
 
 	private double getProbabilityMemoization(int set, int wins, int Pint, double [][][] DP) {
@@ -105,7 +107,7 @@ public class Tennison {
 
 		DP[set][wins][Pint] = P1 + P2 + P3 + P4;
 
-		System.out.println("M - " + set + " - " + wins + " - " + Pint + " ---> " + DP[set][wins][Pint]);
+//		System.out.println("M - " + set + " - " + wins + " - " + Pint + " ---> " + DP[set][wins][Pint]);
 
 		return DP[set][wins][Pint];
 	}

@@ -43,7 +43,7 @@ public class TennisonTest {
 		InputStream inputStream = getClass().getResourceAsStream("files/tennison.txt");
 		InputReader in = new InputReader(inputStream);
 
-		PrintWriter out = new PrintWriter(System.out);
+		PrintWriter out = new PrintWriter("output/tennison_output.txt");
 
 		testClass.solve(in, out);
 
