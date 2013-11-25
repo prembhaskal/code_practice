@@ -193,7 +193,7 @@ public class Basketball {
 		public int compare(Player player, Player other) {
 			if (player.playedTime < other.playedTime)
 				return -1;
-			else if (player.rank < other.rank)
+			else if (player.playedTime > other.playedTime)
 				return 1;
 			else {
 				if (player.rank < other.rank)

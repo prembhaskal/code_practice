@@ -1,19 +1,19 @@
 Case #1: Purav Slawek Wai Weiyan
-Case #2: Ahmed Meihong
+Case #2: Chirag Viswanath
 Case #3: Bhuwan Duc Fabien Meihong Vlad Wai
 Case #4: Fabien Weiyan
-Case #5: Aleksandar Andras Anshuman Erling Manohar Viswanath
+Case #5: Aleksandar Andras Anshuman Erling Manohar Xiao
 Case #6: Anshuman Manohar Meihong Nima
 Case #7: Anh Luiz Ranjeeth Roman Steaphan Weitao Weitao Zihing
 Case #8: Anil Lin Phil Ranjeeth Song Torbjorn
 Case #9: Aleksandar Aravind Bhuwan Igor
-Case #10: Chad Liang Paul Wei
+Case #10: Anshuman Atol Paul Wai
 Case #11: Lingjuan Zejia
-Case #12: Amol Manohar Nathan Tom Torbjorn Yintao
-Case #13: Clifton Dhruv Doan John John Liang Mehdi Saransh
-Case #14: Andras Anh Doan Erling Lingjuan Meihong Torbjorn Vladislav Yingsheng Yingsheng
+Case #12: Andriy David Dmytro Jan John Slawek
+Case #13: Atol Clifton Clifton Doan John John Purav Song
+Case #14: Andras Anh Doan Lingjuan Meihong Saransh Torbjorn Vladislav Vladislav Yingsheng
 Case #15: Erling Zejia
-Case #16: Amol Atol Jan Rudradev Victor Zejia
+Case #16: Anil Aravind Jan Jan Victor Viswanath
 Case #17: Doan John
 Case #18: Philip Tom Wesley Zhen
 Case #19: Doan Duc Gaurav John John Jordan Liang Rudradev Thomas Viswanath
