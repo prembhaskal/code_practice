@@ -1,6 +1,7 @@
 package codechef.practice.small_factorial;
 
 import java.io.*;
+import java.math.BigInteger;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -32,9 +33,24 @@ class TaskA {
 		for (int i=0;i<tests;i++) {
 			int num = in.nextInt();
 			String fact = getFactorial(num);
+			String factB = getFactUsingBigInteger(num);
+			if (!fact.equals(factB))
+				out.println("problem");
 			out.println(fact);
+//			out.println(factB);
 		}
 
+	}
+
+	private String getFactUsingBigInteger(int num) {
+		BigInteger one = BigInteger.ONE;
+		BigInteger fact = one;
+
+		for (int i = 2; i <= num; i++) {
+			fact = fact.multiply(BigInteger.valueOf(i));
+		}
+
+		return fact.toString();
 	}
 
 	private String getFactorial(int n) {
