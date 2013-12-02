@@ -9,8 +9,9 @@ public class P56PowerfulDigitSum {
 
 		for (int i = 2; i < 100; i++) {
 			int[] num = numToArray(i);
+			int[] power = new int[]{1};
 			for (int j = 2; j < 100; j++) {
-				int[] power = power(num, j);
+				power = multiply(power, num);
 				int sum = getSum(power);
 				maxSum = Math.max(sum, maxSum);
 			}
@@ -75,7 +76,6 @@ public class P56PowerfulDigitSum {
 		return product;
 	}
 
-	// ** this method reduces the running time by around 4 secs
 	private int[] correctLength(int[] a) {
 		int length = a.length;
 		int zeroes = 0;
