@@ -2,6 +2,7 @@ package fb.hackercup.cup2013_2;
 
 import common.util.InputReader;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 
 public class LabelMaker {
 
@@ -16,7 +17,7 @@ public class LabelMaker {
 		}
 	}
 
-	private long[] totalCounts;
+	private BigInteger[] totalCounts;
 	private char[] letters;
 
 	private String getLabel(String str, long labelCount) {
@@ -24,31 +25,31 @@ public class LabelMaker {
 		initTotalCount();
 
 		// find the letters required in the label.
-		long rem = labelCount;
+		BigInteger rem = BigInteger.valueOf(labelCount);
 		int lettersReqd;
 		for (lettersReqd = 1; lettersReqd < totalCounts.length; lettersReqd++) {
-			rem = rem - totalCounts[lettersReqd];
-			if (rem <= 0)
+			rem = rem.subtract(totalCounts[lettersReqd]);
+			if (rem.compareTo(BigInteger.ZERO) <= 0)
 				break;
 		}
 
 		// find the remaining count;
-		long remainingSum = labelCount;
+		BigInteger remainingSum = BigInteger.valueOf(labelCount);
 		for (int i = 1; i < lettersReqd; i++) {
-			remainingSum -= totalCounts[i];
+			remainingSum = remainingSum.subtract(totalCounts[i]);
 		}
 
 		String finalLabel = "";
 
 		// find all the letters required
 		for (int i = lettersReqd; i > 0; i--) {
-			long previous = totalCounts[i-1];
+			BigInteger previous = totalCounts[i-1];
 			int whichChar;
 
-			if (remainingSum <= 0) {
+			if (remainingSum.compareTo(BigInteger.ZERO) <= 0) {
 				whichChar = letters.length - 1;
 			} else {
-				whichChar = (int) ((remainingSum - 1) / previous);
+				whichChar = ((remainingSum.subtract(BigInteger.ONE)).divide(previous)).intValue();
 			}
 
 			if (whichChar < 0) {
@@ -57,18 +58,20 @@ public class LabelMaker {
 			}
 
 			finalLabel = finalLabel + letters[whichChar];
-			remainingSum = remainingSum % previous;
+			remainingSum = remainingSum.mod(previous);
 		}
 
 		return finalLabel;
 	}
 
 	private void initTotalCount() {
-		totalCounts = new long[51];
-		totalCounts[0] = 1;
+		totalCounts = new BigInteger[51];
+		totalCounts[0] = BigInteger.ONE;
+
+		BigInteger mul = BigInteger.valueOf(letters.length);
 
 		for (int i = 1; i < totalCounts.length; i++) {
-			totalCounts[i] = totalCounts[i-1] * letters.length;
+			totalCounts[i] = totalCounts[i-1].multiply(mul);
 		}
 	}
 }
