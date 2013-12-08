@@ -1,5 +1,7 @@
 package practice.algorithm;
 
+import org.omg.CORBA._IDLTypeStub;
+
 public class SegmentAddMinusTree {
 	int size;
 	int[] nums;
@@ -69,6 +71,10 @@ public class SegmentAddMinusTree {
 
 	public void addToIndex(int value, int index) {
 		addToIndex(rootNode, value, index);
+	}
+
+	public void removeFromIndex(int value, int index) {
+		addToIndex(-value, index);
 	}
 
 	private void addToIndex(Node parentNode, int value, int idx) {

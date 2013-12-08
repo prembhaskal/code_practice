@@ -60,7 +60,7 @@ public class SegmentAddMinusTreeTest {
 	}
 
 	@Test
-	public void testAddInRange() throws Exception {
+	public void testAddRemoveInRange() throws Exception {
 		// add to index.
 		int idx;
 		int value;
@@ -69,6 +69,12 @@ public class SegmentAddMinusTreeTest {
 		value = 5;
 		nums[idx] += value;
 		testClass.addToIndex(value, idx);
+		testGetSumInRange();
+
+		idx = 0;
+		value = 3;
+		nums[idx] -= value;
+		testClass.removeFromIndex(value, idx);
 		testGetSumInRange();
 	}
     
