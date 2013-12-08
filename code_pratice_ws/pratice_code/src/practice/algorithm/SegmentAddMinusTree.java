@@ -1,7 +1,5 @@
 package practice.algorithm;
 
-import org.omg.CORBA._IDLTypeStub;
-
 public class SegmentAddMinusTree {
 	int size;
 	int[] nums;
