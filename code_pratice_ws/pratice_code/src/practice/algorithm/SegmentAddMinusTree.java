@@ -53,11 +53,11 @@ public class SegmentAddMinusTree {
 		if (low > j || high < i) // no overlapping in the ranges.
 			return 0;
 
-		if (low == high) {
+		if (low == high) { // return if we hit a leaf.
 			return parentNode.marblesOnIt;
 		}
 
-		if (low >= i && high <= j) // return if range completely overlaps.
+		if (low >= i && high <= j) // return if range completely overlaps. (this is what makes the tree efficient.
 			return parentNode.marblesOnLeft + parentNode.marblesOnRight;
 
 		// else search below the tree.
@@ -65,6 +65,36 @@ public class SegmentAddMinusTree {
 		long marblesRight = getSumInRange(parentNode.rightNode, i, j);
 
 		return marblesLeft + marblesRight;
+	}
+
+	public void addToIndex(int value, int index) {
+		addToIndex(rootNode, value, index);
+	}
+
+	private void addToIndex(Node parentNode, int value, int idx) {
+		int low = parentNode.low;
+		int high = parentNode.high;
+
+		if (low == high && low == idx) { // add if we hit the leaf.
+			parentNode.marblesOnIt += value;
+			return;
+		}
+
+		if (low > idx || high < idx) // no overlapping here.
+			return;
+
+		// check if we can add to the left node of it.
+		Node leftNode = parentNode.leftNode;
+		Node rightNode = parentNode.rightNode;
+		if (leftNode.low <= idx && leftNode.high >= idx) {
+			addToIndex(leftNode, value, idx);
+			parentNode.marblesOnLeft += value;
+		}
+		else {
+			addToIndex(rightNode, value, idx);
+			parentNode.marblesOnRight += value;
+		}
+
 	}
 
 
