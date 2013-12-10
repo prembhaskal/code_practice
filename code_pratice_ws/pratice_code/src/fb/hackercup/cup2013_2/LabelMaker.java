@@ -17,6 +17,28 @@ public class LabelMaker {
 		}
 	}
 
+
+	// A Simple way to do it.
+	// find the last letter in each of the iteration.
+	// ie. 34 means the last letter is E, 33 means T, 32 means H and so on.
+	// also 1-E, 2-H, 3-T, 4-EE, 5-EH, 6-ET,
+	// 7-HE, 8-HH, 9-HT, 10-TE, 11-TH, 12-TT...this shows a pattern.
+	// last digit = (no-1)%3;
+	// no = (no-1)/3; for the next letter.
+	// it has got no overflow problems
+	private String getLabelSimple(String str, long labelCount) {
+		char[] chars = str.toCharArray();
+		String label = "";
+		while (labelCount > 0) {
+			labelCount--;
+			char ch = chars[((int) (labelCount % chars.length))];
+			label = label + ch;
+			labelCount /= chars.length;
+		}
+
+		return label;
+	}
+
 	private BigInteger[] totalCounts;
 	private char[] letters;
 
