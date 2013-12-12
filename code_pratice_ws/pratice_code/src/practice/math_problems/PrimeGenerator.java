@@ -104,6 +104,7 @@ public class PrimeGenerator {
 	}
 
 	public void generatePrimesInRangeUsingSeive(long lower, long upper) {
+		lower = Math.max(lower, 2);
 		int sqrt = (int) Math.sqrt(upper) + 1;
 		int limit = Math.min(sqrt, PRECOMPUTE_LIMIT);
 
@@ -125,18 +126,13 @@ public class PrimeGenerator {
 				start = start + prime - rem;
 			}
 
-			if (start == prime)
-				start += prime;
-
 			for ( ; start <= upper; start+= prime)
 				newPrimes[((int) (start - lower))] = false;
 		}
 
 		for (int i = 0; i < newPrimes.length; i++) {
 			if (newPrimes[i]) {
-				long num = lower + i;
-				if (num > 1)
-					newPrimeList.add(lower+i);
+				newPrimeList.add(lower+i);
 			}
 
 		}

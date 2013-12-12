@@ -52,8 +52,8 @@ public class PrimeGeneratorTest {
 
 	@Test
 	public void testGeneratePrimesInRangeTrialDivision() throws Exception {
-		int start = 1000_000_000;
-		int end = 1001_000_000;
+		int start = 1010_000_000;
+		int end = 1011_000_000;
 
 		// NOTE start - end < 1000_000;
 
