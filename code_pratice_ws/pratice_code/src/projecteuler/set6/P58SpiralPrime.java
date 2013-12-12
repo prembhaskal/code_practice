@@ -23,21 +23,35 @@ public class P58SpiralPrime {
 			int no2 = no1 - sideLength + 1;
 			int no3 = no2 - sideLength + 1;
 			int no4 = no3 - sideLength + 1;
+//			COMMENTED PART GIVES the answer but is way slower and hell complicated.
+//			TRIAL division is much simpler.
 
-			if (generateTill < no4) {
-				addMorePrimes(generateTill, generateTill + 1000_000);
-				generateTill = generateTill + 1000_000;
-			}
 
-			if (primes.contains(no2)) {
+//			if (generateTill < no1) {
+//				addMorePrimes(no4, generateTill + 1000_000); // generate for the required range.
+//				generateTill = generateTill + 1000_000;
+//			}
+//
+//			if (isPrime(no2) && !primes.contains(no2)) {
+//				System.out.println("discrepancy at 2 for " + no2);
+//				break;
+//			}
+//
+//			if (isPrime(no3) && !primes.contains(no3)) {
+//				System.out.println("discrepancy at 3 for " + no3);
+//				break;
+//			}
+//
+//			if (isPrime(no4) && !primes.contains(no4)) {
+//				System.out.println("discrepancy at 4 for " + no4);
+//				break;
+//			}
+
+			if (isPrime(no4))
 				totalPrimes++;
-			}
-
-			if (primes.contains(no3)) {
+			if (isPrime(no3))
 				totalPrimes++;
-			}
-
-			if (primes.contains(no4))
+			if (isPrime(no2))
 				totalPrimes++;
 
 			total += 4;
@@ -50,6 +64,20 @@ public class P58SpiralPrime {
 		System.out.println("min ratio found was " + minRatio);
 		System.out.println("NOT FOUND");
 		return -1;
+	}
+
+	private boolean isPrime(int num) {
+		boolean isPrime = true;
+
+		for (int prime : preComputeList) {
+			if (num % prime == 0)
+				return false;
+
+			if (prime > num/prime)
+				break;
+		}
+
+		return true;
 	}
 
 
