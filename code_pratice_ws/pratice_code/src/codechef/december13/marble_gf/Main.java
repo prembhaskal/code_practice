@@ -29,6 +29,7 @@ class TaskA {
 	private int queries;
 	private int[] nums;
 	private SegmentAddMinusTree segmentTree;
+	private FenwickTree fenwickTree;
 
 	public void solve(InputReader in, PrintWriter out) throws IOException {
 		size = in.nextInt();
@@ -40,15 +41,30 @@ class TaskA {
 			nums[i] = in.nextInt();
 		}
 
-		segmentTree = new SegmentAddMinusTree(nums);
+//		segmentTree = new SegmentAddMinusTree(nums);
+		fenwickTree = new FenwickTree(nums);
 
 		for (int i = 0; i < queries; i++) {
 			String query = in.next();
 			int first = in.nextInt();
 			int second = in.nextInt();
-			getResult(query, first, second, out);
+//			getResult(query, first, second, out);
+			getResultFenwickTree(query, first, second, out);
 		}
 	}
+
+	private void getResultFenwickTree(String query, int first, int second, PrintWriter out) {
+		if (query.equals("S")) {
+			long result = fenwickTree.getSum(first, second);
+			out.println(result);
+		}
+		else if (query.equals("G")) {
+			fenwickTree.updateTree(first, second);
+		} else {
+			fenwickTree.updateTree(first, -second);
+		}
+	}
+
 
 	private void getResult(String query, int first, int second, PrintWriter out) {
 		if (query.equals("S")) {
@@ -192,6 +208,57 @@ class TaskA {
 		}
 
 	}
+
+	private class FenwickTree {
+
+		private long[] tree;
+
+		public FenwickTree(int[] nums) {
+			tree = new long[nums.length + 1]; // BIT is 1 based tree.
+
+			// initialize the tree. -- this happens in O(nlogn) times.
+			for (int i = 0; i < nums.length; i++) {
+				long val = nums[i];
+
+				// build the responsibilty tree
+				updateTree(i, val);
+			}
+		}
+
+		public void updateTree(int idx, long val) {
+			idx ++;
+
+			// update this node and all the other nodes which depend on this.
+			while (idx < tree.length) {
+				tree[idx] += val;
+				idx += (idx & -idx); // move up the tree.
+			}
+		}
+
+		public long getSum(int low, int high) {
+			low++;
+			high++; // convert to 1 based index.
+
+			long sum1 = getSum(low - 1);
+			long sum2 = getSum(high);
+
+			return sum2 - sum1;
+		}
+
+		// returns the sum from 1 to range. ... this needs the 1 based range.
+		private long getSum(int range) {
+			long sum = 0;
+			int idx = range;
+			// sum this nodes plus the nodes on which we depend upon.
+			while (idx > 0) {
+				sum += tree[idx];
+				idx -= (idx & -idx); // move down the tree.
+			}
+
+			return sum;
+		}
+	}
+
 
 }
 

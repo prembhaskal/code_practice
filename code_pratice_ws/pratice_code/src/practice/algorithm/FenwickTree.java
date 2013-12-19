@@ -5,26 +5,21 @@ package practice.algorithm;
  */
 public class FenwickTree {
 
-	private int[] tree;
+	private long[] tree;
 
 	public FenwickTree(int[] nums) {
-		tree = new int[nums.length + 1]; // BIT is 1 based tree.
+		tree = new long[nums.length + 1]; // BIT is 1 based tree.
 
 		// initialize the tree. -- this happens in O(nlogn) times.
-		for (int i = 1; i < tree.length; i++) {
+		for (int i = 0; i < nums.length; i++) {
+			long val = nums[i];
 
-			int idx = i;
-			int val = nums[i-1];
 			// build the responsibilty tree
-			while ( idx < tree.length) {
-				tree[idx] += val;
-				idx += (idx & -idx); // (idx & -idx) will give you the number with only the last 1 digit set.
-									 // adding it back to number give the next number which depends on us.
-			}
+			updateTree(i, val);
 		}
 	}
 
-	public void updateTree(int idx, int val) {
+	public void updateTree(int idx, long val) {
 		idx ++;
 
 		// update this node and all the other nodes which depend on this.
@@ -38,11 +33,7 @@ public class FenwickTree {
 		low++;
 		high++; // convert to 1 based index.
 
-		long sum1 = 0;
-		if (low  > 0) {
-			sum1 = getSum(low - 1); // get the sum from 1 to low-1
-		}
-
+		long sum1 = getSum(low - 1);
 		long sum2 = getSum(high);
 
 		return sum2 - sum1;

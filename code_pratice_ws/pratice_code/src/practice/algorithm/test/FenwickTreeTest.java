@@ -51,7 +51,7 @@ public class FenwickTreeTest {
 
 	@Test
 	public void testFenwickTree() {
-		nums = new int[]{3,4,9,1,4,7,6};
+		nums = new int[]{3,4,9,1,4,7,6,0};
 
 		testClass = new FenwickTree(nums);
 		testRangeSum();
@@ -65,6 +65,17 @@ public class FenwickTreeTest {
 		val = -6; updateIdx = 3;
 		nums[updateIdx] += val;
 		testClass.updateTree(updateIdx, val);
+		testRangeSum();
+
+		val = 7; updateIdx = 0;
+		nums[updateIdx] -= val;
+		testClass.updateTree(updateIdx, -val);
+
+
+		val = -4; updateIdx = 1;
+		nums[updateIdx] += val;
+		testClass.updateTree(updateIdx, val);
+
 		testRangeSum();
 	}
     
