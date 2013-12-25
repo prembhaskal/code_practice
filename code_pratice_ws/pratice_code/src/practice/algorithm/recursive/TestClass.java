@@ -1,8 +1,8 @@
 package practice.algorithm.recursive;
 
 import topcoder.srm.misc.*;
-import topcoder.srm.s566iv2.PenguinPals;
-import topcoder.srm.s566iv2.PenguinTiles;
+import topcoder.srm.archive.s566iv2.PenguinPals;
+import topcoder.srm.archive.s566iv2.PenguinTiles;
 
 public class TestClass {
 
