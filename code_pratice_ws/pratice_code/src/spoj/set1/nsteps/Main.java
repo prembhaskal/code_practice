@@ -39,27 +39,14 @@ class TaskA {
 
 	}
 
-	// TODO simplify the logic.
 	private String getNumber(int x, int y) {
 		String number;
-		if (x == y) {
-			if ((x&1) == 1) {
-				int num = 4 * (x-1)/2 + 1;
-				number = num + "";
-			}
-			else {
-				number = 4 * x/2 + "";
-			}
-		}
-		else if (x == y + 2) {
+		if (x == y || x == y + 2) {
+			int num = 4 * (y/2) + (x-y); // (y/2) needs to be calculated first.
 			if ((y&1) == 1) {
-				int num = 2 + 4 * (y-1)/2 + 1;
-				number = num + "";
+				num++;
 			}
-			else {
-				int num = 2 + 4 * y/2;
-				number = num + "";
-			}
+			number = num + "";
 		}
 		else {
 			number = "No Number";
