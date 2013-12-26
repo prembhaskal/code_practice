@@ -35,7 +35,7 @@ public class SegTreeRangeQueryNUpdateTest {
 
 	@Before
 	public void init() {
-		nums = new int[]{1, 1, 1, 1, 1, 1, 1, 1};
+		nums = new int[8];
 
 	}
 
@@ -55,7 +55,11 @@ public class SegTreeRangeQueryNUpdateTest {
 		testClass = new SegTreeRangeQueryNUpdate(nums);
 
 		testRangeSum();
-		rangeUpdate(0, 4, 1);
+		rangeUpdate(1, 3, 26);
+		rangeUpdate(3, 7, 80);
+		rangeUpdate(3, 4, 20);
+		testRangeSum();
+		rangeUpdate(4, 6, 14);
 		testRangeSum();
 	}
 

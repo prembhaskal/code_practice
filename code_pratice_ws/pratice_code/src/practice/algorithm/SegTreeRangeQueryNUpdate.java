@@ -1,7 +1,5 @@
 package practice.algorithm;
 
-import com.sun.java_cup.internal.runtime.lr_parser;
-
 public class SegTreeRangeQueryNUpdate {
 
 	private int[] nums;
