@@ -87,8 +87,8 @@ public class SegTreeRangeQueryNUpdate {
 	}
 
 	private class Node {
-		long sum;
-		long pendingAdd;
+		long sum;// current sum which includes the pendingAdd.
+		long pendingAdd; // pendingAdd, pending for the children.
 		int low;
 		int high;
 
@@ -103,15 +103,15 @@ public class SegTreeRangeQueryNUpdate {
 			numValues = high - low + 1;
 		}
 
-		public void updateNode(int val) {
-			sum += ((long)numValues * val);
+		public void updateNode(long val) {
+			sum += (numValues * val);
 			pendingAdd += val;
 		}
 
-		// push all the pending changes while recursing down.
+		// push all the pending changes while recursing down. also update the sum for the descendants.
 		public void splitNode() {
-			leftNode.pendingAdd += pendingAdd;
-			rightNode.pendingAdd += pendingAdd;
+			leftNode.updateNode(pendingAdd);
+			rightNode.updateNode(pendingAdd);
 			pendingAdd = 0;
 		}
 
