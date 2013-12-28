@@ -14,7 +14,7 @@ public class FenwickTree {
 		for (int i = 0; i < nums.length; i++) {
 			long val = nums[i];
 
-			// build the responsibilty tree
+			// build the responsibility tree
 			updateTree(i, val);
 		}
 	}
