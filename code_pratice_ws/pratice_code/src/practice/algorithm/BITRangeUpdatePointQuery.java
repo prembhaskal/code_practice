@@ -27,7 +27,7 @@ public class BITRangeUpdatePointQuery {
 	}
 
 	public void rangeUpdate(int low, int high, int val) {
-		low++;
+		low++; // since BIT is 1 based.
 		high++;
 
 		updateRange(low, val);
@@ -43,7 +43,7 @@ public class BITRangeUpdatePointQuery {
 	}
 
 	public int pointQuery(int idx) {
-		idx++;
+		idx++; // since BIT is 1 based.
 		return query(idx);
 	}
 
