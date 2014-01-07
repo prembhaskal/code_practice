@@ -102,6 +102,8 @@ public class SegTreeRngMulAddPointQuery {
 		}
 
 		// push changes in a recursive nature
+		// mul[i] = mul[i] * mul[i-1]
+		// add[i] = add[i] * mul[i-1] + add[i-1]
 		public void updateNode(int M, int A) {
 			mul = mul * M;
 			add = add*M + A;
