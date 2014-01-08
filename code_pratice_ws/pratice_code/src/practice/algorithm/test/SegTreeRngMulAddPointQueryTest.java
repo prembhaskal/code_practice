@@ -60,7 +60,10 @@ public class SegTreeRngMulAddPointQueryTest {
 		rangeAdd(2, 4, 7);
 		checkPointQuery();
 
-		rangeMultiply(3, 3, 2);
+		rangeMultiply(1, 3, 7);
+		rangeAdd(1, 3, 4);
+		rangeMultiply(1, 3, 6);
+		rangeAdd(1, 3, 8);
 		rangeAdd(1, 4, 7);
 		rangeAdd(2, 4, 9);
 		checkPointQuery();
