@@ -14,8 +14,9 @@ public class P60PrimePairSets {
 		generatePrimes();
 		generatePairSet();
 		System.out.println("last prime checked is " + primes.get(TOTAL_PRIMES));
-//		int primeSetSum = getFourPrimeSets();
-		int primeSetSum = getFivePrimeSets();
+		int primeSetSum = 0;
+//		primeSetSum = getFourPrimeSets();
+		primeSetSum = getFivePrimeSets();
 		return primeSetSum;
 	}
 
@@ -59,18 +60,22 @@ public class P60PrimePairSets {
 		start:
 		for (int a = 1; a < TOTAL_PRIMES; a++) {
 			int p1 = primes.get(a);
+			if (p1 * 5 > sum) break;
 			for (int b = a + 1; b < TOTAL_PRIMES; b++) {
 				int p2 = primes.get(b);
+				if (p1 + p2 *4 > sum)  break;
 				check = isPairSet(p1, p2);
 				if (!check)
 					continue;
 				for (int c = b + 1; c < TOTAL_PRIMES; c++) {
 					int p3 = primes.get(c);
+					if (p1 + p2 + p3 *3 > sum) break; // stop searching if we cannot find result lesser than sum.
 					check = isPairSet(p1, p3) && isPairSet(p2, p3);
 					if (!check)
 						continue;
 					for (int d = c + 1; d < TOTAL_PRIMES; d++) {
 						int p4 = primes.get(d);
+						if (p1 + p2 + p3 + p4 *2 > sum) break;
 						check = isPairSet(p1, p4) && isPairSet(p2, p4) && isPairSet(p3, p4);
 						if (!check)
 							continue;
@@ -80,6 +85,7 @@ public class P60PrimePairSets {
 							if (check) {
 								int thisSum = p1 + p2 + p3 + p4 + p5;
 								sum = Math.min(sum, thisSum);
+								break; // we dont need to find more.
 							}
 						}
 					}
@@ -153,6 +159,7 @@ public class P60PrimePairSets {
 		}
 	}
 
+	// TODO this look up creation takes a lot of time.
 	private void generatePairSet() {
 		pairSet = new HashSet<>();
 		for (int i = 0; i < TOTAL_PRIMES; i++) {
