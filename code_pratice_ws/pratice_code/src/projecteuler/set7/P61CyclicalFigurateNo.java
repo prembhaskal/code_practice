@@ -11,12 +11,61 @@ public class P61CyclicalFigurateNo {
 		return 0;
 	}
 
+
+	// indicator bits -- 0 means unused bits, 1 means used bits.
+	// LSB indicates the type 3
+	private void findNos(int startNo, int level, int last2Digits, int indicatorBits) {
+
+		Map<Integer, List<Integer>> matchingNos = getMatchingNos(last2Digits, indicatorBits);
+
+		if (level == 8) {
+
+		}
+
+		for (Integer type : matchingNos.keySet()) {
+			int newIndicator = useTypeAndReturnNewIndicator(type, indicatorBits);
+
+			List<Integer> nums = matchingNos.get(type);
+			for (Integer number : nums) {
+				int last2Dig = getLastTwodigits(number);
+				findNos(startNo, level + 1, last2Dig, newIndicator);
+			}
+		}
+	}
+
+	private int useTypeAndReturnNewIndicator(int type, int oldIndicator) {
+		int shift = type - 3;
+		int orBit = 1 << shift;
+		return oldIndicator | orBit;
+	}
+
+	private Map<Integer, List<Integer>> getMatchingNos(int first2Digits, int indicatorBits) {
+		int andBit = 1;
+		Map<Integer, List<Integer>> typeVsList = new HashMap<>();
+		for (int i = 3; i <= 8 ; i++) {
+			if ((indicatorBits & andBit) == 1) // means bit is used so don't use it.
+				continue;
+
+			andBit = andBit << 1; // shift the and bit.
+
+			Map<Integer, List<Integer>> firDigitsVsNos = typeVsMapof1stDigVsListOfNos.get(i);
+			List<Integer> getMatchingNos = firDigitsVsNos.get(first2Digits);
+			typeVsList.put(i, new ArrayList<Integer>(getMatchingNos));
+		}
+
+		return typeVsList;
+	}
+
 	// generate a smaller set of nos first.
 	// number such that other nos exist in other types starting with the last 2 digits and ending with first 2 digits.
-	Set<Integer> smallerSet = new HashSet<>();
+	private Map<Integer, Set<Integer>> smallerSet = new HashMap<>();
+	private Map<Integer, Map<Integer, List<Integer>>> typeVsMapof1stDigVsListOfNos = new HashMap<>();
 	private void generateSmallerSet() {
 		for (int type = 3; type <= 8; type++) {
+			Set<Integer> matchingNos = new HashSet<>();
 			List<Integer> nos = typeVsList.get(type);
+
+			Map<Integer, List<Integer>> firDigitsVsNos = new HashMap<>();
 
 			for (int num : nos) {
 				int f2dig = getFirstTwoDigits(num);
@@ -29,8 +78,18 @@ public class P61CyclicalFigurateNo {
 					continue;
 				}
 
-				smallerSet.add(num);
+				matchingNos.add(num);
+
+				List<Integer> fDigNos = firDigitsVsNos.get(f2dig);
+				if (fDigNos == null) {
+					fDigNos = new ArrayList<>();
+					firDigitsVsNos.put(f2dig, fDigNos);
+				}
+				fDigNos.add(num);
 			}
+
+			smallerSet.put(type, matchingNos);
+			typeVsMapof1stDigVsListOfNos.put(type, firDigitsVsNos);
 		}
 
 		System.out.println("size of smaller set is " + smallerSet.size());
