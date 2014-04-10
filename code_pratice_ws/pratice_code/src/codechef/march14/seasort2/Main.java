@@ -24,7 +24,6 @@ public class Main {
 
 }
 
-// this is not running properly....:( :(
 class TaskA {
 
 	private int N;
