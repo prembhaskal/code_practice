@@ -1,7 +1,0 @@
-Case #1: abacec
-Case #2: aaabef
-Case #3: abcd
-Case #4: IMPOSSIBLE
-Case #5: IMPOSSIBLE
-Case #6: abcd
-Case #7: abacaaae
