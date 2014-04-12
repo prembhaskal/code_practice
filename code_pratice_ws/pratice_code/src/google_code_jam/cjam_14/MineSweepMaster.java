@@ -3,7 +3,6 @@ package google_code_jam.cjam_14;
 import algorithm.UtilitiesClass;
 import common.util.InputReader;
 import java.io.PrintWriter;
-import projecteuler.set3.p27QuadraticPrimes;
 
 public class MineSweepMaster {
 
@@ -16,7 +15,6 @@ public class MineSweepMaster {
 	private int R;
 	private int C;
 	private int M;
-	private int uncovered;
 
 	public void solve(InputReader in, PrintWriter out) {
 		int tests = in.nextInt();
@@ -26,7 +24,7 @@ public class MineSweepMaster {
 			C = in.nextInt();
 			M = in.nextInt();
 
-			findMaze();
+			tryFinding();
 
 			out.println("Case #" + testNo + ": ");
 
@@ -35,15 +33,22 @@ public class MineSweepMaster {
 			}
 //			else
 				printMine(out);
+
+			System.out.println("done with test " + testNo);
 		}
 	}
 
-	private void findMaze() {
+	private void tryFinding() {
+		if (!trial1()) {
+			trial2();
+		}
+	}
+
+	private boolean trial1() {
 		maze = new int[R][C];
 		markMaze = new boolean[R][C];
-		uncovered = 0;
 		possible = true;
-		fillOptimally();
+		fillOptimally1();
 
 		for (int i = 0; i < R; i++) {
 			UtilitiesClass.printArray(maze[i]);
@@ -53,17 +58,46 @@ public class MineSweepMaster {
 		int row = R-1;
 		int col = C-1;
 		if (maze[row][col] != -1) {
-			uncovered++;
 			int mines = findMines(row, col);
 			if (mines == 0) {
 				uncover(row, col);
 			}
+			markMaze[row][col] = true;
 		}
 
-		if (uncovered + M < R * C) {
+		if (getMarked() + M < R * C) {
 			possible = false;
 		}
 
+		return possible;
+	}
+
+	private boolean trial2() {
+		maze = new int[R][C];
+		markMaze = new boolean[R][C];
+		possible = true;
+		fillOptimally2();
+
+		for (int i = 0; i < R; i++) {
+			UtilitiesClass.printArray(maze[i]);
+		}
+
+		// try uncovering all.
+		int row = R-1;
+		int col = C-1;
+		if (maze[row][col] != -1) {
+			int mines = findMines(row, col);
+			if (mines == 0) {
+				uncover(row, col);
+			}
+			markMaze[row][col] = true;
+		}
+
+		if (getMarked() + M < R * C) {
+			possible = false;
+		}
+
+		return possible;
 	}
 
 	private void uncover(int row, int col) {
@@ -88,7 +122,6 @@ public class MineSweepMaster {
 		newCol = col;
 		newRow = row - 1;
 		if (inBounds(newRow, newCol)) {
-			uncovered++;
 			uncover(newRow, newCol);
 		}
 
@@ -96,7 +129,6 @@ public class MineSweepMaster {
 		newCol = col - 1;
 		newRow = row;
 		if (inBounds(newRow, newCol)) {
-			uncovered++;
 			uncover(newRow, newCol);
 		}
 
@@ -104,10 +136,22 @@ public class MineSweepMaster {
 		newCol = col - 1;
 		newRow = row - 1;
 		if (inBounds(newRow, newCol)) {
-			uncovered++;
 			uncover(newRow, newCol);
 		}
 	}
+
+	private int getMarked() {
+		int marked = 0;
+		for (int i = 0; i < R; i++) {
+			for (int j = 0; j < C; j++) {
+				if (markMaze[i][j])
+					marked++;
+			}
+		}
+
+		return marked;
+	}
+
 	// this is assuming a particular way of filling.
 	private int findMines(int row, int col){
 		int mines = 0;
@@ -149,7 +193,72 @@ public class MineSweepMaster {
 	}
 
 	// fill a row, then col, then row, then row....
-	private void fillOptimally() {
+	private void fillOptimally1() {
+
+		if (M == 0)
+			return;
+
+		boolean col_wise = true;
+
+		int filled = 0;
+
+		if (R < C) {
+			col_wise = true;
+		}
+		else {
+			col_wise = false;
+		}
+
+		STOP:
+		if (col_wise) {
+			for (int col = 0; col < C - 2 && col >= 0; col++) {
+				for (int row = 0; row < R && row >= 0; row++) {
+					if (maze[row][col] != -1) {
+						maze[row][col] = -1;
+						filled++;
+						if (filled == M)
+							break STOP;
+					}
+				}
+			}
+			for (int row = 0; row < R && row >= 0; row++) {
+				for (int col= C - 2; col < C && col >= 0; col++) {
+					if (maze[row][col] != -1) {
+						maze[row][col] = -1;
+						filled++;
+						if (filled == M)
+							break STOP;
+					}
+				}
+			}
+		}
+		else {
+			for (int row = 0; row < R - 2 && row >= 0; row++) {
+				for (int col= 0; col < C && col >= 0; col++) {
+					if (maze[row][col] != -1) {
+						maze[row][col] = -1;
+						filled++;
+						if (filled == M)
+							break STOP;
+					}
+				}
+			}
+			for (int col = 0; col < C && col >= 0; col++) {
+				for (int row = R - 2; row < R && row >= 0; row++) {
+					if (maze[row][col] != -1) {
+						maze[row][col] = -1;
+						filled++;
+						if (filled == M)
+							break STOP;
+					}
+				}
+			}
+		}
+	}
+
+
+	// fill a row, then col, then row, then row....
+	private void fillOptimally2() {
 		boolean col_wise = true;
 
 		int row = 0;
