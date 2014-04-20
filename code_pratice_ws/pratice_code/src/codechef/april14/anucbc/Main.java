@@ -171,7 +171,6 @@ class TaskA {
 					int sum = (j + k) % M;
 					int prod = (int) ((totalWays[j] * (long) ways[num][k]) % MOD);
 					newTotalWays[sum] = (int) ((newTotalWays[sum] + (long) prod) % MOD);
-					j = j;
 				}
 
 			totalWays = newTotalWays;
