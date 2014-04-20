@@ -49,6 +49,7 @@ class TaskA {
 					int num = in.nextInt();
 
 					int diff = num - nos[x][y];
+					nos[x][y] = num;
 					bit2D.update2D(x, y, diff);
 				}
 				else if (operation.equals("SUM")) {
