@@ -2,10 +2,10 @@ package practice.math_problems;
 
 public class NthRoot {
 
-	public long findNthRootNewtonMethod(long num, int root, boolean print) {
+	public double findNthRootNewtonMethod(long num, int root, boolean print, double precision) {
 		double x = 1.0;
 		int iteration = 1;
-		double PRECISION = 0.5;
+		double PRECISION = Math.min(precision, 0.5);
 
 		while (true) {
 			double power = powDouble(x, root - 1);
@@ -22,7 +22,7 @@ public class NthRoot {
 		if (print)
 			System.out.println("INFO - total iterations taken " + iteration);
 
-		return (long) x;
+		return x;
 	}
 
 
@@ -64,11 +64,12 @@ public class NthRoot {
  	public int findIntegerRootUsingBinarySearch(long num, int root) {
 
 		int low = 1;
-		int high = findHighestExp(root);
+		double highDouble = findHigestExpUsingPrecision(root);
+		int high = (int) highDouble;
 		int mid = 1;
 
 		while (low <= high) {
-			mid = (high - (high - low)/2);
+			mid = (low + (high - low)/2);
 
 			long power = pow(mid, root);
 			if (power == num) {
@@ -101,6 +102,14 @@ public class NthRoot {
 		double exp = Math.pow(logx_into_root, 10);
 
 		return (int) exp;
+	}
+
+	public double findHigestExpUsingPrecision(int root) {
+		long max = 1000_000_000_000_000_000L;
+		// we seek to find the solution to this equation. x^root = max;
+
+		double highDouble = findNthRootNewtonMethod(max, root, false, 0.001);
+		return highDouble;
 	}
 
 

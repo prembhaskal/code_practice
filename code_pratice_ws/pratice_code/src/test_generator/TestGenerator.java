@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 public class TestGenerator {
 
 	public void generateTest(InputReader in, PrintWriter out) {
-		int size = 100000;
+		int size = 1000;
 		int queries = 30;
 		out.println(size + " " + queries);
 
@@ -18,7 +18,7 @@ public class TestGenerator {
 		out.println();
 
 		for (int i = 69; i <= 99; i++) {
-			out.println(i);
+			out.print(i + " ");
 		}
 	}
 }
