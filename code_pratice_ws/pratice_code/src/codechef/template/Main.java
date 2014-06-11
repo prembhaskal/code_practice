@@ -2,6 +2,7 @@ package codechef.template;
 
 import java.io.*;
 import java.util.StringTokenizer;
+import java.util.InputMismatchException;
 
 public class Main {
 	public static void main(String[] s) {

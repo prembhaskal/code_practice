@@ -50,19 +50,18 @@ public class NthRootTest {
 
 	@Test
 	public void findNthRootCompareResult() {
-		long from = 2000_100_050_00L;
+		long from = 9000_000_700_000_000_00L;
 		long to = from + 10000;
 		int rootRange = 80;
+
+		double diffPrecision = 0.1;
 
 		for (long num = from; num < to; num++) {
 			for (int rt = 2; rt < rootRange; rt++) {
 				double expRoot = Math.pow(num, 1.0/rt);
 				long actRoot = testClass.findIntegerRootUsingBinarySearch(num, rt);
 
-//				assertEquals("root calculation is incorrect for num:" + num + " root:" + rt,
-//						expRoot, actRoot);
-
-				if ((long)expRoot != actRoot) {
+				if ((long)expRoot != actRoot && Math.abs(actRoot - expRoot) > diffPrecision) {
 					System.out.println("ERROR: incorrect value for number " + num + " and root " + rt);
 					System.out.println("Exp: " + expRoot + " Actual: " + actRoot);
 				}
@@ -80,16 +79,13 @@ public class NthRootTest {
     
     @Test
 	public void testRootUsingBinarySearch() {
-		long num = 123_345_395_948_485_987L;
+		long num = 1L;//123_345_395_948_485_987L;
 		int root = 2;
 		int squareRoot = testClass.findIntegerRootUsingBinarySearch(num, root);
 		System.out.println(root + " th root of the number " + num + " is " + squareRoot);
 
 		double mathRoot = Math.pow(num, 1.0/root);
 		System.out.println(root + " th root of the number " + num + " is " + mathRoot);
-
-		int val = (-2 + 7) % 7;
-		System.out.println(val);
 	}
 
 	@Test
