@@ -111,7 +111,8 @@ class TaskA {
 		return (int) totalNonAPs;
 	}
 
-	// TODO this work but is still quite slower..not sure why.
+	// this work but is still quite slower..not sure why -- all this mod made it slower.
+	// after removing them made it faster.
 	private int getCountUsingArray() {
 		int totalSubSequence = powMod(2, N);
 
@@ -123,15 +124,20 @@ class TaskA {
 			int num = nums[i];
 
 			for (int prev = 1; prev <= MAX_VAL; prev++) {
-				int diff = num - prev;
-				diff = diff + MAX_VAL;  // correct to avoid the -1;
-				int cnt_j_diff = countArray[prev][diff];
-				int countOfJ = countOfNos[prev];
+				int diff = num - prev + MAX_VAL;  // correct to avoid the -1;
+
+				countArray[num][diff] += countArray[prev][diff];
+				if (countArray[num][diff] >= MOD)
+					countArray[num][diff] -= MOD;
+
+				if (countOfNos[prev] > 0)
+					countArray[num][diff] += countOfNos[prev];
+
+				if (countArray[num][diff] >= MOD)
+					countArray[num][diff] -= MOD;
 
 				// countOfJ to map self with just the previous guy. (ie 2 guys)
 				// cnt_j_diff for previous sequence of length > 2.
-				int cnt_i_diff = (int) ((cnt_j_diff + (long)countOfJ) % MOD);
-				countArray[num][diff] = (int) ((countArray[num][diff] + (long)cnt_i_diff) % MOD);
 			}
 
 			countOfNos[num]++;
