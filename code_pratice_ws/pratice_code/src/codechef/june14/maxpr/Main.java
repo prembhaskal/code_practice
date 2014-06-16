@@ -148,10 +148,10 @@ class TaskA {
 
 		for (int i = 1; i <= MAX_VAL; i++) {
 			for (int j = 1; j <= MAX_VAL; j++) {
-				int diff = i - j;
-				diff = diff + MAX_VAL;
-				int count = countArray[i][diff];
-				totalAPs = (totalAPs + count) % MOD;
+				int diff = i - j + MAX_VAL;
+				totalAPs = (totalAPs + countArray[i][diff]);
+				if (totalAPs >= MOD)
+					totalAPs -= MOD;
 			}
 		}
 
