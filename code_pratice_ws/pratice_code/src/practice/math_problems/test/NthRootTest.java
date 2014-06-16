@@ -79,13 +79,14 @@ public class NthRootTest {
     
     @Test
 	public void testRootUsingBinarySearch() {
-		long num = 1L;//123_345_395_948_485_987L;
-		int root = 2;
+		long num = 125_129_118_027_271_456L;
+		int root = 7;
 		int squareRoot = testClass.findIntegerRootUsingBinarySearch(num, root);
 		System.out.println(root + " th root of the number " + num + " is " + squareRoot);
 
 		double mathRoot = Math.pow(num, 1.0/root);
 		System.out.println(root + " th root of the number " + num + " is " + mathRoot);
+		System.out.println("test power " + Math.pow(277,7));
 	}
 
 	@Test
