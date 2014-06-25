@@ -2,10 +2,9 @@ package com.gdcom.marshal;
 
 import com.gdcom.elements.XmlAttribute;
 import com.gdcom.elements.XmlElement;
-import java.io.OutputStream;
 import java.util.List;
 
-public class XmlElementMarshaller{
+public class XmlElementMarshaller {
 
 	public String createTag(Object xmlElement) throws MarshalException{
 		if (! (xmlElement instanceof XmlElement))
@@ -14,7 +13,6 @@ public class XmlElementMarshaller{
 		XmlElement element = (XmlElement) xmlElement;
 
 		StringBuilder xmlString = new StringBuilder();
-
 		xmlString.append(createStartingTag(element));
 		xmlString.append(element.getValue());
 		xmlString.append(createEndingTag(element));

@@ -9,8 +9,8 @@ public class TreeCreator {
 
 	/**
 	 * Takes the raw nodes (in order) and links to them each other based on the level.
-	 * thus forming a tree.
-	 * @param nodes
+	 * thus forming a tree. It uses a Stack to do the same.
+	 * @param nodes list of nodes which represent a tree.
 	 * @return RootNode of the tree.
 	 */
 	public Node formTreeFromNodes(List<Node> nodes) throws TreeException {

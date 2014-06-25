@@ -47,6 +47,7 @@ public class DataProcessor {
 				continue;
 
 			node = dataConverter.convertToNode(line);
+
 			if (isStartOfNextSubTree(node)) { // if next tree starts, process the present tree.
 				parseSubTree(subTreeNodes, out);
 				subTreeNodes.clear();

@@ -21,21 +21,16 @@ public class RawDataConverter {
 	 * @return
 	 */
 	public Node convertToNode(String line) {
-		Node node = null;
+		Node node;
 
 		tokenizer.tokenize(line);
 
 		int level = getLevel(tokenizer.getNextToken());
-		String token = tokenizer.getNextToken();
-		if (isId(level, token)) {
-			String id = token;
-			String name = tokenizer.getNextToken();
-			node = createIdNode(level, name, id);
+		if (isIdNode(level, tokenizer.getNextToken())) {
+			node = createIdNode(level, tokenizer.getNextToken(), tokenizer.getNextToken());
 		}
 		else {
-			String name = token;
-			String value = tokenizer.remainingToken();
-			node = createTagNode(level, name, value);
+			node = createTagNode(level, tokenizer.getNextToken(), tokenizer.remainingToken());
 		}
 
 		return node;
@@ -44,21 +39,19 @@ public class RawDataConverter {
 	private Node createIdNode(int level, String name, String id) {
 		XmlAttribute idAttribute = new XmlAttribute("id", id);
 		XmlElement xmlElement = new XmlElement(name, null, Arrays.asList(idAttribute), true);
-		Node idNode = new Node(xmlElement, level, null);
-		return idNode;
+		return new Node(xmlElement, level, null);
 	}
 
 	private Node createTagNode(int level, String name, String value) {
 		XmlElement xmlElement = new XmlElement(name, value);
-		Node tagNode = new Node(xmlElement, level, null);
-		return tagNode;
+		return new Node(xmlElement, level, null);
 	}
 
 	private int getLevel(String token) {
 		return Integer.parseInt(token);
 	}
 
-	private boolean isId(int level, String token) {
+	private boolean isIdNode(int level, String token) {
 		return level==0 && token.matches("^@.*@$");
 	}
 

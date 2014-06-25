@@ -34,7 +34,6 @@ public class NodeMarshaller implements XmlMarshaller {
 	}
 
 	private String encodeNode(Node node) throws MarshalException {
-
 		StringBuilder xml = new StringBuilder();
 		List<Node> childNodes = node.getChildNodes();
 
@@ -43,20 +42,24 @@ public class NodeMarshaller implements XmlMarshaller {
 			xml.append(tag);
 		}
 		else {
-			String startTag = xmlElementMarshaller.createStartingTag(node.getXmlElement());
-			xml.append(startTag);
-			xml.append(lineSeparator);
-
-			for (Node childNode : childNodes) {
-				String childXml = encodeNode(childNode);
-				xml.append(childXml);
-				xml.append(lineSeparator);
-			}
-
-			String endTag = xmlElementMarshaller.createEndingTag(node.getXmlElement());
-			xml.append(endTag);
+			xml.append(encodeChildNodes(node, childNodes));
 		}
 
+		return xml.toString();
+	}
+
+	private String encodeChildNodes(Node node, List<Node> childNodes) throws MarshalException {
+		StringBuilder xml = new StringBuilder();
+		String startTag = xmlElementMarshaller.createStartingTag(node.getXmlElement());
+		xml.append(startTag).append(lineSeparator);
+
+		for (Node childNode : childNodes) {
+			String childXml = encodeNode(childNode);
+			xml.append(childXml).append(lineSeparator);
+		}
+
+		String endTag = xmlElementMarshaller.createEndingTag(node.getXmlElement());
+		xml.append(endTag);
 		return xml.toString();
 	}
 
