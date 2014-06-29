@@ -20,10 +20,14 @@ public class InputReader {
 		tokenizer = null;
 	}
 
+	// returns null if end of stream has reached.
 	public String next() {
 		while (tokenizer == null || !tokenizer.hasMoreTokens()) {
 			try {
-				tokenizer = new StringTokenizer(reader.readLine());
+				String line = reader.readLine();
+				if (line == null)
+					return null;
+				tokenizer = new StringTokenizer(line);
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
