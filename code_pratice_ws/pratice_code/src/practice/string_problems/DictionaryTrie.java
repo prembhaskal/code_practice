@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//TODO handle multiple chars at one place
 public class DictionaryTrie {
 
 	private Map<Character, Trie> trieMap = new HashMap<>();
