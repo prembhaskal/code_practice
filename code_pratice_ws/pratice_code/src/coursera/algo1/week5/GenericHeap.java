@@ -108,6 +108,7 @@ public class  GenericHeap<T extends HeapEntry> {
 
 
 	// node is actually node index.
+	// TODO slightly incorrect/ inefficient...better way is to just 1 swap, with the smaller child.
 	private void bubbleDown(int nodeIndex) {
 		int leftIndex = getLeftChildIndex(nodeIndex);
 		int rightIndex = getRightChildIndex(nodeIndex);
