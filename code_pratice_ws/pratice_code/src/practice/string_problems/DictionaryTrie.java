@@ -37,7 +37,7 @@ public class DictionaryTrie {
 		}
 	}
 
-	public List<String> searchWordsInScramble(char[][] scramble, int rows, int cols) {
+	public List<String> searchWordsInScramble(String[][] scramble, int rows, int cols) {
 		matrix = new Letter[rows][cols];
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
@@ -54,7 +54,8 @@ public class DictionaryTrie {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				Letter letter = matrix[i][j];
-				Trie root = trieMap.get(letter.ch);
+//				Trie root = trieMap.get(letter.ch);
+				Trie root = getNextMatchingNode(null, letter.str);
 				if (root != null)
 					navigate(letter, root, "");
 			}
@@ -63,33 +64,49 @@ public class DictionaryTrie {
 		return words;
 	}
 
-	private void navigate(Letter letter, Trie rootNode, String str) {
-		char ch = letter.ch;
-		str = str + ch;
+	private void navigate(Letter letter, Trie rootNode, String word) {
+		word = word + letter.str;
 		used[letter.i][letter.j] = true;
 
-		// check if the trie path actually exists.
+		// check if the trie path actually exists, if not mark as unused and return.
 		if (rootNode == null) {
 			used[letter.i][letter.j] = false;
 			return;
 		}
 
 		if (rootNode.isLastLetter) {
-			if (str.length() > 2)
-				words.add(str);
+			if (word.length() > 2)
+				words.add(word);
 		}
 
 		// else keep searching.
 		List<Letter> neighbours = getNeighbouringLetters(letter);
-		for (Letter x : neighbours) {
+		for (Letter x : neighbours) { // try to find word for each of the neighbour.
 			if (!used[x.i][x.j]) {
-				Trie newNode = rootNode.children.get(x.ch);
-				navigate(x, newNode, str);
+//				Trie newNode = rootNode.children.get(x.ch); // get the next node from trie.
+				Trie newNode = getNextMatchingNode(rootNode, x.str);
+				navigate(x, newNode, word); // try using this combination.
 			}
 		}
 
 		used[letter.i][letter.j] = false;
 
+	}
+
+	private Trie getNextMatchingNode(Trie rootNode, String str) {
+		char[] chars = str.toCharArray();
+		int i = 0;
+		if (rootNode == null) { // try to match the first letter(s) of trie with the given str.
+			rootNode = trieMap.get(chars[0]); // get the first node by matching with the trie.
+			i++;
+		}
+
+		while (rootNode != null && i < chars.length) {
+			rootNode = rootNode.children.get(chars[i]);
+			i++;
+		}
+
+		return rootNode;
 	}
 
 	private List<Letter> getNeighbouringLetters(Letter root) {
@@ -145,12 +162,12 @@ public class DictionaryTrie {
 	private class Letter {
 		int i;
 		int j;
-		char ch;
+		String str;
 
-		public Letter(int i, int j, char ch) {
+		public Letter(int i, int j, String str) {
 			this.i = i;
 			this.j = j;
-			this.ch = ch;
+			this.str = str;
 		}
 	}
 }

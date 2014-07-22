@@ -51,11 +51,13 @@ public class DictionaryTrieTest {
 		// search the scramble
 		int rows = 4;
 		int cols = 4;
-		String scrambleStr = "gaum oaeu dnbr siaf";
+		String scrambleStr = "x x x x m a r xi x y el i x x h r";
 		String[] inter = scrambleStr.split(" ");
-		char[][] scramble = new char[rows][cols];
+		String[][] scramble = new String[rows][cols];
 		for (int i = 0; i < rows; i++) {
-			scramble[i] = inter[i].toCharArray();
+			for (int j = 0; j < cols; j++) {
+				scramble[i][j] = inter[i*cols + j];
+			}
 		}
 
 		List<String> scrambleWords = testClass.searchWordsInScramble(scramble, rows, cols);
