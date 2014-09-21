@@ -27,12 +27,12 @@ class TaskA {
 
 	public void solve(InputReader in, PrintWriter out) throws IOException {
 
-		int N = 100;
+		int N = 25;
 
 		for (int i = 1; i <= N; i++) {
 			long val = N/i;
-			val *= (i * i * i * i);
-			val %= 1000;
+//			val *= (i * i * i * i);
+//			val %= 1000;
 			out.println(i + " -- " + val);
 		}
 
