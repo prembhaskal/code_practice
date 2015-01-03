@@ -54,6 +54,8 @@ class TaskA {
 				}
 			}
 		}
+
+		return 0;
 	}
 
 
