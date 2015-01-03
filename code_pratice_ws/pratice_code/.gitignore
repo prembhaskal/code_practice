@@ -7,6 +7,6 @@ HashInt.txt
 clustering_big.txt
 week5_large.txt
 2sat*.txt
-#src/*/dec14
+src/*/jan15
 
 /copy_to_drive.bat
