@@ -1,0 +1,8 @@
+Time tracker app:
+This will track the time spent by user on different applications during his/her course of work in a day.
+
+Similar to sapient tool used in many companies.
+
+>>
+    since this required getting the focussed window from WINDOWS, it requires JNI.
+    For simplicity, JNA library (jave native access) is being used.
