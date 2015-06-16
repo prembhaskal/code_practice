@@ -1,9 +1,11 @@
 package common.time_tracker_app;
 
+import java.io.PrintWriter;
 import java.util.concurrent.BlockingQueue;
 
 public class WindowInfoCollector implements Runnable {
 
+	private PrintWriter out = new PrintWriter(System.out);
 	private BlockingQueue<WindowInfo> windowInfos;
 	private FileAggregator fileAggregator;
 
@@ -20,7 +22,7 @@ public class WindowInfoCollector implements Runnable {
 				WindowInfo windowInfo = windowInfos.take();
 				fileAggregator.aggregate(windowInfo);
 
-				System.out.println("Window Name: " + windowInfo.getRawWindowName() + "\n"
+				out.println("Window Name: " + windowInfo.getRawWindowName() + "\n"
 								+  "Process Id: " + windowInfo.getProcessName());
 			}
 		} catch (InterruptedException e) {

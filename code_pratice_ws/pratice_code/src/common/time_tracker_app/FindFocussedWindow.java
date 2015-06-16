@@ -6,6 +6,9 @@ import common.time_tracker_app.winnative.User32DLL;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.*;
 
 public class FindFocussedWindow {
@@ -29,8 +32,12 @@ public class FindFocussedWindow {
 		BlockingQueue<WindowInfo> windowInfos = new ArrayBlockingQueue<>(10);
 		Runnable windowInfoPoller = new WindowInfoPoller(windowInfos);
 
-		File windowInfoDataFile = new File("output/window_info_data.txt");
-//		windowInfoDataFile.createNewFile();
+		Date date = Calendar.getInstance().getTime();
+		String dateStr = new SimpleDateFormat("dd-MM-YYYY").format(date);
+		String fileName = "window_info_data_" + dateStr + ".txt";
+		File windowInfoDataFile = new File("D:/output/" + fileName);
+		windowInfoDataFile.createNewFile();
+
 		FileAggregator fileAggregator = new FileAggregator(windowInfoDataFile);
 		WindowInfoCollector windowInfoCollector = new WindowInfoCollector(windowInfos, fileAggregator);
 

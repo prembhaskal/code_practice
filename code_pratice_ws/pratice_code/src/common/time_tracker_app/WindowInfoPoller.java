@@ -1,9 +1,11 @@
 package common.time_tracker_app;
 
+import com.sun.jna.Memory;
 import com.sun.jna.Native;
 import static com.sun.jna.platform.win32.WinDef.*;
 
 import com.sun.jna.Pointer;
+import com.sun.jna.platform.win32.WinNT;
 import com.sun.jna.ptr.PointerByReference;
 import common.time_tracker_app.winnative.Kernel32;
 import common.time_tracker_app.winnative.User32DLL;
@@ -44,14 +46,15 @@ public class WindowInfoPoller implements Runnable {
 		return windowName;
 	}
 
-	private String getProcessNameForWindow(HWND windowObj) {
+	private String getProcessNameForWindow(HWND windowObj) throws InterruptedException {
 		char[] buffer = new char[MAX_TITLE_LENGTH * 2];
 		PointerByReference pointer = new PointerByReference();
 		User32DLL.GetWindowThreadProcessId(windowObj, pointer);
 		Pointer process = Kernel32.OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, false, pointer.getValue());
 		GetModuleBaseNameW(process, null, buffer, MAX_TITLE_LENGTH);
+		Pointer closeStatus = Kernel32.CloseHandle(process);
+		// TODO how to read the close Status, does it return a pointer or an integer.
 		return Native.toString(buffer);
-//		System.out.println("Active window process: " + Native.toString(buffer));
 	}
 
 	private HWND getFocussedWindow() {

@@ -15,7 +15,7 @@ public class FileAggregator {
 	private File windowInfoRawFile;
 	private final int BATCH_SIZE = 10;
 
-	public static final String DATA_SEPARATOR = "_******_";
+	public static final String DATA_SEPARATOR = "_######_";
 
 	private List<WindowInfo> windowInfoList = new ArrayList<>();
 

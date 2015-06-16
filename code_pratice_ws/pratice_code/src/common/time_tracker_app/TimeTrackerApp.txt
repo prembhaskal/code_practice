@@ -17,3 +17,11 @@ File Aggregator -- puts the window information data into a file.
 
 TODO
 File Data Parser -- reads the data from the file. Use Read Lock, Write Lock etc, so that data read is proper.
+
+TODO
+On locked windows - window name and process id are both empty.. handle this while parsing.
+for explorer.exe- the window name might be empty.
+
+PLATFORM libraries
+	some classes can be loaded with platform function already defined...eg below is the class loaded for Kernel32.
+	com.sun.jna.platform.win32.Kernel32.INSTANCE
