@@ -34,10 +34,10 @@ public class FileDataParser {
 	public void parseAndDisplaySummaryForUserData(File windowInfoFile) {
 
 		createFrequencyMaps(windowInfoFile);
-		List<ItemVsFrequency> windowVsFrequencies = getWindowsInDescendingOrder();
+		List<ItemVsFrequency> windowVsFrequencies = getItemsInDescendingOrder(mainWindowVsFrequency);
 		printTopWindowsAlongWithTime(windowVsFrequencies);
 
-		List<ItemVsFrequency> processVsFrequencies = getProcessInDescendingOrder();
+		List<ItemVsFrequency> processVsFrequencies = getItemsInDescendingOrder(processNameVsFrequency);
 		printTopProcessAlongWithTime(processVsFrequencies);
 	}
 
@@ -113,25 +113,22 @@ public class FileDataParser {
 	private void updateWindowVsInterval(List<WindowInfo> windowInfos) {
 		for (WindowInfo windowInfo : windowInfos) {
 			String mainWindowName = getMainWindowName(windowInfo.getRawWindowName());
-			Integer frequency = mainWindowVsFrequency.get(mainWindowName);
-			if (frequency == null) {
-				frequency = 0;
-			}
-			frequency = frequency + 1;
-			mainWindowVsFrequency.put(mainWindowName, frequency);
+			updateFrequencyInMap(mainWindowVsFrequency, mainWindowName);
 		}
 	}
 
 	private void updateProcessNameVsInterval(List<WindowInfo> windowInfos) {
 		for (WindowInfo windowInfo : windowInfos) {
 			String processName = windowInfo.getProcessName().isEmpty() ? SLEEP : windowInfo.getProcessName();
-			Integer frequency = processNameVsFrequency.get(processName);
-			if (frequency == null) {
-				frequency = 0;
-			}
-			frequency = frequency + 1;
-			processNameVsFrequency.put(processName, frequency);
+			updateFrequencyInMap(processNameVsFrequency, processName);
 		}
+	}
+
+	private void updateFrequencyInMap(Map<String, Integer> map, String key) {
+		Integer frequency = map.get(key);
+		if (frequency == null) frequency = 0;
+		frequency++;
+		map.put(key, frequency);
 	}
 
 	private WindowInfo parseWindowInfo(String dataLine) {
@@ -156,35 +153,13 @@ public class FileDataParser {
 		return mainWindowName;
 	}
 
-	private List<ItemVsFrequency> getWindowsInDescendingOrder() {
+	private <K extends String,V extends Integer> List<ItemVsFrequency> getItemsInDescendingOrder(Map<K, V> map) {
 		List<ItemVsFrequency> itemVsFrequencies = new ArrayList<>();
-		for (Map.Entry<String, Integer> entry : mainWindowVsFrequency.entrySet()) {
+		for (Map.Entry<K,V> entry : map.entrySet()) {
 			itemVsFrequencies.add(new ItemVsFrequency(entry.getKey(), entry.getValue()));
 		}
 
-		Collections.sort(itemVsFrequencies, new Comparator<ItemVsFrequency>() {
-			@Override
-			public int compare(ItemVsFrequency o1, ItemVsFrequency o2) {
-				return -1 * o1.frequency.compareTo(o2.frequency);
-			}
-		});
-
-		return itemVsFrequencies;
-	}
-
-	private List<ItemVsFrequency> getProcessInDescendingOrder() {
-		List<ItemVsFrequency> itemVsFrequencies = new ArrayList<>();
-		for (Map.Entry<String, Integer> entry : processNameVsFrequency.entrySet()) {
-			itemVsFrequencies.add(new ItemVsFrequency(entry.getKey(), entry.getValue()));
-		}
-
-		Collections.sort(itemVsFrequencies, new Comparator<ItemVsFrequency>() {
-			@Override
-			public int compare(ItemVsFrequency o1, ItemVsFrequency o2) {
-				return -1 * o1.frequency.compareTo(o2.frequency);
-			}
-		});
-
+		Collections.sort(itemVsFrequencies, new DescendingComparator<>());
 		return itemVsFrequencies;
 	}
 
@@ -197,5 +172,13 @@ public class FileDataParser {
 			this.frequency = frequency;
 		}
 
+	}
+
+	private class DescendingComparator<T extends ItemVsFrequency> implements Comparator<T> {
+
+		@Override
+		public int compare(T o1, T o2) {
+			return -1 * o1.frequency.compareTo(o2.frequency);
+		}
 	}
 }
