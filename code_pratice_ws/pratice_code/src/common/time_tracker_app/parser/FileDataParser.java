@@ -1,7 +1,6 @@
 package common.time_tracker_app.parser;
 
 import common.time_tracker_app.FileAggregator;
-import common.time_tracker_app.FindFocussedWindow;
 import common.time_tracker_app.WindowInfo;
 
 import java.io.BufferedReader;
@@ -15,15 +14,17 @@ import java.util.concurrent.TimeUnit;
 public class FileDataParser {
 
 	public static final String SLEEP = "SLEEP";
-	private Map<String, Integer> mainWindowVsFrequency = new TreeMap<>();
+	private Map<String, Integer> mainWindowVsFrequency = new HashMap<>();
+	private Map<String, Integer> processNameVsFrequency = new HashMap<>();
 
 	private final int BATCH_SIZE = 10_000;
 
 	private long interval;
-	private final int TOP = 10;
+	private TimeUnit timeUnit = TimeUnit.SECONDS;
+	private final int TOP = 15;
 
 	public static void main(String[] args) {
-		new FileDataParser(5).parseAndDisplaySummaryForUserData(new File("D:/output/window_info_data_15-06-2015.txt"));
+		new FileDataParser(5).parseAndDisplaySummaryForUserData(new File("D:/output/window_info_data_18-06-2015.txt"));
 	}
 
 	public FileDataParser(long interval) {
@@ -32,31 +33,56 @@ public class FileDataParser {
 
 	public void parseAndDisplaySummaryForUserData(File windowInfoFile) {
 
-		createWindowVsFrequency(windowInfoFile);
-		List<WindowVsFrequency> windowVsFrequencies = getWindowsInDescendingOrder();
-
+		createFrequencyMaps(windowInfoFile);
+		List<ItemVsFrequency> windowVsFrequencies = getWindowsInDescendingOrder();
 		printTopWindowsAlongWithTime(windowVsFrequencies);
+
+		List<ItemVsFrequency> processVsFrequencies = getProcessInDescendingOrder();
+		printTopProcessAlongWithTime(processVsFrequencies);
 	}
 
-	private void printTopWindowsAlongWithTime(List<WindowVsFrequency> windowVsFrequencies) {
+	private void printTopWindowsAlongWithTime(List<ItemVsFrequency> windowVsFrequencies) {
 
 		int i = 0;
-		for (WindowVsFrequency windowVsFrequency : windowVsFrequencies) {
-			String windowName = windowVsFrequency.windowName;
-			Integer count = windowVsFrequency.frequency;
-			long netInterval = count * interval;
+		for (ItemVsFrequency itemVsFrequency : windowVsFrequencies) {
+			String windowName = itemVsFrequency.itemName;
+			Integer count = itemVsFrequency.frequency;
+			long netInterval = timeUnit.toMinutes(count * interval);
 
 			System.out.print(windowName);
 			System.out.print("\t\t\t");
 			System.out.println(netInterval);
-			i++;
 
-			if (i >= TOP)
+			if (++i >= TOP)
 				break;
 		}
+
+
 	}
 
-	private void createWindowVsFrequency(File windowInfoFile) {
+	private void printTopProcessAlongWithTime(List<ItemVsFrequency> windowVsFrequencies) {
+		System.out.println("\n------------ PROCESS INFORMATION-----------\n");
+		System.out.printf("%s \t\t\t\t\t\t %s\n", "Process Name", "duration (in minutes)");
+		int i = 0;
+		long totalIntervalMinutes = 0;
+		for ( ItemVsFrequency itemVsFrequency : windowVsFrequencies) {
+			String processName = itemVsFrequency.itemName;
+			Integer count = itemVsFrequency.frequency;
+			long intervalMinutes = timeUnit.toMinutes(count * interval);
+
+			totalIntervalMinutes += intervalMinutes;
+
+			System.out.format("%s %10d", processName, intervalMinutes);
+			System.out.println("");
+
+			if (++i >= TOP)
+				break;
+		}
+
+		System.out.printf("total interval spent on top %d applications is %d minutes \n", TOP, totalIntervalMinutes);
+	}
+
+	private void createFrequencyMaps(File windowInfoFile) {
 		try (BufferedReader bufferedReader = Files.newBufferedReader(windowInfoFile.toPath(), Charset.defaultCharset())) {
 
 			String line;
@@ -66,17 +92,22 @@ public class FileDataParser {
 				windowInfos.add(windowInfo);
 
 				if (windowInfos.size() == BATCH_SIZE) {
-					updateWindowVsInterval(windowInfos);
+					updateDataMaps(windowInfos);
 					windowInfos.clear();
 				}
 			}
 
-			updateWindowVsInterval(windowInfos);
+			updateDataMaps(windowInfos);
 			windowInfos.clear();
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void updateDataMaps(List<WindowInfo> windowInfos) {
+		updateWindowVsInterval(windowInfos);
+		updateProcessNameVsInterval(windowInfos);
 	}
 
 	private void updateWindowVsInterval(List<WindowInfo> windowInfos) {
@@ -91,16 +122,28 @@ public class FileDataParser {
 		}
 	}
 
+	private void updateProcessNameVsInterval(List<WindowInfo> windowInfos) {
+		for (WindowInfo windowInfo : windowInfos) {
+			String processName = windowInfo.getProcessName().isEmpty() ? SLEEP : windowInfo.getProcessName();
+			Integer frequency = processNameVsFrequency.get(processName);
+			if (frequency == null) {
+				frequency = 0;
+			}
+			frequency = frequency + 1;
+			processNameVsFrequency.put(processName, frequency);
+		}
+	}
+
 	private WindowInfo parseWindowInfo(String dataLine) {
 		String[] splitLine = dataLine.split(FileAggregator.DATA_SEPARATOR);
 		String windowName = splitLine.length == 0 ? "" : splitLine[0];
-		String processName = splitLine.length < 3 ? "" : splitLine[2];
+		String processName = splitLine.length < 2 ? "" : splitLine[1];
 
 		return new WindowInfo(windowName, processName);
 	}
 
 	private String getMainWindowName(String rawWindowName) {
-		if (rawWindowName == null || rawWindowName.isEmpty())
+		if (rawWindowName.isEmpty())
 			return SLEEP;
 
 		int index = rawWindowName.lastIndexOf("-");
@@ -113,28 +156,44 @@ public class FileDataParser {
 		return mainWindowName;
 	}
 
-	private List<WindowVsFrequency> getWindowsInDescendingOrder() {
-		List<WindowVsFrequency> windowVsFrequencies = new ArrayList<>();
+	private List<ItemVsFrequency> getWindowsInDescendingOrder() {
+		List<ItemVsFrequency> itemVsFrequencies = new ArrayList<>();
 		for (Map.Entry<String, Integer> entry : mainWindowVsFrequency.entrySet()) {
-			windowVsFrequencies.add(new WindowVsFrequency(entry.getKey(), entry.getValue()));
+			itemVsFrequencies.add(new ItemVsFrequency(entry.getKey(), entry.getValue()));
 		}
 
-		Collections.sort(windowVsFrequencies, new Comparator<WindowVsFrequency>() {
+		Collections.sort(itemVsFrequencies, new Comparator<ItemVsFrequency>() {
 			@Override
-			public int compare(WindowVsFrequency o1, WindowVsFrequency o2) {
+			public int compare(ItemVsFrequency o1, ItemVsFrequency o2) {
 				return -1 * o1.frequency.compareTo(o2.frequency);
 			}
 		});
 
-		return windowVsFrequencies;
+		return itemVsFrequencies;
 	}
 
-	private class WindowVsFrequency {
-		public String windowName;
+	private List<ItemVsFrequency> getProcessInDescendingOrder() {
+		List<ItemVsFrequency> itemVsFrequencies = new ArrayList<>();
+		for (Map.Entry<String, Integer> entry : processNameVsFrequency.entrySet()) {
+			itemVsFrequencies.add(new ItemVsFrequency(entry.getKey(), entry.getValue()));
+		}
+
+		Collections.sort(itemVsFrequencies, new Comparator<ItemVsFrequency>() {
+			@Override
+			public int compare(ItemVsFrequency o1, ItemVsFrequency o2) {
+				return -1 * o1.frequency.compareTo(o2.frequency);
+			}
+		});
+
+		return itemVsFrequencies;
+	}
+
+	private class ItemVsFrequency {
+		public String itemName;
 		public Integer frequency;
 
-		public WindowVsFrequency(String windowName, Integer frequency) {
-			this.windowName = windowName;
+		public ItemVsFrequency(String itemName, Integer frequency) {
+			this.itemName = itemName;
 			this.frequency = frequency;
 		}
 
