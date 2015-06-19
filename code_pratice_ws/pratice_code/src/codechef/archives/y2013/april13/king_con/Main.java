@@ -1,4 +1,4 @@
-package codechef.archives.april13.king_con;
+package codechef.archives;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;

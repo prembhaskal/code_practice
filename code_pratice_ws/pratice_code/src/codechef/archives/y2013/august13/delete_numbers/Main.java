@@ -1,4 +1,4 @@
-package codechef.archives.august13.delete_numbers;
+package codechef.archives.y2013.august13.delete_numbers;
 
 import java.io.*;
 import java.util.*;
