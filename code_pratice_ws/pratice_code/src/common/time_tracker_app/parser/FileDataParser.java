@@ -1,6 +1,7 @@
 package common.time_tracker_app.parser;
 
 import common.time_tracker_app.FileAggregator;
+import common.time_tracker_app.FindFocussedWindow;
 import common.time_tracker_app.WindowInfo;
 
 import java.io.BufferedReader;
@@ -24,7 +25,7 @@ public class FileDataParser {
 	private final int TOP = 15;
 
 	public static void main(String[] args) {
-		new FileDataParser(5).parseAndDisplaySummaryForUserData(new File("D:/output/window_info_data_18-06-2015.txt"));
+		new FileDataParser(FindFocussedWindow.MONITOR_INTERVAL).parseAndDisplaySummaryForUserData(new File("D:/output/window_info_data_19-06-2015.txt"));
 	}
 
 	public FileDataParser(long interval) {

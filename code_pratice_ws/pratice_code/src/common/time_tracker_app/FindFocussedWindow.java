@@ -13,6 +13,8 @@ import java.util.concurrent.*;
 
 public class FindFocussedWindow {
 
+	public static int MONITOR_INTERVAL = 1;
+
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 //		new FindFocussedWindow().runSchedulerJob();
@@ -23,7 +25,7 @@ public class FindFocussedWindow {
 	public void runSchedulerJob() throws IOException, InterruptedException {
 		ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
 		Runnable printOpenWindows = new PrintOpenWindows(new PrintWriter(System.out));
-		executorService.scheduleAtFixedRate(printOpenWindows, 0, 5, TimeUnit.SECONDS);
+		executorService.scheduleAtFixedRate(printOpenWindows, 0, MONITOR_INTERVAL, TimeUnit.SECONDS);
 
 		new ArrayBlockingQueue<Integer>(1).take();
 	}
@@ -42,7 +44,7 @@ public class FindFocussedWindow {
 		WindowInfoCollector windowInfoCollector = new WindowInfoCollector(windowInfos, fileAggregator);
 
 		ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-		scheduledExecutorService.scheduleAtFixedRate(windowInfoPoller, 0, 5, TimeUnit.SECONDS);
+		scheduledExecutorService.scheduleAtFixedRate(windowInfoPoller, 0, MONITOR_INTERVAL, TimeUnit.SECONDS);
 
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		executorService.submit(windowInfoCollector);
