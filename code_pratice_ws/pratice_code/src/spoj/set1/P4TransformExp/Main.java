@@ -1,8 +1,7 @@
 package spoj.set1.P4TransformExp;
 
 import java.io.*;
-import java.util.Stack;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
 	public static void main(String[] s) {
@@ -32,7 +31,8 @@ class TaskA {
 
 		for (int i=0;i<tests;i++) {
 			String expression = in.next();
-			String reversePolishNot = getReversePolishNotation(expression);
+//			String reversePolishNot = getReversePolishNotation(expression);
+			String reversePolishNot = getRPNUsingQueue(expression);
 			out.println(reversePolishNot);
 		}
 
@@ -67,6 +67,44 @@ class TaskA {
 		// get the expression outside
 		while (!stack.isEmpty()) {
 			finalExp = stack.pop() + finalExp;
+		}
+
+		return finalExp;
+	}
+
+	// shunting yard algorithm,,,check wikipedia
+	// push brackets, operators to stack, push variables to queue
+	private String getRPNUsingQueue(String expression) {
+
+		Stack<String> stack = new Stack<String>();
+		Queue<String> queue = new LinkedList<>();
+		char[] literals = expression.toCharArray();
+
+		for (char literal : literals) {
+			if (literal != ')') {
+				// if variable, put to queue...we never remove anything from queue, till end
+				if (literal >= 'a' && literal <= 'z') {
+					queue.add(literal + "");
+				}
+				else {
+					stack.push(literal + "");
+				}
+			}
+			else { // remove until we hit '('
+				while (true) {
+					String operator = stack.pop();
+					if (operator.equals("(")) {
+						break;
+					}
+
+					queue.add(operator);
+				}
+			}
+		}
+
+		String finalExp = "";
+		while (!queue.isEmpty()) {
+			finalExp += queue.poll();
 		}
 
 		return finalExp;

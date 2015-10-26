@@ -25,7 +25,7 @@ public class FileDataParser {
 	private final int TOP = 15;
 
 	public static void main(String[] args) {
-		new FileDataParser(FindFocussedWindow.MONITOR_INTERVAL).parseAndDisplaySummaryForUserData(new File("D:/output/window_info_data_19-06-2015.txt"));
+		new FileDataParser(FindFocussedWindow.MONITOR_INTERVAL).parseAndDisplaySummaryForUserData(new File("D:/output/window_info_data_08-07-2015.txt"));
 	}
 
 	public FileDataParser(long interval) {
