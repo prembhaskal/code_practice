@@ -76,7 +76,7 @@ class TaskA {
 	// push brackets, operators to stack, push variables to queue
 	private String getRPNUsingQueue(String expression) {
 
-		Stack<String> stack = new Stack<String>();
+		Stack<String> stack = new Stack<>();
 		Queue<String> queue = new LinkedList<>();
 		char[] literals = expression.toCharArray();
 
