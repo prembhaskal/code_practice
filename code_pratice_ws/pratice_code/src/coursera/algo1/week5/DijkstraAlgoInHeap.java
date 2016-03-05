@@ -6,6 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This class finds the shortest distance from firstNode to all the nodes and prints it in the end.
+ */
 public class DijkstraAlgoInHeap {
 
 	String[] file;
