@@ -23,12 +23,12 @@ public class EnumerateWindowsExample {
 		System.out.println("Active window process: " + Native.toString(buffer));
 	}
 
-	static class Psapi {
+	protected static class Psapi {
 		static { Native.register("psapi"); }
 		public static native int GetModuleBaseNameW(Pointer hProcess, Pointer hmodule, char[] lpBaseName, int size);
 	}
 
-	static class Kernel32 {
+	protected static class Kernel32 {
 		static { Native.register("kernel32"); }
 		public static int PROCESS_QUERY_INFORMATION = 0x0400;
 		public static int PROCESS_VM_READ = 0x0010;
@@ -36,7 +36,7 @@ public class EnumerateWindowsExample {
 		public static native Pointer OpenProcess(int dwDesiredAccess, boolean bInheritHandle, Pointer pointer);
 	}
 
-	static class User32DLL {
+	protected static class User32DLL {
 		static { Native.register("user32"); }
 		public static native int GetWindowThreadProcessId(HWND hWnd, PointerByReference pref);
 		public static native HWND GetForegroundWindow();

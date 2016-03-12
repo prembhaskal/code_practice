@@ -20,6 +20,16 @@ public class InputReader {
 		tokenizer = null;
 	}
 
+	public void close() {
+		try {
+			if (reader!=null) {
+				reader.close();
+			}
+		} catch (IOException e) {
+			// ignore error.
+		}
+	}
+
 	// returns null if end of stream has reached.
 	public String next() {
 		while (tokenizer == null || !tokenizer.hasMoreTokens()) {

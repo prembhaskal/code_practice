@@ -2,14 +2,16 @@ package practice.trick_questions;
 
 public class ClassInitializationProblem {
 
-	public static void main(String[] s) {
+	public static void main(String[] s) throws InterruptedException {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				// if this line runs first it will cause deadlock
-//				App.getInstance().run();
+				App.getInstance().run();
 			}
 		}).start();
+
+		Thread.sleep(1000);
 
 		// if this line runs first, we will get a NPE.
 		Controller.getInstance().getRetries();
