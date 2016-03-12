@@ -1,5 +1,6 @@
 package codechef.archives.y2013.august13.delete_numbers;
 
+import common.util.InputReader;
 import java.io.*;
 import java.util.*;
 
@@ -188,43 +189,6 @@ The next candidate for deletion may just be the largest AP of positions stored f
 
 
 }
-
-
-
-class InputReader {
-	public BufferedReader reader;
-	public StringTokenizer tokenizer;
-
-	public InputReader(InputStream stream) {
-		reader = new BufferedReader(new InputStreamReader(stream));
-		tokenizer = null;
-	}
-
-	public String next() {
-		while (tokenizer == null || !tokenizer.hasMoreTokens()) {
-			try {
-				tokenizer = new StringTokenizer(reader.readLine());
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-		return tokenizer.nextToken();
-	}
-
-	public int nextInt() {
-		return Integer.parseInt(next());
-	}
-
-	public long nextLong() {
-		return Long.parseLong(next());
-	}
-
-	public double nextDouble() {
-		return Double.parseDouble(next());
-	}
-
-}
-
 
 class SegmentDeleteTree {
 

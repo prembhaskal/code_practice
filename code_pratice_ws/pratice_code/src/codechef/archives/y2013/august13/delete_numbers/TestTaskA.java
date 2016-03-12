@@ -1,5 +1,6 @@
-package codechef.archives.august13.delete_numbers;
+package codechef.archives.y2013.august13.delete_numbers;
 
+import common.util.InputReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;

@@ -1,4 +1,4 @@
-package codechef.archives.april13.elephant_music;
+package codechef.archives.y2013.april13.elephant_music;
 
 import java.io.PrintWriter;
 import java.util.*;

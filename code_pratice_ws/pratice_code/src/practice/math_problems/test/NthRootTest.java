@@ -1,14 +1,10 @@
-package practice.math_problems.test; 
+package practice.math_problems.test;
 
 import java.math.BigInteger;
-import java.util.Scanner;
-import java.io.PrintWriter;
-import org.junit.Test; 
-import org.junit.Before; 
 import org.junit.After;
-import static org.junit.Assert.*;
-import practice.math_problems.*;
-import sun.security.util.BigInt;
+import org.junit.Before;
+import org.junit.Test;
+import practice.math_problems.NthRoot;
 
 /** 
 * NthRoot Tester. 
