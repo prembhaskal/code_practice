@@ -5,20 +5,23 @@ import common.util.InputReader;
 
 import java.util.*;
 
-// TODO logic to include infinite access cost
 
 /**
  * Note that the in the graph finally provided for Dijkstra, there should not be any negative
- * costs else dijkstra won't rotate around that node itself, and never complete.
+ * costs else dijkstra will rotate around that node itself, and never complete.
  *
  *
- * AStar algorithm 
- * in Priority Queue, we store the heuristics. -- fscore
- * actual distance -- gscore.
+ * AStar algorithm
+ * in Priority Queue, we store the heuristics cost
+ * actual distance is tracked separately.
+ *
+ * 1 catch, in case of some special conditions depending on heuristic function, there might be a
+ * need to reconsider the nodes already present in visited set. check wiki and other pages for that.
  */
 public class AStarGraphSearch {
 
 	public boolean isDebug = false;
+	public int averageAccessCost = 2;
 
 	private int totalNodes;
 	private int mapLength;
@@ -64,6 +67,13 @@ public class AStarGraphSearch {
 		Position fromPosition = positionGrid[x1][y1];
 		Position toPosition = positionGrid[x2][y2];
 
+		// update heuristic cost.
+		for (int i = 0; i < mapLength; i++) {
+			for (int j = 0; j < mapWidth; j++) {
+				positionGrid[i][j].heuristicCost = heuristicCostEstimate(positionGrid[i][j], toPosition);
+			}
+		}
+
 		findShortestPath(fromPosition, toPosition);
 	}
 
@@ -71,7 +81,7 @@ public class AStarGraphSearch {
 	// sends empty list in case of no path.
 	public List<Position> findShortestPath(Position fromPosition, Position toPosition){
 
-		priorityQueue = new PriorityQueue<>(11, new PositionComparator());
+		priorityQueue = new PriorityQueue<>(11, new HeuristicComparator());
 		visitedNodes = new HashSet<>();
 		previousPosArray = new Position[mapLength][mapWidth];
 
@@ -138,15 +148,16 @@ public class AStarGraphSearch {
 		}
 	}
 
-	private void LOG(String msg) {
-		if (isDebug) {
-			System.out.println("DEBUG: " + msg);
-		}
-	}
-
 	private void reComputePath(Position fromPosition, Position toPosition) {
 		System.out.println("total distance " + toPosition.reachCost);
 		printShortestPath(fromPosition, toPosition);
+	}
+
+	private int heuristicCostEstimate(Position fromPos, Position toPos) {
+		// we use heuristic_distance = totalStep * averageAccessCost;
+		int totalSteps = Math.abs(fromPos.x - toPos.x) +
+				Math.abs(fromPos.y - toPos.y);
+		return totalSteps * averageAccessCost;
 	}
 
 	public List<Position> getNeighbours(Position position, int maxlen, int maxwidth) {
@@ -184,6 +195,12 @@ public class AStarGraphSearch {
 		}
 	}
 
+	private void LOG(String msg) {
+		if (isDebug) {
+			System.out.println("DEBUG: " + msg);
+		}
+	}
+
 	private boolean isPointInBound(int x, int y, int maxLen, int maxWidth) {
 		return (x >= 0 && x < maxLen &&
 				y >= 0 && y < maxWidth);
@@ -195,6 +212,7 @@ public class AStarGraphSearch {
 
 		int passingCost = 1;
 		int reachCost = Integer.MAX_VALUE;
+		int heuristicCost = Integer.MAX_VALUE;
 
 		public Position(int x, int y) {
 			this.x = x;
@@ -224,6 +242,15 @@ public class AStarGraphSearch {
 		@Override
 		public int compare(Position p1, Position p2) {
 			return Integer.compare(p1.reachCost, p2.reachCost);
+		}
+	}
+
+	private class HeuristicComparator implements Comparator<Position> {
+
+		@Override
+		public int compare(Position p1, Position p2) {
+			return Integer.compare(p1.reachCost + p1.heuristicCost,
+					p2.reachCost + p2.heuristicCost);
 		}
 	}
 
