@@ -87,20 +87,26 @@ public class AStarGraphSearch {
 
 		int nodes = 0;
 		fromPosition.reachCost = 0;
-		priorityQueue.add(fromPosition);
 		LOG("putting previous position reached: " + fromPosition + " from: " + fromPosition);
 		previousPosArray[fromPosition.x][fromPosition.y] = fromPosition;
 
 		LOG("adding the node " + fromPosition + " to the queue");
-		visitedNodes.add(fromPosition);
+		priorityQueue.add(fromPosition);
 
 		while (nodes <= totalNodes) {
 			Position minPos = priorityQueue.poll();
-			LOG("got MINIMUM node position " + minPos);
 			if (minPos == null) {
 				LOG("QUEUE is EMPTY, we CANNOT reach the toPosition.");
 				break;
 			}
+
+			if (visitedNodes.contains(minPos)) {
+				// priority queue can have duplicate nodes. (we are not doing decrease key of the algo.)
+				continue;
+			}
+
+			LOG("got MINIMUM node position " + minPos);
+
 			if (minPos.equals(toPosition)) {
 				reComputePath(fromPosition, minPos);
 				break;
