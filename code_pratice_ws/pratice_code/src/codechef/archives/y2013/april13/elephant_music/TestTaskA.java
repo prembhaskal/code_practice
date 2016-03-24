@@ -1,4 +1,4 @@
-package codechef.archives.april13.king_con;
+package codechef.archives.y2013.april13.elephant_music;
 
 import java.io.PrintWriter;
 import java.util.Scanner;
@@ -9,14 +9,9 @@ public class TestTaskA {
 		Scanner in = new Scanner(TestTaskA.class.getResourceAsStream("test.txt"));
 		PrintWriter out = new PrintWriter(System.out);
 
-		long startTime = System.nanoTime();
-
 		new TaskA().solve(in, out);
 
-		long endTime = System.nanoTime();
-		out.println("elapsed time " + (endTime-startTime)/1000000 + "milli secs");
-
 		in.close();
-		out.flush();
+		out.close();
 	}
 }
