@@ -1,0 +1,97 @@
+
+******************************** TRAINING RELATED *******************************************
+	Performance development program:
+		fill the training details in tool - SuccessForU. (Create a personal development program).
+			all the classroom training
+					on-line training
+					peer training
+					
+		
+		do on-line trainings
+			clean code - 2
+			netact8
+			
+********************************* WORK RELATED ********************************************
+	
+	port FTPPUT .filepart thing to trunk.
+	
+	PARSER:
+		xml parser:
+				try to write a small parser based on mapping file rather than hard-coded values.
+	
+	
+	Concept of Functions: (as in Subex parser)
+		write server side / client side for simple demos.
+	
+	keywords based parsing:
+		generic parser to parse the expressions/functions etc.
+		
+	
+	Improve robot reports:
+		in reports keyword should be expanded.
+		too long keywords names should be shortened and shown with ellipsis (option to expand ondemand)
+		too long lines should be shortened (option  to expand on demand)
+		
+
+******************************** UTILITIES *******************************************
+	UI for program of copying files based on svn commit logs.	
+
+	start workspace faster -- .bat file to achieve this -- PARTIALLY DONE
+
+	storing svn logs locally for faster search. (similar to lucene tool developed in Subex).
+		clone SVN repo (till some revision) and use that. (use SVNKit or equivalent for cloning).
+	
+	adobe JS plugin to share pdf bookmarks across different PCs using dropbox login.
+
+	plugin in chrome to show line numbers in the current page (just like vim)
+	
+	dropbox JS app to choose, edit and save text files.
+	
+	Mobile app to stop mobile data after certain date.
+	
+	get new ideas/ tasks to work on in the below link: (VERY NICE and CONCRETE IDEAS)
+		https://summerofcode.withgoogle.com/organizations/
+	
+******************************** OTHERS ***************************************************
+http://www.developerdotstar.com/mag/articles/reeves_design_main.html
+		
+
+Read:
+	art of multiprocessor programming - available on intranet books site. (learning central book site)
+	http://www.developerdotstar.com/mag/articles/reeves_design_main.html
+	http://docs.oracle.com/javase/tutorial/extra/generics/index.html
+	functional paradigm
+	java advanced concurreny, weak references etc.
+	https://www.youtube.com/watch?v=WTVooKLLVT8 - check memory  model video
+	jvm instrumentation, -javaagent plugin (Jrebel)
+	thread and garbage collection -- check jvm specs
+	Build an HTML5 Game: A Developer's Guide with CSS and JavaScript -- check this book in learning central
+	networking videos on skillport/learning central
+	 lookahead parsing / state machine.
+	invokedynamic in JAVA - dynamic language support.
+		http://blog.headius.com/2008/09/first-taste-of-invokedynamic.html
+	linux basic - http://www.tldp.org/LDP/intro-linux/html/index.html
+	computer architecture -- like CO book in engg.	
+
+
+LINKS:
+	http://docs.oracle.com/javase/tutorial/jaxp/stax/index.html
+	http://docs.oracle.com/javase/tutorial/jaxb/index.html
+	http://docs.oracle.com/javase/tutorial/extra/fullscreen/index.html
+	http://docs.oracle.com/javase/tutorial/ext/index.html
+	http://docs.oracle.com/javase/tutorial/networking/index.html
+	http://docs.oracle.com/javase/tutorial/jaxp/sax/index.html
+
+	http://lmax-exchange.github.io/disruptor/
+
+MISC:
+	practice KATA
+	java mag(March/April) - 26
+	oracle magazine(Nov/Dec) - 53
+	java 8, raspberry pi
+
+********* SPRINT TASKS ***************
+
+download linux 
+https://confluence.int.net.nokia.com/display/Trafficaplatform/Ratina+DevEnv+Virtual+Box+Installation+Guide
+
