@@ -5,10 +5,16 @@ import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.http.HttpRequestor;
 import com.dropbox.core.http.StandardHttpRequestor;
 import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
+import com.dropbox.core.v2.files.WriteMode;
 import com.dropbox.core.v2.users.FullAccount;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.SocketAddress;
@@ -20,14 +26,14 @@ public class App {
 		try {
 			new App().testDropboxConnection();
 		}
-		catch (DbxException e) {
+		catch (DbxException | IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private static final String ACCESS_TOKEN = "1N5AsbT_-N4AAAAAAAACuC7yby6f16y3K5PrmSlHYGCzy-N4LaH6lr8LfeaejF1p";
 
-	public void testDropboxConnection() throws DbxException {
+	public void testDropboxConnection() throws DbxException, IOException {
 		System.setProperty("https.proxyHost", "10.144.8.20");
 		System.setProperty("https.proxyPort", "8080");
 
@@ -60,6 +66,15 @@ public class App {
 			}
 
 			result = client.files().listFolderContinue(result.getCursor());
+		}
+
+		// Upload "test.txt" to Dropbox
+		System.out.println("started uploading file...");
+		try (InputStream in = new FileInputStream("sample_upload.txt")) {
+			FileMetadata metadata = client.files().uploadBuilder("/sample_upload.txt")
+					.withMode(WriteMode.OVERWRITE)
+					.uploadAndFinish(in);
+			System.out.println(metadata.getPathDisplay());
 		}
 	}
 
