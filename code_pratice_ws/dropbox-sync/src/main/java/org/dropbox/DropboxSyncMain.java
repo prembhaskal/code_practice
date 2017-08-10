@@ -15,15 +15,21 @@ import java.util.List;
 public class DropboxSyncMain {
 
 	public static void main(String[] args) {
-		new DropboxSyncMain().setUpAndSync();
+		if (args == null || args.length == 0) {
+			System.out.println("Usage: COMMAND <accessToken>");
+			throw new IllegalArgumentException("improper usage.");
+		}
+		String accesstoken = args[0];
+		new DropboxSyncMain().setUpAndSync(accesstoken);
 	}
 
-	private static final String ACCESS_TOKEN = "1N5AsbT_-N4AAAAAAAACuC7yby6f16y3K5PrmSlHYGCzy-N4LaH6lr8LfeaejF1p";
+	// TODO - read the access token from command line.
+//	private static final String ACCESS_TOKEN = "1N5AsbT_-N4AAAAAAAACuC7yby6f16y3K5PrmSlHYGCzy-N4LaH6lr8LfeaejF1p";
 
-	public void setUpAndSync() {
+	public void setUpAndSync(String accessToken) {
 		try {
 			DropboxClient dropboxClient = new DropboxClient();
-			DbxClientV2Base dbxClient = dropboxClient.createDropboxClient(getDefinedProxy(), ACCESS_TOKEN);
+			DbxClientV2Base dbxClient = dropboxClient.createDropboxClient(getDefinedProxy(), accessToken);
 			Path confPath = getConfPath();;
 			List<UploadData> uploadDataList = new UploadConfiguration(confPath).readConfigurationFile();
 			uploadFiles(uploadDataList, new DropboxUploader(dbxClient));

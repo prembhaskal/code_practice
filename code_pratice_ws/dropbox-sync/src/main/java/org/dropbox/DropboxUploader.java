@@ -3,6 +3,7 @@ package org.dropbox;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.v2.DbxClientV2Base;
 import com.dropbox.core.v2.files.FileMetadata;
+import com.dropbox.core.v2.files.UploadErrorException;
 import com.dropbox.core.v2.files.WriteMode;
 
 import java.io.IOException;
@@ -29,6 +30,8 @@ public class DropboxUploader {
 					.uploadBuilder(destPath)
 					.withMode(WriteMode.OVERWRITE)
 					.uploadAndFinish(in);
+
+			System.out.println(fileMetadata.toStringMultiline());
 
 		} catch (DbxException e) {
 			e.printStackTrace();
