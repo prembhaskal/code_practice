@@ -26,7 +26,7 @@ public class SQMAT {
         }
 
         int[] out_ = solve(arr, N , M);
-        wr.println(out_[0]);
+        wr.print(out_[0]);
 
         for (int i = 1; i < out_.length; i++) {
             wr.print(" " + out_[i]);
@@ -64,8 +64,8 @@ public class SQMAT {
 
         // first column, j == 0
         for (int i = 1; i < N; i++) {
-            for (int k = 2; k <= P; k++) {
-                if (i > k-1 && mat[i][0] == mat[i-k+1][0] && cpalin[i-1][0][k-2]) {
+            for (int k = 2; k < i+2 && k <= P; k++) {
+                if (mat[i][0] == mat[i-k+1][0] && cpalin[i-1][0][k-2]) {
                     cpalin[i][0][k] = true;
                 }
             }
@@ -73,8 +73,8 @@ public class SQMAT {
 
         //first row, i == 0
         for (int j = 1; j < M; j++) {
-            for (int k = 2; k <= P; k++) {
-                if (j > k-1 && mat[0][j] == mat[0][j-k+1] && rpalin[0][j-1][k-2]) {
+            for (int k = 2; k < j+2 && k <= P; k++) {
+                if (mat[0][j] == mat[0][j-k+1] && rpalin[0][j-1][k-2]) {
                     rpalin[0][j][k] = true;
                 }
             }
@@ -85,8 +85,8 @@ public class SQMAT {
                 rpalin[i][j][0] = true;
                 rpalin[i][j][1] = true;
 
-                for (int k = 2; k <= P; k++) {
-                    if (j > k-1 && mat[i][j - k + 1] == mat[i][j] && rpalin[i][j-1][k-2]) {
+                for (int k = 2; k < j+2 && k <= P; k++) {
+                    if (mat[i][j - k + 1] == mat[i][j] && rpalin[i][j-1][k-2]) {
                         rpalin[i][j][k] = true;
                     }
                 }
@@ -94,8 +94,8 @@ public class SQMAT {
                 cpalin[i][j][0] = true;
                 cpalin[i][j][1] = true;
 
-                for (int k = 2; k <= P; k++) {
-                    if (i > k-1 && mat[i - k + 1][j] == mat[i][j] && cpalin[i-1][j][k-2]) {
+                for (int k = 2; k < i+2 && k <= P; k++) {
+                    if (mat[i - k + 1][j] == mat[i][j] && cpalin[i-1][j][k-2]) {
                         cpalin[i][j][k] = true;
                     }
                 }
@@ -132,6 +132,24 @@ public class SQMAT {
 
         for (int j = 0; j < M; j++) {
             rowcnt[0][j][1] = 1;
+        }
+
+        // first row
+        for (int j = 0; j < M; j++) {
+            for (int k = 2; k <= P; k++) {
+                if (rpalin[0][j][k]) {
+                    rowcnt[0][j][k] = 1;
+                }
+            }
+        }
+
+        // first column
+        for (int i = 0; i < N; i++) {
+            for (int k = 2; k <= P; k++) {
+                if (cpalin[i][0][k]) {
+                    colcnt[i][0][k] = 1;
+                }
+            }
         }
 
 
