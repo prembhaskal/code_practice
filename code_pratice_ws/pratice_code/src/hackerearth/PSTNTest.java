@@ -1,6 +1,11 @@
 package hackerearth;
 
 import org.junit.Test;
+import sun.reflect.generics.tree.Tree;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static org.junit.Assert.*;
 
@@ -59,15 +64,20 @@ public class PSTNTest {
 
     @Test
     public void testPow() {
-        for (int i = 0; i <= 3; i++) {
-            for (int j = 0; j <= 3; j++) {
-                for (int k = 0; k <= 3; k++) {
+        Set<Long> st = new TreeSet<>();
+        for (int i = 1; i <= 3; i++) {
+            for (int j = 1; j <= 3; j++) {
+                for (int k = 1; k <= 3; k++) {
                     long num = PSTN.power(j, k);
                     long pow = PSTN.power(i, num);
+                    st.add(pow);
                     System.out.println(String.format("values i: %s, j: %s, k: %s, num: %s, pow: %s", i, j, k, num, pow));
                 }
-
             }
+        }
+
+        for (long num: st) {
+            System.out.println(num);
         }
     }
 
