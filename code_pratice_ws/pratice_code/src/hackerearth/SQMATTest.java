@@ -3,6 +3,7 @@ package hackerearth;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
@@ -37,13 +38,14 @@ public class SQMATTest {
 
     @Test
     public void solveLarge() {
+        long start = System.nanoTime();
         int N;
         int M;
         String[] A;
         int[] coord;
 
-        N = 500;
-        M = 500;
+        N = 1000;
+        M = 1000;
         A = new String[N];
 
         for (int i = 0; i < N; i++) {
@@ -57,6 +59,9 @@ public class SQMATTest {
 
         coord = SQMAT.solve(A,N,M);
         System.out.println("result is " + Arrays.toString(coord));
+        long end = System.nanoTime();
+
+        System.out.println("elapsed is " + TimeUnit.NANOSECONDS.toMillis(end - start));
     }
 
     /*

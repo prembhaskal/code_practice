@@ -36,6 +36,15 @@ public class SQMAT {
         br.close();
     }
 
+    static boolean[][] cpalinprev;
+    static boolean[][] rpalinprev;
+
+    static boolean[][] cpalin;
+    static boolean[][] rpalin;
+
+    static boolean[][] rtemp;
+    static boolean[][] ctemp;
+
     static int[] solve(String[] A, int N, int M) {
         boolean debug = false;
 
@@ -47,24 +56,20 @@ public class SQMAT {
         int P = Math.min(N, M);
 
 
-        boolean[][] cpalinprev = new boolean[N][M];
-        boolean[][] rpalinprev = new boolean[N][M];
+        cpalinprev = new boolean[N][M];
+        rpalinprev = new boolean[N][M];
 
-        boolean[][] cpalin = new boolean[N][M];
-        boolean[][] rpalin = new boolean[N][M];
+        cpalin = new boolean[N][M];
+        rpalin = new boolean[N][M];
 
-        boolean[][] rtemp;
-        boolean[][] ctemp;
-
-
+        int[][] rowcnt = new int[N][M];
+        int[][] colcnt = new int[N][M];
 
         int maxK = -1;
         int maxStI = -1;
         int maxStJ = -1;
         int maxEnI = -1;
         int maxEnJ = -1;
-
-
 
         //init all k = 0
         for (int i = 0; i < N; i++) {
@@ -75,7 +80,7 @@ public class SQMAT {
         }
 
         for (int k = 2; k <= P; k += 2) {
-            int[] res = solveForK(k, mat, N, M, cpalinprev, rpalinprev, cpalin, rpalin);
+            int[] res = solveForK(k, mat, N, M, cpalinprev, rpalinprev, cpalin, rpalin, rowcnt, colcnt);
 
             if (res[4] > 0 && maxK < k) {
                 maxK = k;
@@ -95,15 +100,19 @@ public class SQMAT {
 
             cpalin = ctemp;
             rpalin = rtemp;
-        }
 
+            for (int i = 0; i < N; i++) {
+                Arrays.fill(rowcnt[i], 0);
+                Arrays.fill(colcnt[i], 0);
+            }
+        }
 
         initMat(cpalinprev, N);
         initMat(rpalinprev, N);
         initMat(cpalin, N);
         initMat(rpalin, N);
 
-        //init all k = 2
+        //init all k = 1
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
                 rpalinprev[i][j] = true;
@@ -112,7 +121,7 @@ public class SQMAT {
         }
 
         for (int k = 3; k <= P; k += 2) {
-            int[] res = solveForK(k, mat, N, M, cpalinprev, rpalinprev, cpalin, rpalin);
+            int[] res = solveForK(k, mat, N, M, cpalinprev, rpalinprev, cpalin, rpalin, rowcnt, colcnt);
 
             if (res[4] > 0 && maxK < k) {
                 maxK = k;
@@ -132,6 +141,11 @@ public class SQMAT {
 
             cpalin = ctemp;
             rpalin = rtemp;
+
+            for (int i = 0; i < N; i++) {
+                Arrays.fill(rowcnt[i], 0);
+                Arrays.fill(colcnt[i], 0);
+            }
         }
 
         return new int[]{maxStI, maxStJ, maxEnI, maxEnJ};
@@ -144,7 +158,7 @@ public class SQMAT {
     }
 
 
-    static int[] solveForK(int k, char[][] mat, int N, int M, boolean[][] cpalinprev, boolean[][] rpalinprev, boolean[][] cpalin, boolean[][] rpalin) {
+    static int[] solveForK(int k, char[][] mat, int N, int M, boolean[][] cpalinprev, boolean[][] rpalinprev, boolean[][] cpalin, boolean[][] rpalin, int[][] rowcnt, int[][] colcnt) {
         rpalin[0][0] = true;
         cpalin[0][0] = true;
 
@@ -163,8 +177,8 @@ public class SQMAT {
         }
 
         // remaining rows
-        for (int i = 0; i < N; i++) {
-            for (int j = k-1; j < M; j++) {
+        for (int j = k-1; j < M; j++) {
+            for (int i = 0; i < N; i++) {
                 if (mat[i][j - k + 1] == mat[i][j] && rpalinprev[i][j-1]) {
                     rpalin[i][j] = true;
                 }
@@ -180,19 +194,8 @@ public class SQMAT {
             }
         }
 
-        //
-        int [][] rowcnt = new int[N][M];
-        int [][] colcnt = new int[N][M];
-
         rowcnt[0][0] = 1;
         colcnt[0][0] = 1;
-        for (int i = 0; i < N; i++) {
-            colcnt[i][0] = 1;
-        }
-
-        for (int j = 0; j < M; j++) {
-            rowcnt[0][j] = 1;
-        }
 
         // first row
         for (int j = 0; j < M; j++) {
@@ -208,18 +211,21 @@ public class SQMAT {
             }
         }
 
-
         for (int i = 1; i < N; i++) {
             for (int j = 1; j < M; j++) {
                 if (rpalin[i][j]) {
                     rowcnt[i][j] = 1 + rowcnt[i-1][j];
                 }
+            }
+        }
+
+        for (int i = 1; i < N; i++) {
+            for (int j = 1; j < M; j++) {
                 if (cpalin[i][j]) {
                     colcnt[i][j] = 1 + colcnt[i][j-1];
                 }
             }
         }
-
 
         int[] maxSquare = new int[5];
 
@@ -228,8 +234,8 @@ public class SQMAT {
         int maxJ = -1;
 
         outer:
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
+        for (int i = k-1; i < N; i++) {
+            for (int j = k-1; j < M; j++) {
                 if (rowcnt[i][j] >= k && colcnt[i][j] >= k) {
                     actK = k;
                     maxI = i;
