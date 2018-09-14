@@ -57,6 +57,8 @@ public class SQMATTest {
             A[i] = new String(chr);
         }
 
+
+
         coord = SQMAT.solve(A,N,M);
         System.out.println("result is " + Arrays.toString(coord));
         long end = System.nanoTime();

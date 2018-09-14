@@ -82,6 +82,10 @@ public class SQMAT {
         for (int k = 2; k <= P; k += 2) {
             int[] res = solveForK(k, mat, N, M, cpalinprev, rpalinprev, cpalin, rpalin, rowcnt, colcnt);
 
+            if (res[4] < 0) { // if no small palin, then no big palin
+                break;
+            }
+
             if (res[4] > 0 && maxK < k) {
                 maxK = k;
                 maxStI = res[0];
@@ -112,6 +116,11 @@ public class SQMAT {
         initMat(cpalin, N);
         initMat(rpalin, N);
 
+        for (int i = 0; i < N; i++) {
+            Arrays.fill(rowcnt[i], 0);
+            Arrays.fill(colcnt[i], 0);
+        }
+
         //init all k = 1
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
@@ -122,6 +131,10 @@ public class SQMAT {
 
         for (int k = 3; k <= P; k += 2) {
             int[] res = solveForK(k, mat, N, M, cpalinprev, rpalinprev, cpalin, rpalin, rowcnt, colcnt);
+
+            if (res[4] < 0) { // if no small palin, then no big palin
+                break;
+            }
 
             if (res[4] > 0 && maxK < k) {
                 maxK = k;

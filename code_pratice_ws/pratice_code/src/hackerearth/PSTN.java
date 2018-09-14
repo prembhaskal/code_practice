@@ -30,55 +30,292 @@ public class PSTN {
         br.close();
     }
 
+    private static Map<String, Map<Long, Long>> strVsPowerVsBrkPower;
+    private static PrintWriter wr = new PrintWriter(System.out);
+
+    private static long[] brkVsmaxStr;
+
+    static long solve1(int N, long P, int[] A) {
+
+//        if (N > 50) {
+//            return Math.min(
+//                    deleteMaxStrategy(N, P, Arrays.copyOf(A, A.length)),
+//                    deleteOneThenMaxStrategy(N, P, Arrays.copyOf(A, A.length))
+//            );
+//        }
+//
+//
+
+        strVsVal = new HashMap<>();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < N; i++) {
+            sb.append(A[i]);
+        }
+
+        int totalSum = 0;
+        for (int i = 1; i < N - 1; i++) {
+            totalSum += A[i];
+        }
+
+        long maxValPossible = maxValueFromStr(A, N);
+        if (P > maxValPossible) {
+            return P - maxValPossible + totalSum;
+        }
+
+        brkVsmaxStr = new long[totalSum + 1];
+
+        long[] pwrVsStr = getPwrVsStr(sb.toString(), N, 0, P);
+
+        for (int i = 1; i < pwrVsStr.length; i++) {
+            if (pwrVsStr[i] >= P)
+                return i;
+        }
+
+        return P - pwrVsStr[pwrVsStr.length-1] + pwrVsStr.length - 1;
+    }
+
+    private static Map<String, long[]> strVsVal = new HashMap<>();
+
+
+    static long maxValueFromStr(int[] A, int len) {
+
+        // remove all 1s
+        long pwr = 0;
+        int N = len;
+        for (int i = 1; i < len-1; i++) {
+            if (A[i] == 1) {
+                A[i] = A[i+1];
+                pwr++;
+                N--;
+            }
+        }
+
+//        int size = len;
+        for (int size = len; size > 2; size--) {
+            int twoIdx = -1;
+            long maxVal = -1;
+            for (int i = 1; i < size - 1; i++) {
+                if (A[i] == 2) {
+                    long val = power(A[i], power(A[i-1], A[i+1]));
+                    if (val > maxVal) {
+                        twoIdx = i;
+                        maxVal = val;
+                    }
+                }
+
+
+                if (twoIdx != -1) {
+                    pwr = pwr + maxVal;
+                    // shift left
+                    for (int k = twoIdx; k < size-1; k++) {
+                        A[k] = A[k+1];
+                    }
+                }
+                else {
+                    break;
+                }
+            }
+
+        }
+
+        for (int size = len; size > 2; size--) {
+            int maxValIdx = -1;
+            long maxVal = -1;
+            for (int i = 1; i < size - 1; i++) {
+                long val = power(A[i], power(A[i-1], A[i+1]));
+                if (val > maxVal) {
+                    maxValIdx = i;
+                    maxVal = val;
+                }
+
+
+                if (maxValIdx != -1) {
+                    pwr = pwr + maxVal;
+                    // shift left
+                    for (int k = maxValIdx; k < size-1; k++) {
+                        A[k] = A[k+1];
+                    }
+                }
+                else {
+                    break;
+                }
+            }
+        }
+
+        return pwr;
+    }
+
+
+
+    /// TLE :( :(
+    static long[] getPwrVsStr(String str, int len, int brkSpent, long P) {
+        if (strVsVal.containsKey(str)) {
+            return strVsVal.get(str);
+        }
+
+        if (P <= 0) {
+            return new long[]{};
+        }
+
+        if (len <= 2) {
+            return new long[]{};
+        }
+
+        int totalSum = 0;
+        for (int i = 1; i < len - 1; i++) {
+            totalSum += str.charAt(i) - '0';
+        }
+
+        long[] pwrVsStr = new long[totalSum + 1];
+
+        for (int i = 1; i < len - 1; i++) {
+            int pwr = str.charAt(i) - '0';
+            long stn = power(str.charAt(i) - '0', power(str.charAt(i-1) - '0', str.charAt(i+1) - '0'));
+            String newStr = new StringBuilder(str).deleteCharAt(i).toString();
+
+            long[] belowMax = getPwrVsStr(newStr, len - 1, brkSpent + pwr, P - stn);
+            pwrVsStr[pwr] = Math.max(pwrVsStr[pwr], stn); // if breaking current stone is enough.
+
+            for (int j = 1; j < belowMax.length; j++) {
+                long newStn = stn + belowMax[j];
+                if (newStn < 0) {
+                    newStn = Long.MAX_VALUE;
+                    throw new RuntimeException("should not happen");
+                }
+                pwrVsStr[j + pwr] = Math.max(pwrVsStr[j + pwr], newStn);
+//                brkVsmaxStr[j + pwr] = Math.max(pwrVsStr[j + pwr], brkVsmaxStr[j + pwr]); // global max
+            }
+        }
+
+//        System.out.println(" break power vs strength for string " + str + " is  ");
+//
+//        for (int i = 1; i < pwrVsStr.length; i++) {
+//            System.out.println("brk:  " + i + " strength: " + pwrVsStr[i]);
+//        }
+
+        strVsVal.put(str, pwrVsStr);
+        return pwrVsStr;
+    }
+
     static class Node {
-        int idx;
-        int strn;
-        Node prev;
-        Node next;
-        long val;
+        String str;
+        int brkSpent;
+        long remStn;
 
-        public Node(int idx, int strn, Node prev, long val) {
-            this.idx = idx;
-            this.strn = strn;
-            this.prev = prev;
-            this.val = val;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            Node node = (Node) o;
-
-            return idx == node.idx;
-
-        }
-
-        public void calcPower() {
-            int prevVal = (prev != null) ? prev.strn : 0;
-            int nextVal = (next != null) ? next.strn : 0;
-            if (prevVal > 0 && nextVal > 0) {
-                val = power(strn, power(prevVal,nextVal));
-            }
-            else {
-                val = 0;
-            }
-        }
-
-        @Override
-        public int hashCode() {
-            return idx;
-        }
-
-        @Override
-        public String toString() {
-            return String.format("idx: %s, strn: %s, val %s, prev: %s, next: %s",
-                    idx, strn, val, (prev != null) ? prev.idx: -1, (next != null) ? next.idx: "last");
+        public Node(String str, int brkSpent, long remStn) {
+            this.str = str;
+            this.brkSpent = brkSpent;
+            this.remStn = remStn;
         }
     }
 
-    static long solve1(int N, long P, int[] A) {
+    // brkVsRemP[i] will have min remP achieved with breaking stone of i strength.
+    private static long[] brkVsRemP;
+
+    static long[] getMinBrk(String str, int N, int brkSpent, long P) {
+
+        int totalSum = 0;
+        for (int i = 1; i < N - 1; i++) {
+            totalSum += str.charAt(i) - '0';
+        }
+
+        brkVsRemP = new long[totalSum+1];
+        Arrays.fill(brkVsRemP, P);
+
+        Queue<Node> qu = new ArrayDeque<>();
+        qu.add(new Node(str, brkSpent, P));
+        HashSet<String> set = new HashSet<>();
+
+        while (!qu.isEmpty()) {
+            Node node = qu.poll();
+            String currStr = node.str;
+            set.add(currStr);
+
+            long remStn = node.remStn;
+            int currBrk = node.brkSpent;
+
+            for (int i = 1; i < currStr.length() - 1; i++) {
+                int pwr = currStr.charAt(i) - '0';
+                long stn = power(currStr.charAt(i) - '0', power(currStr.charAt(i-1) - '0', currStr.charAt(i+1) - '0'));
+                String newStr = new StringBuilder(currStr).deleteCharAt(i).toString();
+                if (remStn - stn > 0 && !set.contains(newStr)) {
+                    qu.add(new Node(newStr, currBrk + pwr, remStn - stn));
+                }
+
+                if (remStn - stn <= 0) {
+                    brkVsRemP[currBrk+pwr] = 0;
+                }
+                else {
+                    brkVsRemP[currBrk+pwr] = Math.min(brkVsRemP[currBrk+pwr], remStn - stn);
+                }
+            }
+        }
+
+        return brkVsRemP;
+
+    }
+
+    static boolean alreadyAchievedWithLessBrk(long[] brkVsStr, int newBrk, long P) {
+        for (int i = 0; i < brkVsStr.length; i++) {
+            if (i < newBrk && brkVsStr[i] >= P) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+//    // brkPower,
+//    static long getMinBrkPwr(String str, int len, long P) {
+//        if (P <= 0) {
+//            return 0;
+//        }
+//
+//        if (strVsPowerVsBrkPower.containsKey(str)) {
+//            Map<Long, Long> map = strVsPowerVsBrkPower.get(str);
+//            wr.println(String.format("searching for P:%s and str::%s -- current map: %s", P, str, map.toString()));
+//            for (Map.Entry<Long, Long> e : map.entrySet()) {
+//                long Px = e.getKey();
+//                if (Px >= P) {
+//                    wr.println(String.format("got value for P:%s and str::%s and Px:%s, value:%s", P, str, Px, e.getValue()));
+////                    return e.getValue();
+//                }
+//            }
+//        }
+//
+//
+//        if ( len <= 2) {
+//            return P;
+//        }
+//
+//        long minBrkPower = Long.MAX_VALUE;
+//        for (int i = 1; i < len - 1; i++) {
+//            // delete i
+//            long brkPwr = str.charAt(i) - '0';
+//            long redStrn = power(str.charAt(i) - '0', power(str.charAt(i-1) - '0', str.charAt(i+1) - '0'));
+//
+//            String newStr = new StringBuilder(str).deleteCharAt(i).toString();
+//            brkPwr = brkPwr + getMinBrkPwr(newStr, len - 1, P - redStrn);
+//
+//            minBrkPower = Math.min(minBrkPower, brkPwr);
+//        }
+//
+//        Map<Long, Long> map = strVsPowerVsBrkPower.get(str);
+//        if (map == null) {
+//            map = new TreeMap<>();
+//
+//            strVsPowerVsBrkPower.put(str, map);
+//        }
+//
+//        wr.println(String.format("putting value P:%s, pwr:%s for str:: %s", P, minBrkPower, str));
+//        map.put(P, minBrkPower);
+//
+//        return minBrkPower;
+//    }
+//
+
+    static long deleteOneThenMaxStrategy(int N, long P, int[] A) {
 
         long minBreakPower = Long.MAX_VALUE;
 
@@ -91,6 +328,7 @@ public class PSTN {
             for (int j = 1; j < size - 1; j++) {
                 if (A[j] == 1) {
                     oneIdx = j;
+                    break;
                 }
             }
 
@@ -142,109 +380,45 @@ public class PSTN {
         return minBreakPower;
     }
 
-
-    static long solve(int N, long P, int[] A) {
-        boolean debug = true;
-        if (debug){
-            System.out.println(Arrays.toString(A));
-        }
-
-        // fill queue
-        Node prev = null;
-        Node next =null;
-        for (int i = 0; i < N; i++) {
-            int strn = A[i];
-            int prevVal = (i > 0) ? A[i-1] : 0;
-            int nextVal = (i < N-1) ? A[i+1] : 0;
-            long val = 0;
-            if (prevVal > 0 && nextVal > 0)
-            {
-                val = power(A[i], power(prevVal, nextVal));
-            }
-            else {
-                val = 0;
-            }
-
-            Node curr = new Node(i, strn, prev, val);
-            if (prev != null) {
-                prev.next = curr;
-            }
-            prev = curr;
-        }
-
-        PriorityQueue<Node> heap = new PriorityQueue<>((Comparator<Node>) (o1, o2) -> {
-
-            if (o1.strn == 1) {
-                return -1;
-            }
-            else if (o2.strn == 1) {
-                return 1;
-            }
-            else {
-                if (o1.val > o2.val){
-                    return -1;
-                }
-                else {
-                    return 1;
-                }
-            }
-        });
-
-        while (prev != null) {
-//            System.out.println(prev);
-            if (prev.next != null && prev.prev != null) {
-                heap.add(prev);
-            }
-            prev = prev.prev;
-        }
-
-//        System.out.println(heap.size());
-
-        long minBrkPower = Long.MAX_VALUE;
+    static long deleteMaxStrategy(int N, long P, int[] A) {
+        long minBreakPower = Long.MAX_VALUE;
         long brkPower = 0;
-        while (!heap.isEmpty()) {
-            Node curr = heap.poll();
 
-            // reorder
-            prev = curr.prev;
-            next = curr.next;
+        for (int size = N; size > 2; size--) {
 
-            if (prev != null) {
-                prev.next = next;
-            }
-            if (next != null) {
-                next.prev = prev;
-            }
-
-            // reorder in heap
-            if (prev != null) {
-                heap.remove(prev);
-                prev.calcPower();
-                heap.add(prev);
+            // get max val
+            int maxValIdx = 1;
+            long maxVal = -1;
+            for (int j = 1; j < size-1; j++) {
+                long val = power(A[j], power(A[j-1], A[j+1]));
+                if (maxVal < val) {
+                    maxVal = val;
+                    maxValIdx = j;
+                }
             }
 
-            if (next != null) {
-                heap.remove(next);
-                next.calcPower();
-                heap.add(next);
-            }
+            int brkIdx;
 
-            // break curr stone.
-            brkPower = brkPower + curr.strn;
-            P = P - curr.val;
-            if (P < 0) {
+            if (maxVal > P) { // can we break with current val.
+                brkPower = brkPower + A[maxValIdx];
                 P = 0;
-            }
-            minBrkPower = Math.min(brkPower + P, minBrkPower);
-
-            if (P == 0) {
+                minBreakPower = Math.min(P + brkPower, minBreakPower);
                 break;
             }
+            else {
+                brkPower = brkPower + A[maxValIdx];
+                P = P - maxVal;
+                brkIdx = maxValIdx;
+            }
+
+
+            minBreakPower = Math.min(P + brkPower, minBreakPower);
+
+            // shift left
+            System.arraycopy(A, brkIdx + 1, A, brkIdx, size - 1 - brkIdx);
         }
 
-
-
-        return minBrkPower;
+        return minBreakPower;
     }
 
 
