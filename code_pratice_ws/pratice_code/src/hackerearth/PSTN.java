@@ -5,6 +5,52 @@ import java.util.*;
 
 /**
  * Created by prem on 8/9/18.
+ * Correct solution is to implement below DP  :( this is problem setters solution.
+ *
+ * #include <bits/stdc++.h>
+ #define lli long long
+
+ using namespace std;
+
+ lli A[502];
+ bool vis[502][502];
+ lli dp[502][502];
+
+ lli fast_pow(lli a, lli b)
+ {
+ lli res = 1;
+ while ( b > 0 ) {
+ if ( b&1 ) res = (res*a);
+ a = (a*a);
+ b >>= 1;
+ }
+ return res;
+ }
+
+ lli f(int l, int r)
+ {
+ if ( vis[l][r] ) return dp[l][r];
+ vis[l][r] = true;
+ lli ans = 0;
+ for ( int i = l+1; i <= r-1; i++ ) ans = max(ans, -A[i] + fast_pow(A[i], fast_pow(A[l],A[r])) + f(l,i) + f(i,r));
+ dp[l][r] = ans;
+ return ans;
+ }
+
+ int main()
+ {
+ int n;
+ lli P;
+ cin >> n >> P;
+ assert(n >= 1 && n <= 500);
+ assert(P >= 1 && P <= 1000000000000000000LL);
+ for ( int i = 0; i < n; i++ ) cin >> A[i], assert(A[i] >= 1 && A[i] <= 3);
+ lli ans = P - f(0,n-1);
+ assert(ans >= 0);
+ cout << ans << endl;
+ return 0;
+ }
+
  */
 public class PSTN {
 
@@ -90,7 +136,7 @@ public class PSTN {
             }
         }
 
-//        int size = len;
+//        remove 2s with max value
         for (int size = len; size > 2; size--) {
             int twoIdx = -1;
             long maxVal = -1;
@@ -118,6 +164,7 @@ public class PSTN {
 
         }
 
+//        remove 3s with max value
         for (int size = len; size > 2; size--) {
             int maxValIdx = -1;
             long maxVal = -1;
@@ -179,7 +226,6 @@ public class PSTN {
             for (int j = 1; j < belowMax.length; j++) {
                 long newStn = stn + belowMax[j];
                 if (newStn < 0) {
-                    newStn = Long.MAX_VALUE;
                     throw new RuntimeException("should not happen");
                 }
                 pwrVsStr[j + pwr] = Math.max(pwrVsStr[j + pwr], newStn);

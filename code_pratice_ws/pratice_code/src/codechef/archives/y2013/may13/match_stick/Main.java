@@ -270,7 +270,6 @@ class SegmentMaxTree {
 
 }
 
-
 class InputReader {
 	public BufferedReader reader;
 	public StringTokenizer tokenizer;

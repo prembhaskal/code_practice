@@ -5,6 +5,9 @@ import java.util.*;
 
 /**
  * Created by prem on 1/9/18.
+ *
+ * // simpler solution with DP
+ * DP[i+x] = Math.min(DP[i+x], DP[i] + 1)
  */
 public class PrimeGenCount {
 
@@ -91,18 +94,6 @@ public class PrimeGenCount {
         Node(int idx, int time) {
             this.idx = idx;
             this.time = time;
-        }
-    }
-
-    private int isSpecial(int r1, int r2, int i, int[] rangecnt) {
-//        int A = getPrimeCountTillNum(primes, i);
-        int A = rangecnt[i];
-        int val = (r2 * A)/r1;
-        if (i <= val) {
-            return A;
-        }
-        else {
-            return 0;
         }
     }
 

@@ -1,76 +1,143 @@
 package hackerearth;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.io.*;
+import java.util.*;
+
 
 public class SubArray {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter wr = new PrintWriter(System.out);
+        int T = Integer.parseInt(br.readLine().trim());
+        for (int t_i = 0; t_i < T; t_i++) {
+            int N = Integer.parseInt(br.readLine().trim());
+            String[] arr_Arr = br.readLine().split(" ");
+            int[] Arr = new int[N];
+            for (int i_Arr = 0; i_Arr < arr_Arr.length; i_Arr++) {
+                Arr[i_Arr] = Integer.parseInt(arr_Arr[i_Arr]);
+            }
 
-    public static void main(String[] args) {
-        // generate random arrays with distinct nos..
-
-//        genRandomNos();
-        superArray(null, 1);
-    }
-
-    private static void genRandomNos() {
-        Set<Integer> nos = new HashSet<>();
-
-        while (nos.size() < 30) {
-            nos.add(new Random().nextInt(100) + 1);
+            int out_ = SubAndSuperArray(Arr, N);
+            wr.println(out_);
         }
 
-        for (int no : nos) {
-            System.out.print(no);
-            System.out.print(" ");
+        wr.close();
+        br.close();
+    }
+
+    static int SubAndSuperArray(int[] Arr, int N) {
+        // Write your code here
+        if (N == 1 ) {
+            return 1;
         }
 
-        System.out.println("");
+        // end to start
+        int mx = 1;
+        int ln = 1;
+
+        int[] mlen = new int[N];
+        mlen[N-1] = 1;
+
+
+        int[] rlen = new int[N];
+        rlen[N-1] = 1;
+
+        for (int i = N-2; i>= 0; --i) {
+            if (Arr[i] < Arr[i+1]) {
+                ln++;
+                if (mx < ln) {
+                    mx = ln;
+                    mlen[i] = mx;
+                }
+                else {
+                    mlen[i] = mlen[i+1]; // same as old
+                }
+            }
+            else {
+                mlen[i] = mlen[i+1];
+                ln = 1;
+            }
+
+            rlen[i] = ln;
+
+        }
+
+        // start to end
+        int max = -1;
+        int len = 1;
+
+        int[] slen = new int[N];
+        slen[0] = 1;
+
+        for (int i = 1; i < N; ++i) {
+            if (Arr[i] > Arr[i-1]) {
+                len++;
+                if (max < len) {
+                    max = len;
+                }
+            }
+            else {
+                len = 1;
+            }
+
+            slen[i] = len;
+        }
+
+        //mxEnd, mlens, mxStart, mlen
+        int mxt = 0;
+        mxt = 0;
+
+        // tail table as done in longest increasing sub sequences
+        int[] tt = new int[N+1];
+
+        tt[0] = 0;
+        tt[1] = Arr[N-1];
+        len = 0;
+
+        for (int i = N - 2 ; i >= 0 ; --i) {
+            int x = Arr[i];
+            int mlenhere;
+
+            mlenhere = getIdx(tt, 1, mlen[i+1], x);
+
+            if (mlenhere > 0 && mxt < mlenhere + slen[i]) {
+                mxt = mlenhere + slen[i];
+            }
+
+            if (Arr[i] > tt[rlen[i]]) {
+                tt[rlen[i]] = Arr[i];
+            }
+        }
+
+        return mxt;
     }
 
-    static int superArray(int[] Arr, int N) {
-        int[] tt = new int[]{0, 31, 29, 26, 22, 21, 20, 19, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    // tt is in desceding order
+    static int getIdx(int[] tt, int st, int end, int key) {
 
-        int key;
-        key = 17;
-        int maxlen = binSearch(tt, 1, 8, key);
-        System.out.println("maxlen is " + maxlen + " for key: " + key);
-        return 0;
-    }
-
-    static int binSearch(int[] tt, int st, int end, int key) {
-        if (tt[end] < key) {
+        if (tt[st] < key) {
             return 0;
         }
-
+        int m = 0;
         if (st == end) {
             return 1;
         }
-        int m = 0;
+
         while (st < end) {
-            m = (st + end) / 2;
+            m = (st + end)/2;
             if (tt[m] > key && key > tt[m+1]) {
+
                 return m;
             }
             else if (tt[m] > key) {
-                st = m + 1;
+                st = m+1;
             }
             else {
-                end = m - 1;
+                end = m-1;
             }
+
         }
 
         return st;
     }
 }
-
-
-/*
-good tests
-12
-15 12 13 14 17 4 8 19 20 10 1 18
-20
-34 35 4 37 5 6 40 9 11 14 15 17 18 19 20 21 22 26 29 31
-4
-8 9 1 4
- */
