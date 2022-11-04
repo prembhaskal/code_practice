@@ -10,15 +10,15 @@ public class P345ReverseVowels {
         String out = sol.reverseVowels(input);
         System.out.printf("input: %s, output: %s\n", input, out);
     }
-    public String reverseVowels(String s) {
 
-        char[] vowels = new char[]{'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'};
-        Map<Character, Integer> vmap = new HashMap<>();
-        for (char ch : vowels) {
+    public String reverseVowels(String s) {
+        var vowels = new char[]{'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'};
+        var vmap = new HashMap<>();
+        for (var ch : vowels) {
             vmap.put(ch, 1);
         }
 
-        char[] chars = s.toCharArray();
+        var chars = s.toCharArray();
 
         int sptr = 0;
         int eptr = chars.length - 1;

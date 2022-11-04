@@ -1,7 +1,6 @@
 package projecteuler.set7;
 
 import java.util.*;
-import org.omg.CORBA._IDLTypeStub;
 
 public class P61CyclicalFigurateNo {
 

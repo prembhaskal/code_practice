@@ -1,7 +1,6 @@
 package hackerearth;
 
 import org.junit.Test;
-import sun.reflect.generics.tree.Tree;
 
 import java.util.Arrays;
 import java.util.HashSet;

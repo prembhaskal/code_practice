@@ -3,7 +3,6 @@ package codechef.january14.mtrick;
 import java.io.*;
 import java.math.BigInteger;
 import java.util.StringTokenizer;
-import org.omg.DynamicAny._DynEnumStub;
 
 public class Main {
 	public static void main(String[] s) {
