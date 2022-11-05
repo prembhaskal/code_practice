@@ -1,7 +1,6 @@
 package leetcode.misc;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class P345ReverseVowels {
     public static void main(String[] args) {
@@ -13,7 +12,7 @@ public class P345ReverseVowels {
 
     public String reverseVowels(String s) {
         var vowels = new char[]{'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'};
-        var vmap = new HashMap<>();
+        var vmap = new HashMap<Character, Integer>();
         for (var ch : vowels) {
             vmap.put(ch, 1);
         }
@@ -42,7 +41,6 @@ public class P345ReverseVowels {
             sptr++;
             eptr--;
         }
-
         return new String(chars);
     }
 
