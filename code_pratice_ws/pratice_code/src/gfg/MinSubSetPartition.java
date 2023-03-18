@@ -2,6 +2,7 @@ package gfg;
 import java.io.*;
 import java.util.*;
 
+//https://practice.geeksforgeeks.org/problems/minimum-sum-partition3317/1?utm_source=geeksforgeeks&utm_medium=article_practice_tab&utm_campaign=article_practice_tab
 public class MinSubSetPartition
 {
 
