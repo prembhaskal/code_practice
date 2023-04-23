@@ -24,7 +24,7 @@ public class DP24OptimBinSrcTree {
             System.out.println(ob.optimalSearchTree(keys, freq, n));
         }
     }
-    
+
     static int optimalSearchTree(int keys[], int freq[], int n) {
         return fn2(keys, freq, n);
     }
