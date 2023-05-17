@@ -13,3 +13,9 @@ systemProp.http.proxyPort=port
 systemProp.https.proxyHost=host
 systemProp.https.proxyPort=port
 ```
+
+### check if tool chain is correctly detected by running below command.
+`./gradlew -q javatoolchain`
+  
+  if entries are not detected, we can add entries for example in windows registry, you can copy the existing content from previous registries.
+    Computer\HKEY_LOCAL_MACHINE\SOFTWARE\JavaSoft\Java Development Kit\17
