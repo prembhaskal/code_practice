@@ -10,3 +10,9 @@ week5_large.txt
 #src/*/jan15
 
 /copy_to_drive.bat
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build

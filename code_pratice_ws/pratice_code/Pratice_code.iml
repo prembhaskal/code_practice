@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
-    <output url="file://$MODULE_DIR$/out/production/Pratice_code" />
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_20">
+    <output url="file://$MODULE_DIR$/out/production/pratice_code" />
     <output-test url="file://$MODULE_DIR$/out/test/Pratice_code" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
@@ -12,7 +12,7 @@
       <excludeFolder url="file://$MODULE_DIR$/lib" />
       <excludeFolder url="file://$MODULE_DIR$/out" />
     </content>
-    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library>
