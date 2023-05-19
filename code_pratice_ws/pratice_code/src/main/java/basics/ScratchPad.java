@@ -1,8 +1,6 @@
 package basics;
 
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class ScratchPad {
 
@@ -17,15 +15,18 @@ public class ScratchPad {
 }
 
 class SinkStartUpGame {
-    private int[] locs;
+    private List<Integer> locs;
     private int guesses;
     private int rem;
 
     private boolean isDone;
 
-    public SinkStartUpGame(int[] locs) {
-        this.locs = locs;
-        this.rem = locs.length;
+    public SinkStartUpGame(int[] locarray) {
+        this.locs = new LinkedList<>();
+        for (int loc: locarray) {
+            locs.add(loc);
+        }
+        this.rem = locarray.length;
     }
 
     public String checkGuess(int guess) {
@@ -40,9 +41,11 @@ class SinkStartUpGame {
             return "failure";
         }
 
-        for (int i = 0; i < locs.length; i++) {
-            if (locs[i] == guess) {
-                locs[i] = -1;
+        Iterator<Integer> iter = locs.iterator();
+        while (iter.hasNext()) {
+            int loc = iter.next();
+            if (loc == guess) {
+                iter.remove();
                 rem--;
                 if (rem == 0) {
                     isDone = true;
