@@ -29,6 +29,12 @@ public class P437PathSum3 {
 
     public int pathSum(TreeNode root, int targetSum) {
         Map<Long, Integer> sumCount = new HashMap<>();
+
+        // visualize it as a prefix-sum array question instead of tree, then it will be clear.
+        // < ---- matchSum ---->
+        // < ----       runningSum           ---->
+        //                     <--- targetSum ---->
+        // matchSum = runningSum - targetSum; // find occurrence of matchSum in previous findings.
         sumCount.put(0L, 1);
         return pathSumCal(root, targetSum, 0, sumCount);
     }
@@ -38,6 +44,7 @@ public class P437PathSum3 {
         if (root == null) {
             return 0;
         }
+
         // System.out.printf("rsum: %d, val: %d\n", rsum, root.val);
         rsum = rsum + root.val;
         // System.out.printf("new rsum: %d\n", rsum);
@@ -49,10 +56,6 @@ public class P437PathSum3 {
         if (matchCountObj != null) {
             matchCount = matchCountObj;
         }
-
-        // if (rsum == tsum) {
-        //     finalCount += 1;
-        // }
 
         finalCount += matchCount;
 
