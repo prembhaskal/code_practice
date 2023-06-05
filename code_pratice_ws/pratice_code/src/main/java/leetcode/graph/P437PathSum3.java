@@ -33,7 +33,7 @@ public class P437PathSum3 {
         // visualize it as a prefix-sum array question instead of tree, then it will be clear.
         // < ---- matchSum ---->
         // < ----       runningSum           ---->
-        //                     <--- targetSum ---->
+        //                      <--- targetSum ---->
         // matchSum = runningSum - targetSum; // find occurrence of matchSum in previous findings.
         sumCount.put(0L, 1);
         return pathSumCal(root, targetSum, 0, sumCount);
