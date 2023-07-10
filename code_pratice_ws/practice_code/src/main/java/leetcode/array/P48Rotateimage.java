@@ -14,22 +14,22 @@ public class P48Rotateimage {
         // size reduces by 2 everytime
         for (int size = mat.length; size > 0; size = size - 2, off++) {
             int first = off;
-            int last = off+(size-1);
+            int last = off + (size - 1);
             for (int c = 0; c < size - 1; c++) { // size-1 becoz we rotate 1 less time
                 // save the top row
                 int tmp = mat[first][first + c];
 
                 // top row <= left column
-                mat[first][first+c] = mat[last-c][first];
+                mat[first][first + c] = mat[last - c][first];
 
                 // left column <= bottom row
-                mat[last-c][first] = mat[last][last-c];
+                mat[last - c][first] = mat[last][last - c];
 
                 // bottom row <= right column
-                mat[last][last-c] = mat[first+c][last];
+                mat[last][last - c] = mat[first + c][last];
 
                 // right column <= top row
-                mat[first+c][last] = tmp;
+                mat[first + c][last] = tmp;
             }
 
         }
