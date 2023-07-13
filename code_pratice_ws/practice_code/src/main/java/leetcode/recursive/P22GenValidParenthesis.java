@@ -10,7 +10,8 @@ public class P22GenValidParenthesis {
         public List<String> generateParenthesis(int n) {
 //            return gen(n);
              validList = new ArrayList<>();
-             genbt(n, "", 0, 0);
+//             genbt(n, "", 0, 0);
+             genbt1(n, new StringBuilder(), 0, 0);
              return validList;
         }
 
@@ -32,6 +33,22 @@ public class P22GenValidParenthesis {
             }
             if (left > right) { // proceed only if valid.
                 genbt(n, str + ")", left, right+1);
+            }
+        }
+
+        // Approach, same as above, but trying to save time using StringBuilder.
+        public void genbt1(int n , StringBuilder str, int left, int right) {
+            if (str.length() == 2 * n) {
+                validList.add(str.toString());
+                return;
+            }
+            if (left < n) {
+                genbt1(n, str.append('('), left + 1, right);
+                str.deleteCharAt(str.length()-1);
+            }
+            if (left > right) {
+                genbt1(n, str.append(')'), left, right+1);
+                str.deleteCharAt(str.length()-1);
             }
         }
 
