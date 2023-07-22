@@ -35,7 +35,6 @@ public class P445AddLinkList {
 
             ListNode newnode = new ListNode(sum, ans);
 
-
             ans = newnode;
 
             if (l1rev != null) {
