@@ -32,7 +32,7 @@ public class P863KDistNode {
             }
 
             if (node.val == target.val) {
-                if (k == 0) {
+                if (k == 0) { // corner case
                     allNodes.add(node.val);
                 }
                 nodeAtDist(node.left, k-1);
@@ -46,8 +46,8 @@ public class P863KDistNode {
                 if (inleft + 1 == k) { // check if current element is at k distance
                     allNodes.add(node.val);
                 }
-                nodeAtDist(node.right, k - (inleft+1)-1);
-                return inleft + 1;
+                nodeAtDist(node.right, k - (inleft+1) - 1); // draw on paper to get this calculation.
+                return inleft + 1; // +1 to count current node
             }
 
             int inright = find(node.right, target, k);
@@ -56,8 +56,8 @@ public class P863KDistNode {
                 if (inright + 1 == k) { // check if current element is at k distance
                     allNodes.add(node.val);
                 }
-                nodeAtDist(node.left, k - (inright+1)-1);
-                return inright + 1;
+                nodeAtDist(node.left, k - (inright+1) - 1);
+                return inright + 1; // +1 to count current node
             }
 
             return -1;// nothing found
