@@ -14,6 +14,8 @@ public class P863KDistNode {
      *     TreeNode(int x) { val = x; }
      * }
      */
+
+    // TODO - another approach, convert bin tree to normal graph, then perform BFS from target node and stop and distance k
         public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
             // from node, go left k times, go right k times
             // dist from root, if left = x, search node in right at dist = k-x
