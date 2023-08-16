@@ -12,7 +12,7 @@ public class P239SlideWinMax {
         var sol = new P239SlideWinMax();
 //        int[] nums = new int[]{1,3,-1,-3,5,3,6,7};
 //        int k = 3;
-        int[] nums = new int[]{1,-1};
+        int[] nums = new int[]{1, -1};
         int k = 1;
         var ans = sol.maxSlidingWindow(nums, k);
         System.out.printf("ans is %s\n", Arrays.toString(ans));
@@ -20,12 +20,14 @@ public class P239SlideWinMax {
 
     public int[] maxSlidingWindow(int[] nums, int k) {
         // return solWithHeapSlow(nums, k);
+        // return solWithHeap(nums, k);
         return solWithQueue(nums, k);
     }
 
     // TODO - optimize by storing index instead of value in the queue.
     // TODO - write a separate monotonic queue, it would be better.
     int[] solWithQueue(int[] nums, int k) {
+        // This is acting more like a monotonic queue, HEAD to TAIL is kept sorted.
         var deq = new ArrayDeque<Pair>();
 
         var res = new ArrayList<Integer>();
@@ -43,7 +45,7 @@ public class P239SlideWinMax {
             }
             deq.addLast(new Pair(num, i));
 
-            System.out.printf("before idx: %d, deq: %s\n", i, deq);
+            // System.out.printf("idx: %d, deq: %s\n", i, deq);
         }
 
         res.add(deq.peekFirst().val);
@@ -72,7 +74,7 @@ public class P239SlideWinMax {
                 }
             }
 
-            System.out.printf("idx: %d, deq: %s\n", i, deq);
+            // System.out.printf("idx: %d, deq: %s\n", i, deq);
         }
 
         int[] ans = new int[res.size()];
@@ -86,14 +88,13 @@ public class P239SlideWinMax {
 
 
     public int[] solWithHeap(int[] nums, int k) {
-
         // use heap to store top index,
         // we don't try to remove every num which goes out of bound of the window because that makes it slow
         // rather we remove the top if it is out of bounds
         // if top is in bound, then it dictates the answer
         // if top is out of bounds, then remove it.
         var heap = new PriorityQueue<Pair>(
-                (a, b) -> Integer.compare(b.val,a.val)
+                (a, b) -> Integer.compare(b.val, a.val)
         );
 
         // first fill 1st k
@@ -107,7 +108,7 @@ public class P239SlideWinMax {
         int currmax = heap.peek().val;
         for (int i = k; i < nums.length; i++) {
             // remove top if it is out of bounds
-            while(heap.size() > 0 && heap.peek().idx <= i - k) {
+            while (heap.size() > 0 && heap.peek().idx <= i - k) {
                 heap.poll();
             }
             heap.add(new Pair(nums[i], i));
@@ -116,7 +117,7 @@ public class P239SlideWinMax {
 
         var ans = new int[res.size()];
         int i = 0;
-        for (int num: res) {
+        for (int num : res) {
             ans[i] = num;
             i++;
         }
