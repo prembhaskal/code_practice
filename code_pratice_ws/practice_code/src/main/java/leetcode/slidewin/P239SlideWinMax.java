@@ -23,6 +23,8 @@ public class P239SlideWinMax {
         return solWithQueue(nums, k);
     }
 
+    // TODO - optimize by storing index instead of value in the queue.
+    // TODO - write a separate monotonic queue, it would be better.
     int[] solWithQueue(int[] nums, int k) {
         var deq = new ArrayDeque<Pair>();
 
@@ -77,6 +79,46 @@ public class P239SlideWinMax {
         int i = 0;
         for (int num : res) {
             ans[i++] = num;
+        }
+
+        return ans;
+    }
+
+
+    public int[] solWithHeap(int[] nums, int k) {
+
+        // use heap to store top index,
+        // we don't try to remove every num which goes out of bound of the window because that makes it slow
+        // rather we remove the top if it is out of bounds
+        // if top is in bound, then it dictates the answer
+        // if top is out of bounds, then remove it.
+        var heap = new PriorityQueue<Pair>(
+                (a, b) -> Integer.compare(b.val,a.val)
+        );
+
+        // first fill 1st k
+        for (int i = 0; i < k; i++) {
+            heap.add(new Pair(nums[i], i));
+        }
+
+        var res = new ArrayList<Integer>();
+        res.add(heap.peek().val);
+
+        int currmax = heap.peek().val;
+        for (int i = k; i < nums.length; i++) {
+            // remove top if it is out of bounds
+            while(heap.size() > 0 && heap.peek().idx <= i - k) {
+                heap.poll();
+            }
+            heap.add(new Pair(nums[i], i));
+            res.add(heap.peek().val);
+        }
+
+        var ans = new int[res.size()];
+        int i = 0;
+        for (int num: res) {
+            ans[i] = num;
+            i++;
         }
 
         return ans;
