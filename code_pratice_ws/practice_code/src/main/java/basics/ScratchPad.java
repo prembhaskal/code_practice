@@ -11,7 +11,7 @@ public class ScratchPad {
     }
 
     public void runMain(String[] args) throws Exception {
-
+        System.out.println("Hello world");
     }
 
 
