@@ -21,7 +21,7 @@ import java.util.*;
 //
 //
 //        His shift timings in this case are 8 to 12 and 14 to 19.
-public class Tesco {
+public class EmployeeShiftSolution {
 
     List<Employee> employees;
 
