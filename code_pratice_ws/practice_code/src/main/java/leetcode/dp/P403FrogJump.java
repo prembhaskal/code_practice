@@ -101,11 +101,11 @@ public class P403FrogJump {
         // dp[idx][jmp] = true, if we can reach idx with previous jump = jmp;
         int[][] dp = new int[n][n];
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                dp[i][j] = -1;
-            }
-        }
+//        for (int i = 0; i < n; i++) {
+//            for (int j = 0; j < n; j++) {
+//                dp[i][j] = -1;
+//            }
+//        }
 
         return fcross(stones, distMap, 0, 0, dp);
     }
@@ -131,7 +131,7 @@ public class P403FrogJump {
             return true;
         }
 
-        if (dp[curr][prevjump] != -1) {
+        if (dp[curr][prevjump] != -0) {
             return dp[curr][prevjump] == 1;
         }
 
@@ -163,7 +163,7 @@ public class P403FrogJump {
         if (ans) {
             dp[curr][prevjump] = 1;
         } else {
-            dp[curr][prevjump] = 0;
+            dp[curr][prevjump] = 2;
         }
         return ans;
     }
