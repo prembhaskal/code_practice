@@ -10,7 +10,7 @@ public class P2483MinPenalty {
     // calc max score instead of penalty
     int singlePass(char[] chars) {
         int max = 0;
-        int score =
+        int score = 0;
         int ans = 0;
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] == 'Y') {
