@@ -1,5 +1,7 @@
 package leetcode.dp;
 
+import java.util.Arrays;
+
 public class P322CoinChange {
     public int coinChange(int[] coins, int amount) {
         int[] mem = new int[amount + 1];
