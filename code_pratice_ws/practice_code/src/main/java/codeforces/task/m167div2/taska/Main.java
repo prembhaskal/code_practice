@@ -32,6 +32,24 @@ class Task {
         for (int i = 0; i < coins; i++) {
             int x = in.nextInt();
             int y = in.nextInt();
+            // y > 0 we can catch all, move diagonally and reach the x, and catch coing
+            // since we can move first and catch, we are able to catch elements at y=-1 too.
+            // y > -1, we cannot catch, we will fall always behind
+            if (y >= -1) {
+                out.println("YES");
+            } else {
+                out.println("NO");
+            }
+        }
+
+    }
+    public void solve1(InputReader in, PrintWriter out) throws IOException {
+
+        int coins = in.nextInt();
+
+        for (int i = 0; i < coins; i++) {
+            int x = in.nextInt();
+            int y = in.nextInt();
 
             // we can catch anything in positive y or x-axis
             // anything at 1 distance can be caught, (0,-1)
