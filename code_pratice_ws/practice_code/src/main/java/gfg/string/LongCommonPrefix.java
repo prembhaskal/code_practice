@@ -1,5 +1,6 @@
 package gfg.string;
 
+// GFG https://www.geeksforgeeks.org/problems/longest-common-prefix-in-an-array5129/1?page=1&sortBy=submissions
 public class LongCommonPrefix {
     String longestCommonPrefix(int n, String arr[]) {
         // code here
