@@ -1,4 +1,4 @@
-package codeforces.task.m167div2.taska;
+package codeforces.task.c1989.taska;
 
 import java.io.*;
 import java.util.StringTokenizer;

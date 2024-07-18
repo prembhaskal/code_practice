@@ -1,4 +1,4 @@
-package codeforces.task.m167div2.taskc;
+package codeforces.task.c1989.taskc;
 
 import java.io.*;
 import java.util.StringTokenizer;
@@ -23,6 +23,7 @@ public class Main {
 
 }
 
+// https://codeforces.com/contest/1989/problem/C
 class Task {
 
 	public void solve(InputReader in, PrintWriter out) throws IOException {

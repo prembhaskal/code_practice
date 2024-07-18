@@ -1,4 +1,4 @@
-package codeforces.task.m167div2.taska;
+package codeforces.task.c1989.taskd;
 
 import java.io.IOException;
 import java.io.InputStream;

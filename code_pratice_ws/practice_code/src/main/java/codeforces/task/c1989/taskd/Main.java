@@ -1,4 +1,4 @@
-package codeforces.task.m167div2.taskd;
+package codeforces.task.c1989.taskd;
 
 import java.io.*;
 import java.util.*;
